@@ -5,5 +5,5 @@
 	"Description":"Replaces american spelling with british english",
 	"UniqueID":"TheMightyAmondee.GoodbyeAmericanEnglish",
 	"EntryDll":"GoodbyeAmericanEnglish.dll",
-	"UpdateKeys":[]
+	"UpdateKeys":["Nexus:7183"]
 }

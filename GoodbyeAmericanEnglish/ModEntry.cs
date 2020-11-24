@@ -10,7 +10,6 @@ namespace GoodbyeAmericanEnglish
     public class ModEntry
         : Mod, IAssetEditor
     {
-        private ModConfig config;
         private static string[] NPCs = 
         {
             "Abigail",
