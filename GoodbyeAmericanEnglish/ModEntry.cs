@@ -122,6 +122,7 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Data\\ObjectInformation")
                     || asset.AssetNameEquals("Data\\TV\\TipChannel")
                     || asset.AssetNameEquals("Data\\TV\\CookingChannel")
+                    || asset.AssetNameEquals("Data\\Fish")
                     || asset.AssetNameEquals("Characters\\Dialogue\\MarriageDialogue")
                     || asset.AssetNameEquals("Characters\\Dialogue\\rainy"));
         }
@@ -147,6 +148,7 @@ namespace GoodbyeAmericanEnglish
                         data[key] = data[key].Replace("fall", "autumn");
                         data[key] = data[key].Replace("Fall", "Autumn");
                         data[key] = data[key].Replace("ize", "ise");
+                        data[key] = data[key].Replace("miles", "kilometres");
                     }
                 }
 
@@ -167,6 +169,7 @@ namespace GoodbyeAmericanEnglish
                         data[key] = data[key].Replace("fall", "autumn");
                         data[key] = data[key].Replace("Fall", "Autumn");
                         data[key] = data[key].Replace("ize", "ise");
+                        data[key] = data[key].Replace("six inches", "fifteen centimetres");
                     }
                 }
 
@@ -218,6 +221,8 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("fall", "autumn");
                     data[key] = data[key].Replace("Fall", "Autumn");
                     data[key] = data[key].Replace("ize", "ise");
+                    data[key] = data[key].Replace("{0} in.", "{0} cm.");
+                    data[key] = data[key].Replace("inches", "centimetres");
                 }
             }
 
@@ -236,6 +241,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("favorite", "favourite");
                     data[key] = data[key].Replace("Favorite", "Favourite");
                     data[key] = data[key].Replace("ize", "ise");
+                    data[key] = data[key].Replace("{0} in.", "{0} cm.");
                 }
             }
 
@@ -247,8 +253,10 @@ namespace GoodbyeAmericanEnglish
                     string[] array = data[id].Split('/');
                     string descr = array[5];
                     if (descr.Contains("falling"))
+                    {
                         continue;
-
+                    }
+                    
                     data[id] = data[id].Replace("the fall", "autumn");
                     data[id] = data[id].Replace("fall", "autumn");
                     data[id] = data[id].Replace("color", "colour");
@@ -320,6 +328,20 @@ namespace GoodbyeAmericanEnglish
                 foreach (string Itemid in new List<string>() { "18","27" })
                 {
                     data[Itemid] = data[Itemid].Replace("favorite", "favourite");
+                }
+            }
+
+            else if (asset.AssetNameEquals("Data\\Fish"))
+            {
+
+                var data = asset.AsDictionary<int, string>().Data;
+
+                foreach (int Itemid in new List<int>())
+                {
+                    string[] fields = data[Itemid].Split('/');
+                    fields[3] = ((int)Math.Round(int.Parse(fields[3]) * 2.5)).ToString();
+                    fields[4] = ((int)Math.Round(int.Parse(fields[4]) * 2.5)).ToString();
+                    data[Itemid] = string.Join("/", fields);
                 }
             }
         }
