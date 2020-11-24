@@ -48,6 +48,46 @@ namespace GoodbyeAmericanEnglish
             "Wizard"
         };
 
+        private static string[] locations =
+        {
+            "AbandonedJojaMart",
+            "AnimalShop",
+            "ArchaeologyHouse",
+            "BackWoods",
+            "BathHouse_Pool",
+            "Beach",
+            "BusStop",
+            "CommunityCenter",
+            "ElliottHouse",
+            "Farm",
+            "FarmHouse",
+            "Forest",
+            "HaleyHouse",
+            "HarveyRoom",
+            "Hospital",
+            "JoshHouse",
+            "LeahHouse",
+            "ManorHouse",
+            "Mine",
+            "Mountain",
+            "Railroad",
+            "Saloon",
+            "SamHouse",
+            "SandyHouse",
+            "ScienceHouse",
+            "SebastianRoom",
+            "SeedShop",
+            "Sewer",
+            "SunRoom",
+            "Temp",
+            "Tent",
+            "Town",
+            "Trailer",
+            "Trailer_Big",
+            "WizardHouse",
+            "Woods"
+        };
+
         public override void Entry(IModHelper helper)
         {
             this.config = this.Helper.ReadConfig<ModConfig>();
@@ -59,7 +99,17 @@ namespace GoodbyeAmericanEnglish
             {
                 if (false
                     || asset.AssetNameEquals($"Characters\\Dialogue\\Marriage{name}")
-                    || asset.AssetNameEquals($"Characters\\Dialogue\\{name}"))
+                    || asset.AssetNameEquals($"Characters\\Dialogue\\{name}")
+                    || asset.AssetNameEquals($"Strings\\schedules\\{name}"))
+                {
+                    return true;
+                }
+            }
+
+            foreach (var location in locations)
+            {
+                if (false
+                    || asset.AssetNameEquals($"Data\\Events\\{location}"))
                 {
                     return true;
                 }
@@ -68,8 +118,10 @@ namespace GoodbyeAmericanEnglish
             // return true if assest name is ANY of the following....
             return (false
                     || asset.AssetNameEquals("Strings\\StringsFromCSFiles")
+                    || asset.AssetNameEquals("Strings\\UI")
                     || asset.AssetNameEquals("Data\\ObjectInformation")
                     || asset.AssetNameEquals("Data\\TV\\TipChannel")
+                    || asset.AssetNameEquals("Data\\TV\\CookingChannel")
                     || asset.AssetNameEquals("Characters\\Dialogue\\MarriageDialogue")
                     || asset.AssetNameEquals("Characters\\Dialogue\\rainy"));
         }
@@ -84,7 +136,7 @@ namespace GoodbyeAmericanEnglish
 
                     foreach (string key in new List<string>(data.Keys))
                     {
-                        if (data[key].Contains("fall on") || data[key].Contains("fall_"))
+                        if (data[key].Contains("fall on") || data[key].Contains("fall_") || data[key].Contains("citizen") || data[key].Contains("size"))
                         {
                             continue;
                         }
@@ -94,14 +146,97 @@ namespace GoodbyeAmericanEnglish
                         data[key] = data[key].Replace("favorite", "favourite");
                         data[key] = data[key].Replace("fall", "autumn");
                         data[key] = data[key].Replace("Fall", "Autumn");
+                        data[key] = data[key].Replace("ize", "ise");
+                    }
+                }
+
+                else if (asset.AssetNameEquals($"Characters\\Dialogue\\MarriageDialogue{name}"))
+                {
+                    var data = asset.AsDictionary<string, string>().Data;
+
+                    foreach (string key in new List<string>(data.Keys))
+                    {
+                        if (data[key].Contains("fall_"))
+                        {
+                            continue;
+                        }
+
+                        data[key] = data[key].Replace("the fall", "autumn");
+                        data[key] = data[key].Replace("color", "colour");
+                        data[key] = data[key].Replace("favorite", "favourite");
+                        data[key] = data[key].Replace("fall", "autumn");
+                        data[key] = data[key].Replace("Fall", "Autumn");
+                        data[key] = data[key].Replace("ize", "ise");
+                    }
+                }
+
+                else if (asset.AssetNameEquals($"Strings\\schedules\\{name}"))
+                {
+                    var data = asset.AsDictionary<string, string>().Data;
+
+                    foreach (string key in new List<string>(data.Keys))
+                    {
+                        data[key] = data[key].Replace("favorite", "favourite");
                     }
                 }
             }
+
+            foreach(string location in locations)
+            {
+                if (asset.AssetNameEquals($"Data\\Events\\{location}"))
+                {
+                    var data = asset.AsDictionary<string, string>().Data;
+
+                    foreach (string key in new List<string>(data.Keys))
+                    {
+                        if (data[key].Contains("bgColor") || data[key].Contains("Prize") || data[key].Contains("prize") || data[key].Contains("aplogize"))
+                        {
+                            continue;
+                        }
+                        data[key] = data[key].Replace("color", "colour");
+                        data[key] = data[key].Replace("Color", "Colour");
+                        data[key] = data[key].Replace("favorite", "favourite");
+                        data[key] = data[key].Replace("ize", "ise");
+                    }
+                }
+            }
+
             if (asset.AssetNameEquals("Strings\\StringsFromCSFiles"))
             {
                 var data = asset.AsDictionary<string, string>().Data;
-                data["Utility.cs.5682"] = "Autumn";
-                data["fall"] = "autumn";
+
+                foreach (string key in new List<string>(data.Keys))
+                {
+                    if (data[key].Contains("prize") || data[key].Contains("size"))
+                    {
+                        continue;
+                    }
+                    data[key] = data[key].Replace("the fall", "autumn");
+                    data[key] = data[key].Replace("color", "colour");
+                    data[key] = data[key].Replace("favorite", "favourite");
+                    data[key] = data[key].Replace("Favorite", "Favourite");
+                    data[key] = data[key].Replace("fall", "autumn");
+                    data[key] = data[key].Replace("Fall", "Autumn");
+                    data[key] = data[key].Replace("ize", "ise");
+                }
+            }
+
+            else if (asset.AssetNameEquals("Strings\\UI"))
+            {
+                var data = asset.AsDictionary<string, string>().Data;
+
+                foreach (string key in new List<string>(data.Keys))
+                {
+                    if (data[key].Contains("[color"))
+                    {
+                        continue;
+                    }
+                    data[key] = data[key].Replace("color", "colour");
+                    data[key] = data[key].Replace("Color", "Colour");
+                    data[key] = data[key].Replace("favorite", "favourite");
+                    data[key] = data[key].Replace("Favorite", "Favourite");
+                    data[key] = data[key].Replace("ize", "ise");
+                }
             }
 
             else if (asset.AssetNameEquals("Data\\ObjectInformation"))
@@ -125,25 +260,7 @@ namespace GoodbyeAmericanEnglish
                     }
                 }
             }
-
-            else if (asset.AssetNameEquals($"Characters\\Dialogue\\MarriageDialogue{NPCs}"))
-            {
-                var data = asset.AsDictionary<string, string>().Data;
-
-                foreach(string key in new List<string>(data.Keys))
-                {
-                    if(data[key].Contains("fall_"))
-                    {
-                        continue;
-                    }
-
-                    data[key] = data[key].Replace("the fall", "autumn");
-                    data[key] = data[key].Replace("color", "colour");
-                    data[key] = data[key].Replace("favorite", "favourite");
-                    data[key] = data[key].Replace("fall", "autumn");
-                    data[key] = data[key].Replace("Fall", "Autumn");
-                }
-            }
+            
 
             else if (asset.AssetNameEquals($"Characters\\Dialogue\\MarriageDialogue"))
             {
@@ -188,9 +305,21 @@ namespace GoodbyeAmericanEnglish
                 var data = asset.AsDictionary<string, string>().Data;
                 data["53"] = data["53"].Replace("Fall", "Autumn");
 
-                foreach (string Itemid in new List<string>() { "36", "67", "78", "116", "186" })
+                foreach (string Itemid in new List<string>() { "36", "67", "78", "116", "186", "102" })
                 {
                     data[Itemid] = data[Itemid].Replace("fall", "autumn");
+                    data[Itemid] = data[Itemid].Replace("favorite", "favourite");
+                }
+            }
+
+            else if (asset.AssetNameEquals("Data\\TV\\CookingChannel"))
+            {
+                var data = asset.AsDictionary<string, string>().Data;
+                data["53"] = data["53"].Replace("Fall", "Autumn");
+
+                foreach (string Itemid in new List<string>() { "18","27" })
+                {
+                    data[Itemid] = data[Itemid].Replace("favorite", "favourite");
                 }
             }
         }
