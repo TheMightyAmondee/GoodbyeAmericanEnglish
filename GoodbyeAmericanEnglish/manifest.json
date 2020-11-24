@@ -1,0 +1,9 @@
+﻿{
+	"Name":"Goodbye American English",
+	"Author":"TheMightyAmondee",
+	"Version":"1.0.0",
+	"Description":"Replaces american spelling with british english",
+	"UniqueID":"TheMightyAmondee.GoodbyeAmericanEnglish",
+	"EntryDll":"GoodbyeAmericanEnglish.dll",
+	"UpdateKeys":[]
+}
