@@ -10,6 +10,7 @@ namespace GoodbyeAmericanEnglish
     public class ModEntry
         : Mod, IAssetEditor
     {
+        // Array to hold NPC names
         private static string[] NPCs = 
         {
             "Abigail",
@@ -47,6 +48,7 @@ namespace GoodbyeAmericanEnglish
             "Wizard"
         };
 
+        // Array to hold location names
         private static string[] locations =
         {
             "AbandonedJojaMart",
@@ -118,10 +120,17 @@ namespace GoodbyeAmericanEnglish
             return (false
                     || asset.AssetNameEquals("Strings\\StringsFromCSFiles")
                     || asset.AssetNameEquals("Strings\\UI")
+                    || asset.AssetNameEquals("Strings\\Locations")
+                    || asset.AssetNameEquals("Strings\\StringsFromMaps")
+                    || asset.AssetNameEquals("Strings\\Notes")
                     || asset.AssetNameEquals("Data\\ObjectInformation")
                     || asset.AssetNameEquals("Data\\TV\\TipChannel")
                     || asset.AssetNameEquals("Data\\TV\\CookingChannel")
                     || asset.AssetNameEquals("Data\\Fish")
+                    || asset.AssetNameEquals("Data\\mail")
+                    || asset.AssetNameEquals("Data\\ClothingInformation")
+                    || asset.AssetNameEquals("Data\\ExtraDialogue")
+                    || asset.AssetNameEquals("Data\\SecretNotes")
                     || asset.AssetNameEquals("Characters\\Dialogue\\MarriageDialogue")
                     || asset.AssetNameEquals("Characters\\Dialogue\\rainy"));
         }
@@ -147,6 +156,7 @@ namespace GoodbyeAmericanEnglish
                         data[key] = data[key].Replace("fall", "autumn");
                         data[key] = data[key].Replace("Fall", "Autumn");
                         data[key] = data[key].Replace("ize", "ise");
+                        data[key] = data[key].Replace("Center", "Centre");
                         data[key] = data[key].Replace("miles", "kilometres");
                     }
                 }
@@ -191,7 +201,7 @@ namespace GoodbyeAmericanEnglish
 
                     foreach (string key in new List<string>(data.Keys))
                     {
-                        if (data[key].Contains("bgColor") || data[key].Contains("Prize") || data[key].Contains("prize") || data[key].Contains("aplogize"))
+                        if (data[key].Contains("bgColor") || data[key].Contains("Prize") || data[key].Contains("prize") || data[key].Contains("apologize"))
                         {
                             continue;
                         }
@@ -199,6 +209,8 @@ namespace GoodbyeAmericanEnglish
                         data[key] = data[key].Replace("Color", "Colour");
                         data[key] = data[key].Replace("favorite", "favourite");
                         data[key] = data[key].Replace("ize", "ise");
+                        data[key] = data[key].Replace(" Center", " Centre");
+                        data[key] = data[key].Replace("center", "centre");
                     }
                 }
             }
@@ -244,22 +256,92 @@ namespace GoodbyeAmericanEnglish
                 }
             }
 
+            else if (asset.AssetNameEquals("Strings\\Location"))
+            {
+                var data = asset.AsDictionary<string, string>().Data;
+
+                foreach (string key in new List<string>(data.Keys))
+                {
+                    data[key] = data[key].Replace("color", "colour");
+                }
+            }
+
+            else if (asset.AssetNameEquals("Strings\\StringsFromMaps"))
+            {
+                var data = asset.AsDictionary<string, string>().Data;
+
+                foreach (string key in new List<string>(data.Keys))
+                {
+
+                    data[key] = data[key].Replace("color", "colour");
+                }
+            }
+
+            else if (asset.AssetNameEquals("Strings\\Notes"))
+            {
+                var data = asset.AsDictionary<string, string>().Data;
+
+                foreach (string key in new List<string>(data.Keys))
+                {
+                    if (data[key].Contains("prize"))
+                    {
+                        continue;
+                    }
+
+                    data[key] = data[key].Replace("ize", "ise");
+                }
+            }
+
+            else if (asset.AssetNameEquals("Data\\ExtraDialogue"))
+            {
+                var data = asset.AsDictionary<string, string>().Data;
+
+                foreach (string key in new List<string>(data.Keys))
+                {
+
+                    data[key] = data[key].Replace("color", "colour");
+                    data[key] = data[key].Replace("favorite", "favourite");
+                }
+            }
+
+            else if (asset.AssetNameEquals("Data\\SecretNotes"))
+            {
+                var data = asset.AsDictionary<string, string>().Data;
+
+                foreach (string key in new List<string>(data.Keys))
+                {
+                    data[key] = data[key].Replace("favorite", "favourite");
+                }
+            }
+
+
+
+            else if (asset.AssetNameEquals("Data\\ClothingInformation"))
+            {
+                IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
+
+                foreach (int key in new List<int>(data.Keys))
+                {
+
+                    data[key] = data[key].Replace("olor", "olour");
+                }
+            }
+
             else if (asset.AssetNameEquals("Data\\ObjectInformation"))
             {
                 IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
                 foreach (int id in new List<int>(data.Keys))
                 {
-                    string[] array = data[id].Split('/');
-                    string descr = array[5];
-                    if (descr.Contains("falling"))
+                    if (data[id].Contains("falling") || data[id].Contains("size") || data[id].Contains("rized") || data[id].Contains("denizen"))
                     {
                         continue;
                     }
-                    
+
                     data[id] = data[id].Replace("the fall", "autumn");
                     data[id] = data[id].Replace("fall", "autumn");
                     data[id] = data[id].Replace("color", "colour");
                     data[id] = data[id].Replace("favorite", "favourite");
+                    data[id] = data[id].Replace("ize", "ise");
 
                     if (id == 497)
                     {
@@ -267,7 +349,7 @@ namespace GoodbyeAmericanEnglish
                     }
                 }
             }
-            
+
 
             else if (asset.AssetNameEquals($"Characters\\Dialogue\\MarriageDialogue"))
             {
@@ -305,7 +387,7 @@ namespace GoodbyeAmericanEnglish
                 }
             }
 
-            
+
 
             else if (asset.AssetNameEquals("Data\\TV\\TipChannel"))
             {
@@ -324,9 +406,25 @@ namespace GoodbyeAmericanEnglish
                 var data = asset.AsDictionary<string, string>().Data;
                 data["53"] = data["53"].Replace("Fall", "Autumn");
 
-                foreach (string Itemid in new List<string>() { "18","27" })
+                foreach (string Itemid in new List<string>() { "18", "27", "31", "32" })
                 {
                     data[Itemid] = data[Itemid].Replace("favorite", "favourite");
+                    data[Itemid] = data[Itemid].Replace("ize", "ise");
+                }
+            }
+
+            else if (asset.AssetNameEquals("Data\\mail"))
+            {
+                var data = asset.AsDictionary<string, string>().Data;
+
+                foreach (string Itemid in new List<string>())
+                {
+                    if (data[Itemid].Contains("prize") || data[Itemid].Contains("size"))
+                    {
+                        continue;
+                    }
+                    data[Itemid] = data[Itemid].Replace("favorite", "favourite");
+                    data[Itemid] = data[Itemid].Replace("ize", "ise");
                 }
             }
 
