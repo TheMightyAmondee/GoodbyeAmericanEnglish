@@ -94,6 +94,7 @@ namespace GoodbyeAmericanEnglish
 
         }
         
+        // Return true if an asset name matches
         public bool CanEdit<T>(IAssetInfo asset)
         {
             foreach(var name in NPCs)
@@ -135,8 +136,10 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Characters\\Dialogue\\rainy"));
         }
 
+        // Edit game assets
         public void Edit<T>(IAssetData asset)
         {
+            // Edit character dialogue
             foreach(string name in NPCs)
             {
                 if (asset.AssetNameEquals($"Characters\\Dialogue\\{name}"))
@@ -161,6 +164,7 @@ namespace GoodbyeAmericanEnglish
                     }
                 }
 
+                // Edit character specific marriage dialogue
                 else if (asset.AssetNameEquals($"Characters\\Dialogue\\MarriageDialogue{name}"))
                 {
                     var data = asset.AsDictionary<string, string>().Data;
@@ -182,6 +186,7 @@ namespace GoodbyeAmericanEnglish
                     }
                 }
 
+                // Edit schedule dialogue
                 else if (asset.AssetNameEquals($"Strings\\schedules\\{name}"))
                 {
                     var data = asset.AsDictionary<string, string>().Data;
@@ -193,6 +198,7 @@ namespace GoodbyeAmericanEnglish
                 }
             }
 
+            // Edit events
             foreach(string location in locations)
             {
                 if (asset.AssetNameEquals($"Data\\Events\\{location}"))
@@ -215,6 +221,7 @@ namespace GoodbyeAmericanEnglish
                 }
             }
 
+            // Edit strings
             if (asset.AssetNameEquals("Strings\\StringsFromCSFiles"))
             {
                 var data = asset.AsDictionary<string, string>().Data;
@@ -292,6 +299,7 @@ namespace GoodbyeAmericanEnglish
                 }
             }
 
+            // Edit data
             else if (asset.AssetNameEquals("Data\\ExtraDialogue"))
             {
                 var data = asset.AsDictionary<string, string>().Data;
@@ -350,7 +358,7 @@ namespace GoodbyeAmericanEnglish
                 }
             }
 
-
+            // Edit general marriage dialogue
             else if (asset.AssetNameEquals($"Characters\\Dialogue\\MarriageDialogue"))
             {
                 var data = asset.AsDictionary<string, string>().Data;
@@ -388,7 +396,7 @@ namespace GoodbyeAmericanEnglish
             }
 
 
-
+            // Edit other data
             else if (asset.AssetNameEquals("Data\\TV\\TipChannel"))
             {
                 var data = asset.AsDictionary<string, string>().Data;
@@ -435,6 +443,7 @@ namespace GoodbyeAmericanEnglish
 
                 foreach (int Itemid in new List<int>())
                 {
+                    // Converts inches to centimetres
                     string[] fields = data[Itemid].Split('/');
                     fields[3] = ((int)Math.Round(int.Parse(fields[3]) * 2.5)).ToString();
                     fields[4] = ((int)Math.Round(int.Parse(fields[4]) * 2.5)).ToString();
