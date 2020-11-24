@@ -90,7 +90,7 @@ namespace GoodbyeAmericanEnglish
 
         public override void Entry(IModHelper helper)
         {
-            this.config = this.Helper.ReadConfig<ModConfig>();
+
         }
         
         public bool CanEdit<T>(IAssetInfo asset)
