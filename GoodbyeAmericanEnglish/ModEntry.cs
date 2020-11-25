@@ -135,12 +135,11 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Characters\\Dialogue\\MarriageDialogue")
                     || asset.AssetNameEquals("Characters\\Dialogue\\rainy"));
         }
-
         // Edit game assets
         public void Edit<T>(IAssetData asset)
         {
             // Edit character dialogue
-            foreach(string name in NPCs)
+            foreach (string name in NPCs)
             {
                 if (asset.AssetNameEquals($"Characters\\Dialogue\\{name}"))
                 {
@@ -286,9 +285,9 @@ namespace GoodbyeAmericanEnglish
 
             else if (asset.AssetNameEquals("Strings\\Notes"))
             {
-                var data = asset.AsDictionary<string, string>().Data;
+                var data = asset.AsDictionary<int, string>().Data;
 
-                foreach (string key in new List<string>(data.Keys))
+                foreach (int key in new List<int>(data.Keys))
                 {
                     if (data[key].Contains("prize"))
                     {
@@ -314,9 +313,9 @@ namespace GoodbyeAmericanEnglish
 
             else if (asset.AssetNameEquals("Data\\SecretNotes"))
             {
-                var data = asset.AsDictionary<string, string>().Data;
+                var data = asset.AsDictionary<int, string>().Data;
 
-                foreach (string key in new List<string>(data.Keys))
+                foreach (int key in new List<int>(data.Keys))
                 {
                     data[key] = data[key].Replace("favorite", "favourite");
                 }
