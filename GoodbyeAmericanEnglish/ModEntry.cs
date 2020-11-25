@@ -183,6 +183,26 @@ namespace GoodbyeAmericanEnglish
                     }
                 }
 
+                // Edit general marriage dialogue
+                else if (asset.AssetNameEquals($"Characters\\Dialogue\\MarriageDialogue"))
+                {
+                    var data = asset.AsDictionary<string, string>().Data;
+
+                    foreach (string key in new List<string>(data.Keys))
+                    {
+                        if (data[key].Contains("fall_"))
+                        {
+                            continue;
+                        }
+
+                        data[key] = data[key].Replace("the fall", "autumn");
+                        data[key] = data[key].Replace("color", "colour");
+                        data[key] = data[key].Replace("favorite", "favourite");
+                        data[key] = data[key].Replace("fall", "autumn");
+                        data[key] = data[key].Replace("Fall", "Autumn");
+                    }
+                }
+
                 // Edit schedule dialogue
                 else if (asset.AssetNameEquals($"Strings\\schedules\\{name}"))
                 {
@@ -354,28 +374,6 @@ namespace GoodbyeAmericanEnglish
                     }
                 }
             }
-
-            // Edit general marriage dialogue
-            else if (asset.AssetNameEquals($"Characters\\Dialogue\\MarriageDialogue"))
-            {
-                var data = asset.AsDictionary<string, string>().Data;
-
-                foreach (string key in new List<string>(data.Keys))
-                {
-                    if (data[key].Contains("fall_"))
-                    {
-                        continue;
-                    }
-
-                    data[key] = data[key].Replace("the fall", "autumn");
-                    data[key] = data[key].Replace("color", "colour");
-                    data[key] = data[key].Replace("favorite", "favourite");
-                    data[key] = data[key].Replace("fall", "autumn");
-                    data[key] = data[key].Replace("Fall", "Autumn");
-                }
-            }
-
-
 
             // Edit other data
             else if (asset.AssetNameEquals("Data\\TV\\TipChannel"))
