@@ -127,7 +127,6 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Data\\ObjectInformation")
                     || asset.AssetNameEquals("Data\\TV\\TipChannel")
                     || asset.AssetNameEquals("Data\\TV\\CookingChannel")
-                    || asset.AssetNameEquals("Data\\Fish")
                     || asset.AssetNameEquals("Data\\mail")
                     || asset.AssetNameEquals("Data\\ClothingInformation")
                     || asset.AssetNameEquals("Data\\ExtraDialogue")
@@ -424,7 +423,7 @@ namespace GoodbyeAmericanEnglish
             {
                 var data = asset.AsDictionary<string, string>().Data;
 
-                foreach (string Itemid in new List<string>())
+                foreach (string Itemid in new List<string>(data.Keys))
                 {
                     if (data[Itemid].Contains("prize") || data[Itemid].Contains("size"))
                     {
@@ -432,21 +431,6 @@ namespace GoodbyeAmericanEnglish
                     }
                     data[Itemid] = data[Itemid].Replace("favorite", "favourite");
                     data[Itemid] = data[Itemid].Replace("ize", "ise");
-                }
-            }
-
-            else if (asset.AssetNameEquals("Data\\Fish"))
-            {
-
-                var data = asset.AsDictionary<int, string>().Data;
-
-                foreach (int Itemid in new List<int>())
-                {
-                    // Converts inches to centimetres
-                    string[] fields = data[Itemid].Split('/');
-                    fields[3] = ((int)Math.Round(int.Parse(fields[3]) * 2.5)).ToString();
-                    fields[4] = ((int)Math.Round(int.Parse(fields[4]) * 2.5)).ToString();
-                    data[Itemid] = string.Join("/", fields);
                 }
             }
         }
