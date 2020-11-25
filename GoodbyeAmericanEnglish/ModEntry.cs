@@ -131,8 +131,7 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Data\\ClothingInformation")
                     || asset.AssetNameEquals("Data\\ExtraDialogue")
                     || asset.AssetNameEquals("Data\\SecretNotes")
-                    || asset.AssetNameEquals("Characters\\Dialogue\\MarriageDialogue")
-                    || asset.AssetNameEquals("Characters\\Dialogue\\rainy"));
+                    || asset.AssetNameEquals("Characters\\Dialogue\\MarriageDialogue"));
         }
         // Edit game assets
         public void Edit<T>(IAssetData asset)
@@ -376,22 +375,6 @@ namespace GoodbyeAmericanEnglish
                 }
             }
 
-            else if (asset.AssetNameEquals($"Characters\\Dialogue\\rainy"))
-            {
-                var data = asset.AsDictionary<string, string>().Data;
-
-                foreach (string key in new List<string>(data.Keys))
-                {
-                    if (data[key].Contains("fall_"))
-                    {
-                        continue;
-                    }
-
-                    data[key] = data[key].Replace("color", "colour");
-                    data[key] = data[key].Replace("fall", "autumn");
-                    data[key] = data[key].Replace("Fall", "Autumn");
-                }
-            }
 
 
             // Edit other data
@@ -400,7 +383,7 @@ namespace GoodbyeAmericanEnglish
                 var data = asset.AsDictionary<string, string>().Data;
                 data["53"] = data["53"].Replace("Fall", "Autumn");
 
-                foreach (string Itemid in new List<string>() { "36", "67", "78", "116", "186", "102" })
+                foreach (string Itemid in new List<string>(data.Keys) { "36", "67", "78", "116", "186", "102" })
                 {
                     data[Itemid] = data[Itemid].Replace("fall", "autumn");
                     data[Itemid] = data[Itemid].Replace("favorite", "favourite");
@@ -410,9 +393,8 @@ namespace GoodbyeAmericanEnglish
             else if (asset.AssetNameEquals("Data\\TV\\CookingChannel"))
             {
                 var data = asset.AsDictionary<string, string>().Data;
-                data["53"] = data["53"].Replace("Fall", "Autumn");
 
-                foreach (string Itemid in new List<string>() { "18", "27", "31", "32" })
+                foreach (string Itemid in new List<string>(data.Keys) { "18", "27", "31", "32" })
                 {
                     data[Itemid] = data[Itemid].Replace("favorite", "favourite");
                     data[Itemid] = data[Itemid].Replace("ize", "ise");
