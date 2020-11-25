@@ -98,6 +98,7 @@ namespace GoodbyeAmericanEnglish
         // Return true if an asset name matches
         public bool CanEdit<T>(IAssetInfo asset)
         {
+            
             foreach(var name in NPCs)
             {
                 if (false
@@ -139,73 +140,64 @@ namespace GoodbyeAmericanEnglish
         // Edit game assets
         public void Edit<T>(IAssetData asset)
         {
+            void SpellingFixer()
+            {
+                var data = asset.AsDictionary<string, string>().Data;
+
+                foreach (string key in new List<string>(data.Keys))
+                {
+                    if (false 
+                        || data[key].Contains("fall on") 
+                        || data[key].Contains("fall_") 
+                        || data[key].Contains("citizen") 
+                        || data[key].Contains("size") 
+                        || data[key].Contains("moment") 
+                        || data[key].Contains("[color") 
+                        || data[key].Contains("bgColor") 
+                        || data[key].Contains("Prize") 
+                        || data[key].Contains("prize")
+                        || data[key].Contains("_apologize") 
+                        || data[key].Contains("JoshMom"))
+                    {
+                        continue;
+                    }
+
+                    data[key] = data[key].Replace("the fall", "autumn");
+                    data[key] = data[key].Replace("color", "colour");
+                    data[key] = data[key].Replace("favorite", "favourite");
+                    data[key] = data[key].Replace("Favorite", "Favourite");
+                    data[key] = data[key].Replace("fall", "autumn");
+                    data[key] = data[key].Replace("Fall", "Autumn");
+                    data[key] = data[key].Replace("ize", "ise");
+                    data[key] = data[key].Replace("Center", "Centre");
+                    data[key] = data[key].Replace("miles", "kilometres");
+                    data[key] = data[key].Replace("mom", "mum");
+                    data[key] = data[key].Replace("Mom", "Mum");
+                    data[key] = data[key].Replace("six inches", "fifteen centimetres");
+                    data[key] = data[key].Replace("center", "centre");
+                    data[key] = data[key].Replace("{0} in.", "{0} cm.");
+                    data[key] = data[key].Replace("inches", "centimetres");
+                }
+            }
+
             // Edit character dialogue
             foreach (string name in NPCs)
             {
                 if (asset.AssetNameEquals($"Characters\\Dialogue\\{name}"))
                 {
-                    var data = asset.AsDictionary<string, string>().Data;
-
-                    foreach (string key in new List<string>(data.Keys))
-                    {
-                        if (data[key].Contains("fall on") || data[key].Contains("fall_") || data[key].Contains("citizen") || data[key].Contains("size") || data[key].Contains("moment"))
-                        {
-                            continue;
-                        }
-
-                        data[key] = data[key].Replace("the fall", "autumn");
-                        data[key] = data[key].Replace("color", "colour");
-                        data[key] = data[key].Replace("favorite", "favourite");
-                        data[key] = data[key].Replace("fall", "autumn");
-                        data[key] = data[key].Replace("Fall", "Autumn");
-                        data[key] = data[key].Replace("ize", "ise");
-                        data[key] = data[key].Replace("Center", "Centre");
-                        data[key] = data[key].Replace("miles", "kilometres");
-                        data[key] = data[key].Replace("mom", "mum");
-                        data[key] = data[key].Replace("Mom", "Mum");
-                    }
+                    SpellingFixer();
                 }
 
                 // Edit character specific marriage dialogue
                 else if (asset.AssetNameEquals($"Characters\\Dialogue\\MarriageDialogue{name}"))
                 {
-                    var data = asset.AsDictionary<string, string>().Data;
-
-                    foreach (string key in new List<string>(data.Keys))
-                    {
-                        if (data[key].Contains("fall_") || data[key].Contains("moment"))
-                        {
-                            continue;
-                        }
-
-                        data[key] = data[key].Replace("the fall", "autumn");
-                        data[key] = data[key].Replace("color", "colour");
-                        data[key] = data[key].Replace("favorite", "favourite");
-                        data[key] = data[key].Replace("fall", "autumn");
-                        data[key] = data[key].Replace("Fall", "Autumn");
-                        data[key] = data[key].Replace("ize", "ise");
-                        data[key] = data[key].Replace("six inches", "fifteen centimetres");
-                        data[key] = data[key].Replace("mom", "mum");
-                        data[key] = data[key].Replace("Mom", "Mum");
-                    }
+                    SpellingFixer();
                 }
 
                 // Edit schedule dialogue
                 else if (asset.AssetNameEquals($"Strings\\schedules\\{name}"))
                 {
-                    var data = asset.AsDictionary<string, string>().Data;
-
-                    foreach (string key in new List<string>(data.Keys))
-                    {
-                        if (data[key].Contains("moment"))
-                        {
-                            continue;
-                        }
-
-                        data[key] = data[key].Replace("favorite", "favourite");
-                        data[key] = data[key].Replace("mom", "mum");
-                        data[key] = data[key].Replace("Mom", "Mum");
-                    }
+                    SpellingFixer();
                 }
             }
            
@@ -214,98 +206,30 @@ namespace GoodbyeAmericanEnglish
             {
                 if (asset.AssetNameEquals($"Data\\Events\\{location}"))
                 {
-                    var data = asset.AsDictionary<string, string>().Data;
-
-                    foreach (string key in new List<string>(data.Keys))
-                    {
-                        if (data[key].Contains("bgColor") || data[key].Contains("Prize") || data[key].Contains("prize") || data[key].Contains("apologize") || data[key].Contains("moment") || data[key].Contains("JoshMom"))
-                        {
-                            continue;
-                        }
-                        data[key] = data[key].Replace("color", "colour");
-                        data[key] = data[key].Replace("Color", "Colour");
-                        data[key] = data[key].Replace("favorite", "favourite");
-                        data[key] = data[key].Replace("ize", "ise");
-                        data[key] = data[key].Replace(" Center", " Centre");
-                        data[key] = data[key].Replace("center", "centre");
-                        data[key] = data[key].Replace("Mom", "Mum");
-                        data[key] = data[key].Replace("mom", "mum");
-                    }
+                    SpellingFixer();
                 }
             }
 
             // Edit strings
             if (asset.AssetNameEquals("Strings\\StringsFromCSFiles"))
             {
-                var data = asset.AsDictionary<string, string>().Data;
-
-                foreach (string key in new List<string>(data.Keys))
-                {
-                    if (data[key].Contains("prize") || data[key].Contains("size"))
-                    {
-                        continue;
-                    }
-                    data[key] = data[key].Replace("the fall", "autumn");
-                    data[key] = data[key].Replace("color", "colour");
-                    data[key] = data[key].Replace("favorite", "favourite");
-                    data[key] = data[key].Replace("Favorite", "Favourite");
-                    data[key] = data[key].Replace("fall", "autumn");
-                    data[key] = data[key].Replace("Fall", "Autumn");
-                    data[key] = data[key].Replace("ize", "ise");
-                    data[key] = data[key].Replace("{0} in.", "{0} cm.");
-                    data[key] = data[key].Replace("inches", "centimetres");
-                    data[key] = data[key].Replace("mom", "mum");
-                    data[key] = data[key].Replace("Mom", "Mum");
-                }
+                SpellingFixer();
             }
 
             // Edit general marriage dialogue
             else if (asset.AssetNameEquals($"Characters\\Dialogue\\MarriageDialogue"))
             {
-                var data = asset.AsDictionary<string, string>().Data;
-
-                foreach (string key in new List<string>(data.Keys))
-                {
-                    if (data[key].Contains("fall_"))
-                    {
-                        continue;
-                    }
-
-                    data[key] = data[key].Replace("the fall", "autumn");
-                    data[key] = data[key].Replace("color", "colour");
-                    data[key] = data[key].Replace("favorite", "favourite");
-                    data[key] = data[key].Replace("fall", "autumn");
-                    data[key] = data[key].Replace("Fall", "Autumn");
-                }
+                SpellingFixer();
             }
 
             else if (asset.AssetNameEquals("Strings\\UI"))
             {
-                var data = asset.AsDictionary<string, string>().Data;
-
-                foreach (string key in new List<string>(data.Keys))
-                {
-                    if (data[key].Contains("[color"))
-                    {
-                        continue;
-                    }
-                    data[key] = data[key].Replace("color", "colour");
-                    data[key] = data[key].Replace("Color", "Colour");
-                    data[key] = data[key].Replace("favorite", "favourite");
-                    data[key] = data[key].Replace("Favorite", "Favourite");
-                    data[key] = data[key].Replace("ize", "ise");
-                    data[key] = data[key].Replace("{0} in.", "{0} cm.");
-                }
+                SpellingFixer();
             }
 
             else if (asset.AssetNameEquals("Strings\\Location"))
             {
-                var data = asset.AsDictionary<string, string>().Data;
-
-                foreach (string key in new List<string>(data.Keys))
-                {
-                    data[key] = data[key].Replace("color", "colour");
-                }
+                SpellingFixer();
             }
 
             else if (asset.AssetNameEquals("Strings\\StringsFromMaps"))
@@ -423,19 +347,7 @@ namespace GoodbyeAmericanEnglish
 
             else if (asset.AssetNameEquals("Data\\mail"))
             {
-                var data = asset.AsDictionary<string, string>().Data;
-
-                foreach (string key in new List<string>(data.Keys))
-                {
-                    if (data[key].Contains("prize") || data[key].Contains("size"))
-                    {
-                        continue;
-                    }
-                    data[key] = data[key].Replace("favorite", "favourite");
-                    data[key] = data[key].Replace("ize", "ise");
-                    data[key] = data[key].Replace("Mom", "Mum");
-                    data[key] = data[key].Replace("mom", "mum");
-                }
+                SpellingFixer();
             }
 
             else if (asset.AssetNameEquals("Data\\BigCraftablesInformation"))
