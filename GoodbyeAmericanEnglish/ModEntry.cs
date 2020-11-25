@@ -133,6 +133,7 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Data\\ExtraDialogue")
                     || asset.AssetNameEquals("Data\\SecretNotes")
                     || asset.AssetNameEquals("Minigames\\Intro")
+                    || asset.AssetNameEquals("Data\\BigCraftablesInformation")
                     || asset.AssetNameEquals("Characters\\Dialogue\\MarriageDialogue"));
         }
         // Edit game assets
@@ -217,7 +218,7 @@ namespace GoodbyeAmericanEnglish
 
                     foreach (string key in new List<string>(data.Keys))
                     {
-                        if (data[key].Contains("bgColor") || data[key].Contains("Prize") || data[key].Contains("prize") || data[key].Contains("apologize"))
+                        if (data[key].Contains("bgColor") || data[key].Contains("Prize") || data[key].Contains("prize") || data[key].Contains("apologize") || data[key].Contains("moment") || data[key].Contains("JoshMom"))
                         {
                             continue;
                         }
@@ -227,6 +228,8 @@ namespace GoodbyeAmericanEnglish
                         data[key] = data[key].Replace("ize", "ise");
                         data[key] = data[key].Replace(" Center", " Centre");
                         data[key] = data[key].Replace("center", "centre");
+                        data[key] = data[key].Replace("Mom", "Mum");
+                        data[key] = data[key].Replace("mom", "mum");
                     }
                 }
             }
@@ -431,7 +434,15 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("favorite", "favourite");
                     data[key] = data[key].Replace("ize", "ise");
                     data[key] = data[key].Replace("Mom", "Mum");
+                    data[key] = data[key].Replace("mom", "mum");
                 }
+            }
+
+            else if (asset.AssetNameEquals("Data\\BigCraftablesInformation"))
+            {
+                var data = asset.AsDictionary<int, string>().Data;
+
+                data[209] = "Mini-Jukebox/1500/-300/Crafting -9/Allows you to play your favourite tunes./true/true/0/Mini-Jukebox";
             }
 
             else if (asset.AssetNameEquals("Minigames\\Intro"))
