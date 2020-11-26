@@ -126,6 +126,7 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Strings\\Locations")
                     || asset.AssetNameEquals("Strings\\StringsFromMaps")
                     || asset.AssetNameEquals("Strings\\Notes")
+                    || asset.AssetNameEquals("Strings\\Characters")
                     || asset.AssetNameEquals("Data\\ObjectInformation")
                     || asset.AssetNameEquals("Data\\TV\\TipChannel")
                     || asset.AssetNameEquals("Data\\TV\\CookingChannel")
@@ -177,6 +178,8 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("center", "centre");
                     data[key] = data[key].Replace("{0} in.", "{0} cm.");
                     data[key] = data[key].Replace("inches", "centimetres");
+                    data[key] = data[key].Replace("theater", "theatre");
+                    data[key] = data[key].Replace("Theater", "Theatre");
                 }
             }
 
@@ -246,9 +249,9 @@ namespace GoodbyeAmericanEnglish
 
             else if (asset.AssetNameEquals("Strings\\Notes"))
             {
-                var data = asset.AsDictionary<int, string>().Data;
+                var data = asset.AsDictionary<string, string>().Data;
 
-                foreach (int key in new List<int>(data.Keys))
+                foreach (string key in new List<string>(data.Keys))
                 {
                     if (data[key].Contains("prize"))
                     {
@@ -257,6 +260,11 @@ namespace GoodbyeAmericanEnglish
 
                     data[key] = data[key].Replace("ize", "ise");
                 }
+            }
+
+            else if (asset.AssetNameEquals("Strings\\Characters"))
+            {
+                SpellingFixer();
             }
 
             // Edit data
@@ -275,7 +283,7 @@ namespace GoodbyeAmericanEnglish
 
             else if (asset.AssetNameEquals("Data\\SecretNotes"))
             {
-                var data = asset.AsDictionary<int, string>().Data;
+                IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
 
                 foreach (int key in new List<int>(data.Keys))
                 {
@@ -313,6 +321,7 @@ namespace GoodbyeAmericanEnglish
                     data[id] = data[id].Replace("color", "colour");
                     data[id] = data[id].Replace("favorite", "favourite");
                     data[id] = data[id].Replace("ize", "ise");
+                    data[id] = data[id].Replace("theater", "theatre");
 
                     if (id == 497)
                     {
@@ -352,7 +361,7 @@ namespace GoodbyeAmericanEnglish
 
             else if (asset.AssetNameEquals("Data\\BigCraftablesInformation"))
             {
-                var data = asset.AsDictionary<int, string>().Data;
+                IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
 
                 data[209] = "Mini-Jukebox/1500/-300/Crafting -9/Allows you to play your favourite tunes./true/true/0/Mini-Jukebox";
             }
