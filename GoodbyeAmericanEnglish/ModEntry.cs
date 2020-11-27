@@ -177,6 +177,7 @@ namespace GoodbyeAmericanEnglish
                     // Replace specified string with new string
                     data[key] = data[key].Replace("the fall", "autumn");
                     data[key] = data[key].Replace("color", "colour");
+                    data[key] = data[key].Replace("Color", "Colour");
                     data[key] = data[key].Replace("favorite", "favourite");
                     data[key] = data[key].Replace("Favorite", "Favourite");
                     data[key] = data[key].Replace("behavior", "behaviour");
