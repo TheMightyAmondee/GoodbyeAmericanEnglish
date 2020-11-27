@@ -193,7 +193,6 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("inches", "centimetres");
                     data[key] = data[key].Replace("theater", "theatre");
                     data[key] = data[key].Replace("Theater", "Theatre");
-                    data[key] = data[key].Replace("flavor", "flavour");
                     data[key] = data[key].Replace("counselor", "counsellor");
                 }
             }
@@ -263,6 +262,7 @@ namespace GoodbyeAmericanEnglish
                     // Replace specified string with new string
                     data[key] = data[key].Replace("color", "colour");
                     data[key] = data[key].Replace(" Mom", " Mum");
+                    data[key] = data[key].Replace("flavor", "flavour");
                 }
             }
 
