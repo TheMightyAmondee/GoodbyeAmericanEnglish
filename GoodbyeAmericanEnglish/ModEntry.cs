@@ -444,7 +444,13 @@ namespace GoodbyeAmericanEnglish
             // Edit quest data
             else if (asset.AssetNameEquals("Data\\Quests"))
             {
-                SpellingFixer();
+                IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
+
+                foreach (int key in new List<int>(data.Keys))
+                {
+                    // Replace specified string with new string
+                    data[key] = data[key].Replace("favorite", "favourite");
+                }
             }
 
             // Edit weapons data
