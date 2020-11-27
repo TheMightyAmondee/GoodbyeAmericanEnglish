@@ -187,7 +187,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("inches", "centimetres");
                     data[key] = data[key].Replace("theater", "theatre");
                     data[key] = data[key].Replace("Theater", "Theatre");
-                    data[key] = data[key].Replace("flavored", "flavoured");
+                    data[key] = data[key].Replace("flavor", "flavour");
                     data[key] = data[key].Replace("counselor", "counsellor");
                 }
             }
@@ -317,24 +317,24 @@ namespace GoodbyeAmericanEnglish
             else if (asset.AssetNameEquals("Data\\ObjectInformation"))
             {
                 IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
-                foreach (int id in new List<int>(data.Keys))
+                foreach (int key in new List<int>(data.Keys))
                 {
-                    if (data[id].Contains("falling") || data[id].Contains("size") || data[id].Contains("rized") || data[id].Contains("denizen"))
+                    if (data[key].Contains("falling") || data[key].Contains("size") || data[key].Contains("rized") || data[key].Contains("denizen"))
                     {
                         continue;
                     }
 
-                    data[id] = data[id].Replace("the fall", "autumn");
-                    data[id] = data[id].Replace("A fall", "An autumn");
-                    data[id] = data[id].Replace("fall", "autumn");
-                    data[id] = data[id].Replace("color", "colour");
-                    data[id] = data[id].Replace("favorite", "favourite");
-                    data[id] = data[id].Replace("ize", "ise");
-                    data[id] = data[id].Replace("theater", "theatre");
+                    data[key] = data[key].Replace("the fall", "autumn");
+                    data[key] = data[key].Replace("A fall", "An autumn");
+                    data[key] = data[key].Replace("fall", "autumn");
+                    data[key] = data[key].Replace("color", "colour");
+                    data[key] = data[key].Replace("favorite", "favourite");
+                    data[key] = data[key].Replace("ize", "ise");
+                    data[key] = data[key].Replace("theater", "theatre");
 
-                    if (id == 497)
+                    if (key == 497)
                     {
-                        data[id] = data[id].Replace("Fall", "Autumn");
+                        data[key] = data[key].Replace("Fall", "Autumn");
                     }
                 }
             }
@@ -345,10 +345,10 @@ namespace GoodbyeAmericanEnglish
                 var data = asset.AsDictionary<string, string>().Data;
                 data["53"] = data["53"].Replace("Fall", "Autumn");
 
-                foreach (string Itemid in new List<string>(data.Keys) { "36", "67", "78", "116", "186", "102" })
+                foreach (string key in new List<string>(data.Keys) { "36", "67", "78", "116", "186", "102" })
                 {
-                    data[Itemid] = data[Itemid].Replace("fall", "autumn");
-                    data[Itemid] = data[Itemid].Replace("favorite", "favourite");
+                    data[key] = data[key].Replace("fall", "autumn");
+                    data[key] = data[key].Replace("favorite", "favourite");
                 }
             }
 
@@ -356,10 +356,10 @@ namespace GoodbyeAmericanEnglish
             {
                 var data = asset.AsDictionary<string, string>().Data;
 
-                foreach (string Itemid in new List<string>(data.Keys) { "18", "27", "31", "32" })
+                foreach (string key in new List<string>(data.Keys) { "18", "27", "31", "32" })
                 {
-                    data[Itemid] = data[Itemid].Replace("favorite", "favourite");
-                    data[Itemid] = data[Itemid].Replace("ize", "ise");
+                    data[key] = data[key].Replace("favorite", "favourite");
+                    data[key] = data[key].Replace("ize", "ise");
                 }
             }
 
