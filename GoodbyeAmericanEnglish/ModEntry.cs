@@ -184,7 +184,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("Fall", "Autumn");
                     data[key] = data[key].Replace("ize", "ise");
                     data[key] = data[key].Replace("Center", "Centre");
-                    data[key] = data[key].Replace("miles", "kilometres");
+                    data[key] = data[key].Replace("twenty miles", "thirty kilometres");
                     data[key] = data[key].Replace("mom", "mum");
                     data[key] = data[key].Replace("Mom", "Mum");
                     data[key] = data[key].Replace("six inches", "fifteen centimetres");
