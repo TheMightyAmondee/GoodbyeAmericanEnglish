@@ -174,7 +174,8 @@ namespace GoodbyeAmericanEnglish
                         || data[key].Contains("prize")
                         || data[key].Contains("_apologize") 
                         || data[key].Contains("JoshMom")
-                        || data[key].Contains("fallFest"))
+                        || data[key].Contains("fallFest")
+                        || data[key].Contains("communityCenter"))
                     {
                         continue;
                     }
@@ -456,7 +457,13 @@ namespace GoodbyeAmericanEnglish
             // Edit weapons data
             else if (asset.AssetNameEquals("Data\\weapons"))
             {
-                SpellingFixer();
+                IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
+
+                foreach (int key in new List<int>(data.Keys))
+                {
+                    // Replace specified string with new string
+                    data[key] = data[key].Replace("favorite", "favourite");
+                }
             }
 
             // Edit a single entry in hats
