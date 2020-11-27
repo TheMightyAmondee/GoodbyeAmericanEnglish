@@ -188,6 +188,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("theater", "theatre");
                     data[key] = data[key].Replace("Theater", "Theatre");
                     data[key] = data[key].Replace("flavored", "flavoured");
+                    data[key] = data[key].Replace("counselor", "counsellor");
                 }
             }
 
