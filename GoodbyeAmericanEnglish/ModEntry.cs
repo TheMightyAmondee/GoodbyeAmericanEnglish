@@ -136,6 +136,11 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Data\\ClothingInformation")
                     || asset.AssetNameEquals("Data\\ExtraDialogue")
                     || asset.AssetNameEquals("Data\\SecretNotes")
+                    || asset.AssetNameEquals("Data\\NPCGiftTastes")
+                    || asset.AssetNameEquals("Data\\Quests")
+                    || asset.AssetNameEquals("Data\\Blueprints")
+                    || asset.AssetNameEquals("Data\\weapons")
+                    || asset.AssetNameEquals("Data\\hats")
                     || asset.AssetNameEquals("Data\\Festivals\\spring13")
                     || asset.AssetNameEquals("Data\\Festivals\\summer11")
                     || asset.AssetNameEquals("Data\\Festivals\\summer28")
@@ -422,6 +427,39 @@ namespace GoodbyeAmericanEnglish
             else if (asset.AssetNameEquals("Data\\Festivals\\winter25"))
             {
                 SpellingFixer();
+            }
+
+            // Edit blueprints data
+            else if (asset.AssetNameEquals("Data\\Blueprints"))
+            {
+                SpellingFixer();
+            }
+
+            // Edit gift taste data
+            else if (asset.AssetNameEquals("Data\\NPCGiftTastes"))
+            {
+                SpellingFixer();
+            }
+
+            // Edit quest data
+            else if (asset.AssetNameEquals("Data\\Quests"))
+            {
+                SpellingFixer();
+            }
+
+            // Edit weapons data
+            else if (asset.AssetNameEquals("Data\\weapons"))
+            {
+                SpellingFixer();
+            }
+
+            // Edit a single entry in hats
+            else if (asset.AssetNameEquals("Data\\hats"))
+            {
+                IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
+
+                // Replace specified key value with new value
+                data[30] = "Watermelon Band/The colour scheme was inspired by the beloved summer melon./true/false";
             }
 
             // Edit a single entry in BigCraftables
