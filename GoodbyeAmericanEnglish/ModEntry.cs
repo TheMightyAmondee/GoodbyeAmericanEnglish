@@ -134,6 +134,11 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Data\\ClothingInformation")
                     || asset.AssetNameEquals("Data\\ExtraDialogue")
                     || asset.AssetNameEquals("Data\\SecretNotes")
+                    || asset.AssetNameEquals("Data\\Festivals\\spring13")
+                    || asset.AssetNameEquals("Data\\Festivals\\summer11")
+                    || asset.AssetNameEquals("Data\\Festivals\\summer28")
+                    || asset.AssetNameEquals("Data\\Festivals\\fall27")
+                    || asset.AssetNameEquals("Data\\Festivals\\winter25")
                     || asset.AssetNameEquals("Minigames\\Intro")
                     || asset.AssetNameEquals("Data\\BigCraftablesInformation")
                     || asset.AssetNameEquals("Characters\\Dialogue\\MarriageDialogue"));
@@ -158,7 +163,8 @@ namespace GoodbyeAmericanEnglish
                         || data[key].Contains("Prize") 
                         || data[key].Contains("prize")
                         || data[key].Contains("_apologize") 
-                        || data[key].Contains("JoshMom"))
+                        || data[key].Contains("JoshMom")
+                        || data[key].Contains("fallFest"))
                     {
                         continue;
                     }
@@ -167,6 +173,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("color", "colour");
                     data[key] = data[key].Replace("favorite", "favourite");
                     data[key] = data[key].Replace("Favorite", "Favourite");
+                    data[key] = data[key].Replace("behavior", "behaviour");
                     data[key] = data[key].Replace("fall", "autumn");
                     data[key] = data[key].Replace("Fall", "Autumn");
                     data[key] = data[key].Replace("ize", "ise");
@@ -355,6 +362,32 @@ namespace GoodbyeAmericanEnglish
             }
 
             else if (asset.AssetNameEquals("Data\\mail"))
+            {
+                SpellingFixer();
+            }
+
+            // Festivals
+            else if (asset.AssetNameEquals("Data\\Festivals\\spring13"))
+            {
+                SpellingFixer();
+            }
+
+            else if (asset.AssetNameEquals("Data\\Festivals\\summer11"))
+            {
+                SpellingFixer();
+            }
+
+            else if (asset.AssetNameEquals("Data\\Festivals\\summer28"))
+            {
+                SpellingFixer();
+            }
+
+            else if (asset.AssetNameEquals("Data\\Festivals\\fall27"))
+            {
+                SpellingFixer();
+            }
+
+            else if (asset.AssetNameEquals("Data\\Festivals\\winter25"))
             {
                 SpellingFixer();
             }
