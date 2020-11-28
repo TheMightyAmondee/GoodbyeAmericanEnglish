@@ -206,7 +206,6 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("theater", "theatre");
                     data[key] = data[key].Replace("Theater", "Theatre");
                     data[key] = data[key].Replace("counselor", "counsellor");
-                    data[key] = data[key].Replace("onor", "onour");
                 }
             }
 
@@ -474,7 +473,6 @@ namespace GoodbyeAmericanEnglish
                 {
                     // Replace specified string with new string
                     data[key] = data[key].Replace("favorite", "favourite");
-                    data[key] = data[key].Replace("honor", "honour");
                 }
             }
 
