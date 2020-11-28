@@ -139,6 +139,7 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Data\\NPCGiftTastes")
                     || asset.AssetNameEquals("Data\\Quests")
                     || asset.AssetNameEquals("Data\\Blueprints")
+                    || asset.AssetNameEquals("Data\\Bundles")
                     || asset.AssetNameEquals("Data\\weapons")
                     || asset.AssetNameEquals("Data\\hats")
                     || asset.AssetNameEquals("Data\\Festivals\\spring13")
@@ -482,6 +483,18 @@ namespace GoodbyeAmericanEnglish
 
                 // Replace specified key value with new value
                 data[30] = "Watermelon Band/The colour scheme was inspired by the beloved summer melon./true/false";
+            }
+
+            // Edit a single entry in hats
+            else if (asset.AssetNameEquals("Data\\Bundles"))
+            {
+                var data = asset.AsDictionary<string, string>().Data;
+
+                foreach (string key in new List<string>(data.Keys))
+                {
+                    // Replace specified string with new string
+                    data[key] = data[key].Replace("Fall", "Autumn");
+                }
             }
 
             // Edit a single entry in BigCraftables
