@@ -363,6 +363,11 @@ namespace GoodbyeAmericanEnglish
                     {
                         data[key] = data[key].Replace("Fall", "Autumn");
                     }
+
+                    else if (key == 487)
+                    {
+                        data[key] = "Corn Seeds/75/-300/Seeds -74/Corn Seeds/Plant these in the summer or in autumn. Takes 14 days to mature, and continues to produce after first harvest.";
+                    }
                 }
             }
 
