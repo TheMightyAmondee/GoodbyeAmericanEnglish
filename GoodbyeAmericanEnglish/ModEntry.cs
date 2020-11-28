@@ -163,7 +163,11 @@ namespace GoodbyeAmericanEnglish
                 {
                     // Skip replacement if string is any of the following
                     if (false 
-                        || data[key].Contains("fall on") 
+                        || data[key].Contains("fall on")
+                        || data[key].Contains("fall out")
+                        || data[key].Contains("fall prey")
+                        || data[key].Contains("fallen")
+                        || data[key].Contains("falling")
                         || data[key].Contains("fall_") 
                         || data[key].Contains("citizen") 
                         || data[key].Contains("size") 
