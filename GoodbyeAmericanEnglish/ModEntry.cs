@@ -542,8 +542,8 @@ namespace GoodbyeAmericanEnglish
                 if (movieDatas.ContainsKey("spring_movie_0"))
                 {
                     var movieData = movieDatas["spring_movie_0"]; 
-                    var sceneID = movieData.Scenes[4].ID;
 
+                    var sceneID = movieData.Scenes[4].ID;
                     var scene = movieData.Scenes.FirstOrDefault(s => s.ID == sceneID);
 
                     if (scene != null && sceneID == "spring0_4")
@@ -555,8 +555,8 @@ namespace GoodbyeAmericanEnglish
                 if (movieDatas.ContainsKey("spring_movie_1"))
                 {
                     var movieData = movieDatas["spring_movie_1"];
-                    var sceneID = movieData.Scenes[1].ID;
 
+                    var sceneID = movieData.Scenes[1].ID;
                     var scene = movieData.Scenes.FirstOrDefault(s => s.ID == sceneID);
 
                     if (scene != null && sceneID == "spring1_1")
@@ -568,8 +568,8 @@ namespace GoodbyeAmericanEnglish
                 if (movieDatas.ContainsKey("fall_movie_1"))
                 {
                     var movieData = movieDatas["fall_movie_1"];
-                    var sceneID = movieData.Scenes[1].ID;
 
+                    var sceneID = movieData.Scenes[1].ID;
                     var scene = movieData.Scenes.FirstOrDefault(s => s.ID == sceneID);
 
                     if (scene != null && sceneID == "fall1_1")
@@ -606,30 +606,39 @@ namespace GoodbyeAmericanEnglish
             {
                 var Reactions = asset.Data as List<StardewValley.GameData.Movies.MovieCharacterReaction>;
 
-                void ReactionsEditor(int index1, int index2, string original, string replacement)
+                void ReactionsEditorBefore(int index1, int index2, string original, string replacement)
                 {
                     Reactions[index1].Reactions[index2].SpecialResponses.BeforeMovie.Text = Reactions[index1].Reactions[index2].SpecialResponses.BeforeMovie.Text.Replace(original, replacement);
                 }
 
+                void ReactionsEditorAfter(int index1, int index2, string original, string replacement)
+                {
+                    Reactions[index1].Reactions[index2].SpecialResponses.AfterMovie.Text = Reactions[index1].Reactions[index2].SpecialResponses.AfterMovie.Text.Replace(original, replacement);
+                }
+
                 // Penny
-                ReactionsEditor(0, 0, "mom", "mum");
-                Reactions[0].Reactions[8].SpecialResponses.AfterMovie.Text = Reactions[0].Reactions[8].SpecialResponses.AfterMovie.Text.Replace("favorite", "favourite");
+                ReactionsEditorBefore(0, 0, "mom", "mum");
+                ReactionsEditorAfter(0, 8, "favorite", "favourite");
                 // Krobus
-                ReactionsEditor(2, 0, "recognize", "recognise");
-                ReactionsEditor(2, 1, "center", "centre");
+                ReactionsEditorBefore(2, 0, "recognize", "recognise");
+                ReactionsEditorBefore(2, 1, "center", "centre");
                 // Haley
-                ReactionsEditor(19, 0, "favorite", "favourite");
-                ReactionsEditor(19, 1, "favorite", "favourite");
+                ReactionsEditorBefore(19, 0, "favorite", "favourite");
+                ReactionsEditorBefore(19, 1, "favorite", "favourite");
                 // George
-                ReactionsEditor(4, 4, "Theaters", "Theatres");
+                ReactionsEditorBefore(4, 4, "Theaters", "Theatres");
                 // Evelyn
-                ReactionsEditor(6, 2, "theater", "theatre");
+                ReactionsEditorBefore(6, 2, "theater", "theatre");
                 // Sam
-                ReactionsEditor(14, 3, "theater", "theatre");
+                ReactionsEditorBefore(14, 3, "theater", "theatre");
                 // Maru
-                ReactionsEditor(20, 2, "theater", "theatre");
+                ReactionsEditorBefore(20, 2, "theater", "theatre");
                 // Vincent
-                ReactionsEditor(15, 4, "mom", "mum");
+                ReactionsEditorBefore(15, 4, "mom", "mum");
+                // Demetrius
+                ReactionsEditorBefore(23, 4, "analyze", "analyse");
+                // Dwarf
+                ReactionsEditorAfter(25, 1, "mesmerizing", "mesmerising");
             }
 
             // Edit concession data
