@@ -548,7 +548,7 @@ namespace GoodbyeAmericanEnglish
 
                     if (scene != null && sceneID == "spring0_4")
                     {
-                        scene.Text = scene.Text.Replace("demoralized","demoralised"); //
+                        scene.Text = scene.Text.Replace("demoralized","demoralised");
                     }
                 }
 
@@ -561,7 +561,7 @@ namespace GoodbyeAmericanEnglish
 
                     if (scene != null && sceneID == "spring1_1")
                     {
-                        scene.Text = scene.Text.Replace("80 miles", "128 kilometres"); //
+                        scene.Text = scene.Text.Replace("80 miles", "128 kilometres");
                     }
                 }
 
@@ -574,7 +574,7 @@ namespace GoodbyeAmericanEnglish
 
                     if (scene != null && sceneID == "fall1_1")
                     {
-                        scene.Text = scene.Text.Replace("30 miles", "48 kilometres"); //
+                        scene.Text = scene.Text.Replace("30 miles", "48 kilometres");
                     }
                 }
 
@@ -582,14 +582,14 @@ namespace GoodbyeAmericanEnglish
                 {
                     var movieData = movieDatas["summer_movie_1"];
 
-                    movieData.Description = movieData.Description.Replace("centered", "centred"); //
+                    movieData.Description = movieData.Description.Replace("centered", "centred");
 
                     var sceneID = movieData.Scenes[6].ID;
                     var scene = movieData.Scenes.FirstOrDefault(s => s.ID == sceneID);
 
                     if (scene != null && sceneID == "summer1_6")
                     {
-                        scene.Text = scene.Text.Replace("humor","humour"); //
+                        scene.Text = scene.Text.Replace("humor","humour");
                     }
                 }
 
@@ -597,7 +597,7 @@ namespace GoodbyeAmericanEnglish
                 {
                     var movieData = movieDatas["winter_movie_1"];
 
-                    movieData.Description = movieData.Description.Replace("theater", "theatre"); //
+                    movieData.Description = movieData.Description.Replace("theater", "theatre");
                 }
             }
 
@@ -652,13 +652,13 @@ namespace GoodbyeAmericanEnglish
                 }
 
                 //Jasmine tea
-                ConcessionsEditor(1, "flavored", "flavoured"); //
+                ConcessionsEditor(1, "flavored", "flavoured");
                 // Black liquorice
-                Snacks[11].DisplayName = "Black Liquorice"; //
+                Snacks[11].DisplayName = "Black Liquorice";
                 // Kale smoothie
                 ConcessionsEditor(16, "fiber", "fibre");
                 // Rock candy
-                ConcessionsEditor(23, "Flavored", "Flavoured"); //
+                ConcessionsEditor(23, "Flavored", "Flavoured");
             }
         }
     }
