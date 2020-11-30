@@ -647,7 +647,7 @@ namespace GoodbyeAmericanEnglish
             {
                 var Snacks = asset.Data as List<StardewValley.GameData.Movies.ConcessionItemData>;
 
-                void ConcessionsEditor(int index, string original, string replacement)
+                void ConcessionsDescriptionEditor(int index, string original, string replacement)
                 {
                     Snacks[index].Description = Snacks[index].Description.Replace(original, replacement);
                 }
@@ -657,13 +657,13 @@ namespace GoodbyeAmericanEnglish
                 // Chips
                 Snacks[9].DisplayName = $"{this.config.FriesName}";
                 // Jasmine tea
-                ConcessionsEditor(1, "flavored", "flavoured");
+                ConcessionsDescriptionEditor(1, "flavored", "flavoured");
                 // Black liquorice
                 Snacks[11].DisplayName = "Black Liquorice";
                 // Kale smoothie
-                ConcessionsEditor(16, "fiber", "fibre");
+                ConcessionsDescriptionEditor(16, "fiber", "fibre");
                 // Rock candy
-                ConcessionsEditor(23, "Flavored", "Flavoured");
+                ConcessionsDescriptionEditor(23, "Flavored", "Flavoured");
             }
         }
     }
