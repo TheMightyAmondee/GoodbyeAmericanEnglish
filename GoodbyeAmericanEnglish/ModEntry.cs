@@ -14,6 +14,9 @@ namespace GoodbyeAmericanEnglish
     public class ModEntry
         : Mod, IAssetEditor
     {
+
+        private ModConfig config;
+
         // Array to hold NPC names
         private static string[] NPCs = 
         {
@@ -95,14 +98,7 @@ namespace GoodbyeAmericanEnglish
 
         public override void Entry(IModHelper helper)
         {
-            helper.Events.GameLoop.GameLaunched += this.GameLaunched;
-            
-
-        }
-
-        private void GameLaunched(object sender, GameLaunchedEventArgs e)
-        {
-            Helper.Content.InvalidateCache("Data\\Movies");
+            this.config = helper.ReadConfig<ModConfig>();
         }
 
         // Return true if an asset name matches
@@ -651,7 +647,11 @@ namespace GoodbyeAmericanEnglish
                     Snacks[index].Description = Snacks[index].Description.Replace(original, replacement);
                 }
 
-                //Jasmine tea
+                // Fairy Floss
+                Snacks[0].DisplayName = $"{this.config.CottonCandyName}";
+                // Chips
+                Snacks[9].DisplayName = $"{this.config.FriesName}";
+                // Jasmine tea
                 ConcessionsEditor(1, "flavored", "flavoured");
                 // Black liquorice
                 Snacks[11].DisplayName = "Black Liquorice";
