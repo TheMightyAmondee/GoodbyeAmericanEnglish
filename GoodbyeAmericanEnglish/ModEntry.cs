@@ -274,7 +274,7 @@ namespace GoodbyeAmericanEnglish
             }
 
             // Edit location strings
-            else if (asset.AssetNameEquals("Strings\\Location"))
+            else if (asset.AssetNameEquals("Strings\\Locations"))
             {
                 SpellingFixer();
             }
