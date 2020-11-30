@@ -555,10 +555,6 @@ namespace GoodbyeAmericanEnglish
 
                 if (movieDatas.ContainsKey("winter_movie_1"))
                 {
-                    var movieData = movieDatas["winter_movie_1"];
-
-                    movieData.Description = movieData.Description.Replace("theater", "theatre");
-
                     MovieEditor("winter_movie_1", "theater", "theatre", 0, " ", " ", " ");
                 }
             }
