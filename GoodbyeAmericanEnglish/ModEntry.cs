@@ -516,6 +516,7 @@ namespace GoodbyeAmericanEnglish
             {
                 var movieDatas = asset.Data as Dictionary<string, StardewValley.GameData.Movies.MovieData>;
 
+                // Method to edit movie description and a movie scene
                 void MovieEditor(string name, string descoriginal, string descrreplace, int scenenumber, string scenename, string original, string replace)
                 {
                     var movieData = movieDatas[name];
@@ -551,11 +552,6 @@ namespace GoodbyeAmericanEnglish
                     MovieEditor("summer_movie_1", "center", "centre", 6, "summer1_6", "humor", "humour");
                 }
 
-                if (movieDatas.ContainsKey("summer_movie_0"))
-                {
-                    MovieEditor("summer_movie_0", " ", " ", 9, "summer0_9", "saved", "kind of saved, bad plan really");
-                }
-
                 if (movieDatas.ContainsKey("winter_movie_1"))
                 {
                     var movieData = movieDatas["winter_movie_1"];
@@ -571,11 +567,13 @@ namespace GoodbyeAmericanEnglish
             {
                 var Reactions = asset.Data as List<StardewValley.GameData.Movies.MovieCharacterReaction>;
 
+                // Method to edit before movie reactions
                 void ReactionsEditorBefore(int index1, int index2, string original, string replacement)
                 {
                     Reactions[index1].Reactions[index2].SpecialResponses.BeforeMovie.Text = Reactions[index1].Reactions[index2].SpecialResponses.BeforeMovie.Text.Replace(original, replacement);
                 }
 
+                // Method to edit after movie reactions
                 void ReactionsEditorAfter(int index1, int index2, string original, string replacement)
                 {
                     Reactions[index1].Reactions[index2].SpecialResponses.AfterMovie.Text = Reactions[index1].Reactions[index2].SpecialResponses.AfterMovie.Text.Replace(original, replacement);
@@ -611,6 +609,7 @@ namespace GoodbyeAmericanEnglish
             {
                 var Snacks = asset.Data as List<StardewValley.GameData.Movies.ConcessionItemData>;
 
+                // Method to edit a concession item description
                 void ConcessionsDescriptionEditor(int index, string original, string replacement)
                 {
                     Snacks[index].Description = Snacks[index].Description.Replace(original, replacement);
