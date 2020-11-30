@@ -198,12 +198,12 @@ namespace GoodbyeAmericanEnglish
 
                     // Replace specified string with new string
                     data[key] = data[key].Replace("the fall", "autumn");
-                    data[key] = data[key].Replace("color", "colour");
-                    data[key] = data[key].Replace("Color", "Colour");
+                    data[key] = data[key].Replace("olor", "olour");
                     data[key] = data[key].Replace("behavior", "behaviour");
                     data[key] = data[key].Replace("fall", "autumn");
                     data[key] = data[key].Replace("Fall", "Autumn");
                     data[key] = data[key].Replace("ize", "ise");
+                    data[key] = data[key].Replace("zation", "sation");
                     data[key] = data[key].Replace("Center", "Centre");
                     data[key] = data[key].Replace("twenty miles", "thirty kilometres");
                     data[key] = data[key].Replace("mom", "mum");
@@ -215,7 +215,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("theater", "theatre");
                     data[key] = data[key].Replace("Theater", "Theatre");
                     data[key] = data[key].Replace("counselor", "counsellor");
-                    data[key] = data[key].Replace("onor", "onour");
+                    data[key] = data[key].Replace("honor", "honour");
                     data[key] = data[key].Replace("humor", "humour");
                     data[key] = data[key].Replace("avor", "avour");
                     data[key] = data[key].Replace("neighbor", "neighbour");
@@ -353,6 +353,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("favorite", "favourite");
                     data[key] = data[key].Replace("ize", "ise");
                     data[key] = data[key].Replace("theater", "theatre");
+                    data[key] = data[key].Replace("zation", "sation");
 
                     // Only replace string value for a specific key
                     if (key == 497)
@@ -517,11 +518,11 @@ namespace GoodbyeAmericanEnglish
                 var movieDatas = asset.Data as Dictionary<string, StardewValley.GameData.Movies.MovieData>;
 
                 // Method to edit movie description and a movie scene
-                void MovieEditor(string name, string descoriginal, string descrreplace, int scenenumber, string scenename, string original, string replace)
+                void MovieEditor(string name, string descoriginal, string descreplace, int scenenumber, string scenename, string original, string replace)
                 {
                     var movieData = movieDatas[name];
 
-                    movieData.Description = movieData.Description.Replace(descoriginal, descoriginal);
+                    movieData.Description = movieData.Description.Replace(descoriginal, descreplace);
 
                     var sceneID = movieData.Scenes[scenenumber].ID;
                     var scene = movieData.Scenes.FirstOrDefault(s => s.ID == sceneID);
@@ -549,7 +550,7 @@ namespace GoodbyeAmericanEnglish
 
                 if (movieDatas.ContainsKey("summer_movie_1"))
                 {
-                    MovieEditor("summer_movie_1", "center", "centre", 6, "summer1_6", "humor", "humour");
+                    MovieEditor("summer_movie_1", "centered", "centred", 6, "summer1_6", "humor", "humour");
                 }
 
                 if (movieDatas.ContainsKey("winter_movie_1"))
@@ -568,15 +569,15 @@ namespace GoodbyeAmericanEnglish
                 var Reactions = asset.Data as List<StardewValley.GameData.Movies.MovieCharacterReaction>;
 
                 // Method to edit before movie reactions
-                void ReactionsEditorBefore(int index1, int index2, string original, string replacement)
+                void ReactionsEditorBefore(int NPCindex, int reactionindex, string original, string replacement)
                 {
-                    Reactions[index1].Reactions[index2].SpecialResponses.BeforeMovie.Text = Reactions[index1].Reactions[index2].SpecialResponses.BeforeMovie.Text.Replace(original, replacement);
+                    Reactions[NPCindex].Reactions[reactionindex].SpecialResponses.BeforeMovie.Text = Reactions[NPCindex].Reactions[reactionindex].SpecialResponses.BeforeMovie.Text.Replace(original, replacement);
                 }
 
                 // Method to edit after movie reactions
-                void ReactionsEditorAfter(int index1, int index2, string original, string replacement)
+                void ReactionsEditorAfter(int NPCindex, int reactionindex, string original, string replacement)
                 {
-                    Reactions[index1].Reactions[index2].SpecialResponses.AfterMovie.Text = Reactions[index1].Reactions[index2].SpecialResponses.AfterMovie.Text.Replace(original, replacement);
+                    Reactions[NPCindex].Reactions[reactionindex].SpecialResponses.AfterMovie.Text = Reactions[NPCindex].Reactions[reactionindex].SpecialResponses.AfterMovie.Text.Replace(original, replacement);
                 }
 
                 // Penny
