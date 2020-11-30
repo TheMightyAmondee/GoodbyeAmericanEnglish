@@ -552,6 +552,32 @@ namespace GoodbyeAmericanEnglish
                     }
                 }
 
+                if (movieDatas.ContainsKey("spring_movie_1"))
+                {
+                    var movieData = movieDatas["spring_movie_1"];
+                    var sceneID = movieData.Scenes[1].ID;
+
+                    var scene = movieData.Scenes.FirstOrDefault(s => s.ID == sceneID);
+
+                    if (scene != null && sceneID == "spring1_1")
+                    {
+                        scene.Text = scene.Text.Replace("80 miles", "128 kilometres");
+                    }
+                }
+
+                if (movieDatas.ContainsKey("fall_movie_1"))
+                {
+                    var movieData = movieDatas["fall_movie_1"];
+                    var sceneID = movieData.Scenes[1].ID;
+
+                    var scene = movieData.Scenes.FirstOrDefault(s => s.ID == sceneID);
+
+                    if (scene != null && sceneID == "fall1_1")
+                    {
+                        scene.Text = scene.Text.Replace("30 miles", "48 kilometres");
+                    }
+                }
+
                 if (movieDatas.ContainsKey("summer_movie_1"))
                 {
                     var movieData = movieDatas["summer_movie_1"];
