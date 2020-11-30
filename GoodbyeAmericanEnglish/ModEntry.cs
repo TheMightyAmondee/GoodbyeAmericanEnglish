@@ -5,6 +5,9 @@ using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
+using StardewValley;
+using StardewModdingAPI.Events;
+using System.Linq;
 
 namespace GoodbyeAmericanEnglish
 { 
@@ -92,9 +95,16 @@ namespace GoodbyeAmericanEnglish
 
         public override void Entry(IModHelper helper)
         {
+            helper.Events.GameLoop.GameLaunched += this.GameLaunched;
+            
 
         }
-        
+
+        private void GameLaunched(object sender, GameLaunchedEventArgs e)
+        {
+            Helper.Content.InvalidateCache("Data\\Movies");
+        }
+
         // Return true if an asset name matches
         public bool CanEdit<T>(IAssetInfo asset)
         {
@@ -142,6 +152,9 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Data\\Bundles")
                     || asset.AssetNameEquals("Data\\weapons")
                     || asset.AssetNameEquals("Data\\hats")
+                    || asset.AssetNameEquals("Data\\Concessions")
+                    || asset.AssetNameEquals("Data\\Movies")
+                    || asset.AssetNameEquals("Data\\MoviesReactions")
                     || asset.AssetNameEquals("Data\\Festivals\\spring13")
                     || asset.AssetNameEquals("Data\\Festivals\\summer11")
                     || asset.AssetNameEquals("Data\\Festivals\\summer28")
@@ -155,6 +168,7 @@ namespace GoodbyeAmericanEnglish
         // Edit game assets
         public void Edit<T>(IAssetData asset)
         {
+           
             // Method to hold common word replacements and conditions
             void SpellingFixer()
             {
@@ -518,6 +532,98 @@ namespace GoodbyeAmericanEnglish
 
                 // Patch image on tilesheet
                 editor.PatchImage(roadsign, targetArea: new Rectangle(48, 177, 64, 80));
+            }
+
+            // Edit movie data
+            else if (asset.AssetNameEquals("Data\\Movies"))
+            {
+                var movieDatas = asset.Data as Dictionary<string, StardewValley.GameData.Movies.MovieData>;
+
+                if (movieDatas.ContainsKey("spring_movie_0"))
+                {
+                    var movieData = movieDatas["spring_movie_0"]; 
+                    var sceneID = movieData.Scenes[4].ID;
+
+                    var scene = movieData.Scenes.FirstOrDefault(s => s.ID == sceneID);
+
+                    if (scene != null && sceneID == "spring0_4")
+                    {
+                        scene.Text = scene.Text.Replace("demoralized","demoralised");
+                    }
+                }
+
+                if (movieDatas.ContainsKey("summer_movie_1"))
+                {
+                    var movieData = movieDatas["summer_movie_1"];
+
+                    movieData.Description.Replace("centered", "centred");
+
+                    var sceneID = movieData.Scenes[6].ID;
+                    var scene = movieData.Scenes.FirstOrDefault(s => s.ID == sceneID);
+
+                    if (scene != null && sceneID == "summer1_6")
+                    {
+                        scene.Text = scene.Text.Replace("humor","humour");
+                    }
+                }
+
+                if (movieDatas.ContainsKey("winter_movie_1"))
+                {
+                    var movieData = movieDatas["winter_movie_1"];
+
+                    movieData.Description = movieData.Description.Replace("theater", "theatre");
+                }
+            }
+
+            // Edit movie reaction data
+            else if (asset.AssetNameEquals("Data\\MoviesReactions"))
+            {
+                var Reactions = asset.Data as List<StardewValley.GameData.Movies.MovieCharacterReaction>;
+
+                void ReactionsEditor(int index1, int index2, string original, string replacement)
+                {
+                    Reactions[index1].Reactions[index2].SpecialResponses.BeforeMovie.Text = Reactions[index1].Reactions[index2].SpecialResponses.BeforeMovie.Text.Replace(original, replacement);
+                }
+
+                // Penny
+                ReactionsEditor(0, 0, "mom", "mum");
+                Reactions[0].Reactions[8].SpecialResponses.AfterMovie.Text = Reactions[0].Reactions[8].SpecialResponses.AfterMovie.Text.Replace("favorite", "favourite");
+                // Krobus
+                ReactionsEditor(2, 0, "recognize", "recognise");
+                ReactionsEditor(2, 1, "center", "centre");
+                // Haley
+                ReactionsEditor(19, 0, "favorite", "favourite");
+                ReactionsEditor(19, 1, "favorite", "favourite");
+                // George
+                ReactionsEditor(4, 4, "Theaters", "Theatres");
+                // Evelyn
+                ReactionsEditor(6, 2, "theater", "theatre");
+                // Sam
+                ReactionsEditor(14, 3, "theater", "theatre");
+                // Maru
+                ReactionsEditor(20, 2, "theater", "theatre");
+                // Vincent
+                ReactionsEditor(15, 4, "mom", "mum");
+            }
+
+            // Edit concession data
+            else if (asset.AssetNameEquals("Data\\Concessions"))
+            {
+                var Snacks = asset.Data as List<StardewValley.GameData.Movies.ConcessionItemData>;
+
+                void ConcessionsEditor(int index, string original, string replacement)
+                {
+                    Snacks[index].Description = Snacks[index].Description.Replace(original, replacement);
+                }
+
+                //Jasmine tea
+                ConcessionsEditor(1, "flavored", "flavoured");
+                // Black liquorice
+                Snacks[11].DisplayName = "Black Liquorice";
+                // Kale smoothie
+                ConcessionsEditor(16, "fiber", "fibre");
+                // Rock candy
+                ConcessionsEditor(23, "Flavored", "Flavoured");
             }
         }
     }
