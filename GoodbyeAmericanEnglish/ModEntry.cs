@@ -15,8 +15,6 @@ namespace GoodbyeAmericanEnglish
         : Mod, IAssetEditor
     {
 
-        private ModConfig config;
-
         // Array to hold NPC names
         private static string[] NPCs = 
         {
@@ -98,7 +96,7 @@ namespace GoodbyeAmericanEnglish
 
         public override void Entry(IModHelper helper)
         {
-            this.config = helper.ReadConfig<ModConfig>();
+
         }
 
         // Return true if an asset name matches
@@ -190,6 +188,7 @@ namespace GoodbyeAmericanEnglish
                         || data[key].Contains("_apologize") 
                         || data[key].Contains("JoshMom")
                         || data[key].Contains("fallFest")
+                        || data[key].Contains("WildColor")
                         || data[key].Contains("communityCenter"))
                     {
                         continue;
@@ -218,6 +217,10 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("counselor", "counsellor");
                     data[key] = data[key].Replace("onor", "onour");
                     data[key] = data[key].Replace("humor", "humour");
+                    data[key] = data[key].Replace("favor", "favour");
+                    data[key] = data[key].Replace("neighbor", "neighbour");
+                    data[key] = data[key].Replace("traveling", "travelling");
+                    data[key] = data[key].Replace("travele", "travelle");
                 }
             }
 
@@ -652,10 +655,6 @@ namespace GoodbyeAmericanEnglish
                     Snacks[index].Description = Snacks[index].Description.Replace(original, replacement);
                 }
 
-                // Fairy Floss
-                Snacks[0].DisplayName = $"{this.config.CottonCandyName}";
-                // Chips
-                Snacks[9].DisplayName = $"{this.config.FriesName}";
                 // Jasmine tea
                 ConcessionsDescriptionEditor(1, "flavored", "flavoured");
                 // Black liquorice
