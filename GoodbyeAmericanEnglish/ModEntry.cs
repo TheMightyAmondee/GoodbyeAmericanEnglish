@@ -191,6 +191,7 @@ namespace GoodbyeAmericanEnglish
                         || data[key].Contains("fallFest")
                         || data[key].Contains("WildColor")
                         || data[key].Contains("Favor")
+                        || data[key].Contains("Fall Of Planet")
                         || data[key].Contains("communityCenter"))
                     {
                         continue;
