@@ -5,12 +5,16 @@ using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
+using StardewValley;
+using StardewModdingAPI.Events;
+using System.Linq;
 
 namespace GoodbyeAmericanEnglish
 { 
     public class ModEntry
         : Mod, IAssetEditor
     {
+
         // Array to hold NPC names
         private static string[] NPCs = 
         {
@@ -94,7 +98,7 @@ namespace GoodbyeAmericanEnglish
         {
 
         }
-        
+
         // Return true if an asset name matches
         public bool CanEdit<T>(IAssetInfo asset)
         {
@@ -142,6 +146,9 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Data\\Bundles")
                     || asset.AssetNameEquals("Data\\weapons")
                     || asset.AssetNameEquals("Data\\hats")
+                    || asset.AssetNameEquals("Data\\Concessions")
+                    || asset.AssetNameEquals("Data\\Movies")
+                    || asset.AssetNameEquals("Data\\MoviesReactions")
                     || asset.AssetNameEquals("Data\\Festivals\\spring13")
                     || asset.AssetNameEquals("Data\\Festivals\\summer11")
                     || asset.AssetNameEquals("Data\\Festivals\\summer28")
@@ -155,6 +162,7 @@ namespace GoodbyeAmericanEnglish
         // Edit game assets
         public void Edit<T>(IAssetData asset)
         {
+           
             // Method to hold common word replacements and conditions
             void SpellingFixer()
             {
@@ -172,7 +180,8 @@ namespace GoodbyeAmericanEnglish
                         || data[key].Contains("fall_") 
                         || data[key].Contains("citizen") 
                         || data[key].Contains("size") 
-                        || data[key].Contains("moment") 
+                        || data[key].Contains("moment")
+                        || data[key].Contains("cardamom")
                         || data[key].Contains("[color") 
                         || data[key].Contains("bgColor") 
                         || data[key].Contains("Prize") 
@@ -180,6 +189,9 @@ namespace GoodbyeAmericanEnglish
                         || data[key].Contains("_apologize") 
                         || data[key].Contains("JoshMom")
                         || data[key].Contains("fallFest")
+                        || data[key].Contains("WildColor")
+                        || data[key].Contains("Favor")
+                        || data[key].Contains("Fall Of Planet")
                         || data[key].Contains("communityCenter"))
                     {
                         continue;
@@ -187,14 +199,12 @@ namespace GoodbyeAmericanEnglish
 
                     // Replace specified string with new string
                     data[key] = data[key].Replace("the fall", "autumn");
-                    data[key] = data[key].Replace("color", "colour");
-                    data[key] = data[key].Replace("Color", "Colour");
-                    data[key] = data[key].Replace("favorite", "favourite");
-                    data[key] = data[key].Replace("Favorite", "Favourite");
+                    data[key] = data[key].Replace("olor", "olour");
                     data[key] = data[key].Replace("behavior", "behaviour");
                     data[key] = data[key].Replace("fall", "autumn");
                     data[key] = data[key].Replace("Fall", "Autumn");
                     data[key] = data[key].Replace("ize", "ise");
+                    data[key] = data[key].Replace("zation", "sation");
                     data[key] = data[key].Replace("Center", "Centre");
                     data[key] = data[key].Replace("twenty miles", "thirty kilometres");
                     data[key] = data[key].Replace("mom", "mum");
@@ -206,6 +216,12 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("theater", "theatre");
                     data[key] = data[key].Replace("Theater", "Theatre");
                     data[key] = data[key].Replace("counselor", "counsellor");
+                    data[key] = data[key].Replace("honor", "honour");
+                    data[key] = data[key].Replace("humor", "humour");
+                    data[key] = data[key].Replace("avor", "avour");
+                    data[key] = data[key].Replace("neighbor", "neighbour");
+                    data[key] = data[key].Replace("traveling", "travelling");
+                    data[key] = data[key].Replace("travele", "travelle");
                 }
             }
 
@@ -259,7 +275,7 @@ namespace GoodbyeAmericanEnglish
             }
 
             // Edit location strings
-            else if (asset.AssetNameEquals("Strings\\Location"))
+            else if (asset.AssetNameEquals("Strings\\Locations"))
             {
                 SpellingFixer();
             }
@@ -267,33 +283,13 @@ namespace GoodbyeAmericanEnglish
             // Edit strings from maps
             else if (asset.AssetNameEquals("Strings\\StringsFromMaps"))
             {
-                var data = asset.AsDictionary<string, string>().Data;
-
-                foreach (string key in new List<string>(data.Keys))
-                {
-                    // Replace specified string with new string
-                    data[key] = data[key].Replace("color", "colour");
-                    data[key] = data[key].Replace(" Mom", " Mum");
-                    data[key] = data[key].Replace("flavor", "flavour");
-                }
+                SpellingFixer();
             }
 
             // Edit library books
             else if (asset.AssetNameEquals("Strings\\Notes"))
             {
-                var data = asset.AsDictionary<string, string>().Data;
-
-                foreach (string key in new List<string>(data.Keys))
-                {
-                    // Skip replacement if string is the following
-                    if (data[key].Contains("prize"))
-                    {
-                        continue;
-                    }
-
-                    // Replace specified string with new string
-                    data[key] = data[key].Replace("ize", "ise");
-                }
+                SpellingFixer();
             }
 
             // Edit character strings
@@ -305,15 +301,7 @@ namespace GoodbyeAmericanEnglish
             // Edit extra dialogue
             else if (asset.AssetNameEquals("Data\\ExtraDialogue"))
             {
-                var data = asset.AsDictionary<string, string>().Data;
-
-                foreach (string key in new List<string>(data.Keys))
-                {
-                    // Replace specified string with new string
-                    data[key] = data[key].Replace("color", "colour");
-                    data[key] = data[key].Replace("favorite", "favourite");
-                    data[key] = data[key].Replace(" mom ", " mum ");
-                }
+                SpellingFixer();
             }
 
             // Edit secret notes
@@ -349,7 +337,11 @@ namespace GoodbyeAmericanEnglish
                 foreach (int key in new List<int>(data.Keys))
                 {
                     // Skip replacement if string is any of the following
-                    if (data[key].Contains("falling") || data[key].Contains("size") || data[key].Contains("rized") || data[key].Contains("denizen"))
+                    if (false 
+                        || data[key].Contains("falling") 
+                        || data[key].Contains("size") 
+                        || data[key].Contains("rized") 
+                        || data[key].Contains("denizen"))
                     {
                         continue;
                     }
@@ -362,6 +354,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("favorite", "favourite");
                     data[key] = data[key].Replace("ize", "ise");
                     data[key] = data[key].Replace("theater", "theatre");
+                    data[key] = data[key].Replace("zation", "sation");
 
                     // Only replace string value for a specific key
                     if (key == 497)
@@ -461,6 +454,7 @@ namespace GoodbyeAmericanEnglish
                 {
                     // Replace specified string with new string
                     data[key] = data[key].Replace("favorite", "favourite");
+                    data[key] = data[key].Replace("mom", "mum");
                 }
             }
 
@@ -473,6 +467,7 @@ namespace GoodbyeAmericanEnglish
                 {
                     // Replace specified string with new string
                     data[key] = data[key].Replace("favorite", "favourite");
+                    data[key] = data[key].Replace("honor", "honour");
                 }
             }
 
@@ -516,6 +511,116 @@ namespace GoodbyeAmericanEnglish
 
                 // Patch image on tilesheet
                 editor.PatchImage(roadsign, targetArea: new Rectangle(48, 177, 64, 80));
+            }
+
+            // Edit movie data
+            else if (asset.AssetNameEquals("Data\\Movies"))
+            {
+                var movieDatas = asset.Data as Dictionary<string, StardewValley.GameData.Movies.MovieData>;
+
+                // Method to edit movie description and a movie scene
+                void MovieEditor(string name, string descoriginal, string descreplace, int scenenumber, string scenename, string original, string replace)
+                {
+                    var movieData = movieDatas[name];
+
+                    movieData.Description = movieData.Description.Replace(descoriginal, descreplace);
+
+                    var sceneID = movieData.Scenes[scenenumber].ID;
+                    var scene = movieData.Scenes.FirstOrDefault(s => s.ID == sceneID);
+
+                    if (scene != null && sceneID == scenename)
+                    {
+                        scene.Text = scene.Text.Replace(original, replace);
+                    }
+                }
+
+                if (movieDatas.ContainsKey("spring_movie_0"))
+                {
+                    MovieEditor("spring_movie_0", " ", " ", 4, "spring0_4", "demoralized", "demoralised");
+                }
+
+                if (movieDatas.ContainsKey("spring_movie_1"))
+                {
+                    MovieEditor("spring_movie_1", " ", " ", 1, "spring1_1", "80 miles", "128 kilometres");
+                }
+
+                if (movieDatas.ContainsKey("fall_movie_1"))
+                {
+                    MovieEditor("fall_movie_1", " ", " ", 1, "fall1_1", "30 miles", "48 kilometres");
+                }
+
+                if (movieDatas.ContainsKey("summer_movie_1"))
+                {
+                    MovieEditor("summer_movie_1", "centered", "centred", 6, "summer1_6", "humor", "humour");
+                }
+
+                if (movieDatas.ContainsKey("winter_movie_1"))
+                {
+                    MovieEditor("winter_movie_1", "theater", "theatre", 0, " ", " ", " ");
+                }
+            }
+
+            // Edit movie reaction data
+            else if (asset.AssetNameEquals("Data\\MoviesReactions"))
+            {
+                var Reactions = asset.Data as List<StardewValley.GameData.Movies.MovieCharacterReaction>;
+
+                // Method to edit before movie reactions
+                void ReactionsEditorBefore(int NPCindex, int reactionindex, string original, string replacement)
+                {
+                    Reactions[NPCindex].Reactions[reactionindex].SpecialResponses.BeforeMovie.Text = Reactions[NPCindex].Reactions[reactionindex].SpecialResponses.BeforeMovie.Text.Replace(original, replacement);
+                }
+
+                // Method to edit after movie reactions
+                void ReactionsEditorAfter(int NPCindex, int reactionindex, string original, string replacement)
+                {
+                    Reactions[NPCindex].Reactions[reactionindex].SpecialResponses.AfterMovie.Text = Reactions[NPCindex].Reactions[reactionindex].SpecialResponses.AfterMovie.Text.Replace(original, replacement);
+                }
+
+                // Penny
+                ReactionsEditorBefore(0, 0, "mom", "mum");
+                ReactionsEditorAfter(0, 8, "favorite", "favourite");
+                // Krobus
+                ReactionsEditorBefore(2, 0, "recognize", "recognise");
+                ReactionsEditorBefore(2, 1, "center", "centre");
+                // Haley
+                ReactionsEditorBefore(19, 0, "favorite", "favourite");
+                ReactionsEditorBefore(19, 1, "favorite", "favourite");
+                // George
+                ReactionsEditorBefore(4, 4, "Theaters", "Theatres");
+                // Evelyn
+                ReactionsEditorBefore(6, 2, "theater", "theatre");
+                // Sam
+                ReactionsEditorBefore(14, 3, "theater", "theatre");
+                // Maru
+                ReactionsEditorBefore(20, 2, "theater", "theatre");
+                // Vincent
+                ReactionsEditorBefore(15, 4, "mom", "mum");
+                // Demetrius
+                ReactionsEditorBefore(23, 4, "analyze", "analyse");
+                // Dwarf
+                ReactionsEditorAfter(25, 1, "mesmerizing", "mesmerising");
+            }
+
+            // Edit concession data
+            else if (asset.AssetNameEquals("Data\\Concessions"))
+            {
+                var Snacks = asset.Data as List<StardewValley.GameData.Movies.ConcessionItemData>;
+
+                // Method to edit a concession item description
+                void ConcessionsDescriptionEditor(int index, string original, string replacement)
+                {
+                    Snacks[index].Description = Snacks[index].Description.Replace(original, replacement);
+                }
+
+                // Jasmine tea
+                ConcessionsDescriptionEditor(1, "flavored", "flavoured");
+                // Black liquorice
+                Snacks[11].DisplayName = "Black Liquorice";
+                // Kale smoothie
+                ConcessionsDescriptionEditor(16, "fiber", "fibre");
+                // Rock candy
+                ConcessionsDescriptionEditor(23, "Flavored", "Flavoured");
             }
         }
     }
