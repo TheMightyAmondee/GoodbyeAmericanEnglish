@@ -222,6 +222,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("neighbor", "neighbour");
                     data[key] = data[key].Replace("traveling", "travelling");
                     data[key] = data[key].Replace("travele", "travelle");
+                    data[key] = data[key].Replace("cozy", "cosy");
                 }
             }
 
