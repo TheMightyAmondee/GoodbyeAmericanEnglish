@@ -182,17 +182,13 @@ namespace GoodbyeAmericanEnglish
                         || data[key].Contains("size") 
                         || data[key].Contains("moment")
                         || data[key].Contains("cardamom")
-                        || data[key].Contains("[color") 
                         || data[key].Contains("bgColor") 
                         || data[key].Contains("Prize") 
                         || data[key].Contains("prize")
-                        || data[key].Contains("_apologize") 
-                        || data[key].Contains("JoshMom")
+                        || data[key].Contains("_apologize")
                         || data[key].Contains("fallFest")
                         || data[key].Contains("WildColor")
-                        || data[key].Contains("Favor")
-                        || data[key].Contains("Fall Of Planet")
-                        || data[key].Contains("communityCenter"))
+                        || data[key].Contains("Fall Of Planet"))
                     {
                         continue;
                     }
@@ -205,12 +201,12 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("Fall", "Autumn");
                     data[key] = data[key].Replace("ize", "ise");
                     data[key] = data[key].Replace("zation", "sation");
-                    data[key] = data[key].Replace("Center", "Centre");
+                    data[key] = data[key].Replace(" Center", " Centre");
                     data[key] = data[key].Replace("twenty miles", "thirty kilometres");
                     data[key] = data[key].Replace("mom", "mum");
                     data[key] = data[key].Replace("Mom", "Mum");
                     data[key] = data[key].Replace("six inches", "fifteen centimetres");
-                    data[key] = data[key].Replace("center", "centre");
+                    data[key] = data[key].Replace(" center", " centre");
                     data[key] = data[key].Replace("{0} in.", "{0} cm.");
                     data[key] = data[key].Replace("inches", "centimetres");
                     data[key] = data[key].Replace("theater", "theatre");
@@ -219,7 +215,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("honor", "honour");
                     data[key] = data[key].Replace("humor", "humour");
                     data[key] = data[key].Replace("avor", "avour");
-                    data[key] = data[key].Replace("neighbor", "neighbour");
+                    data[key] = data[key].Replace("eighbor", "eighbour");
                     data[key] = data[key].Replace("traveling", "travelling");
                     data[key] = data[key].Replace("travele", "travelle");
                     data[key] = data[key].Replace("cozy", "cosy");
@@ -253,7 +249,20 @@ namespace GoodbyeAmericanEnglish
             {
                 if (asset.AssetNameEquals($"Data\\Events\\{location}"))
                 {
-                    SpellingFixer();
+                    if (asset.AssetNameEquals($"Data\\Events\\Beach"))
+                    {
+                        var data = asset.AsDictionary<string, string>().Data;
+
+                        foreach (string key in new List<string>(data.Keys))
+                        {
+                            data[key] = data[key].Replace("onor", "onour");
+                            data[key] = data[key].Replace(" Mom", " Mum");
+                        }       
+                    }
+                    else
+                    {
+                        SpellingFixer();
+                    } 
                 }
             }
 
