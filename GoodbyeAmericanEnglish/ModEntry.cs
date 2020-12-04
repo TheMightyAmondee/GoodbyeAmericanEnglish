@@ -170,33 +170,6 @@ namespace GoodbyeAmericanEnglish
 
                 foreach (string key in new List<string>(data.Keys))
                 {
-                    // Skip replacement if string is any of the following
-                    if (false 
-                        || data[key].Contains("fall on")
-                        || data[key].Contains("fall out")
-                        || data[key].Contains("fall prey")
-                        || data[key].Contains("fallen")
-                        || data[key].Contains("falling")
-                        || data[key].Contains("fall_") 
-                        || data[key].Contains("citizen") 
-                        || data[key].Contains("size") 
-                        || data[key].Contains("moment")
-                        || data[key].Contains("cardamom")
-                        || data[key].Contains("[color") 
-                        || data[key].Contains("bgColor") 
-                        || data[key].Contains("Prize") 
-                        || data[key].Contains("prize")
-                        || data[key].Contains("_apologize") 
-                        || data[key].Contains("JoshMom")
-                        || data[key].Contains("fallFest")
-                        || data[key].Contains("WildColor")
-                        || data[key].Contains("Favor")
-                        || data[key].Contains("Fall Of Planet")
-                        || data[key].Contains("communityCenter"))
-                    {
-                        continue;
-                    }
-
                     // Replace specified string with new string
                     data[key] = data[key].Replace("the fall", "autumn");
                     data[key] = data[key].Replace("olor", "olour");
@@ -205,23 +178,46 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("Fall", "Autumn");
                     data[key] = data[key].Replace("ize", "ise");
                     data[key] = data[key].Replace("zation", "sation");
-                    data[key] = data[key].Replace("Center", "Centre");
+                    data[key] = data[key].Replace(" Center", " Centre");
                     data[key] = data[key].Replace("twenty miles", "thirty kilometres");
                     data[key] = data[key].Replace("mom", "mum");
                     data[key] = data[key].Replace("Mom", "Mum");
                     data[key] = data[key].Replace("six inches", "fifteen centimetres");
-                    data[key] = data[key].Replace("center", "centre");
+                    data[key] = data[key].Replace(" center", " centre");
                     data[key] = data[key].Replace("{0} in.", "{0} cm.");
                     data[key] = data[key].Replace("inches", "centimetres");
                     data[key] = data[key].Replace("theater", "theatre");
                     data[key] = data[key].Replace("Theater", "Theatre");
                     data[key] = data[key].Replace("counselor", "counsellor");
-                    data[key] = data[key].Replace("honor", "honour");
+                    data[key] = data[key].Replace("onor", "onour");
                     data[key] = data[key].Replace("humor", "humour");
                     data[key] = data[key].Replace("avor", "avour");
-                    data[key] = data[key].Replace("neighbor", "neighbour");
+                    data[key] = data[key].Replace("eighbor", "eighbour");
                     data[key] = data[key].Replace("traveling", "travelling");
                     data[key] = data[key].Replace("travele", "travelle");
+                    data[key] = data[key].Replace("cozy", "cosy");
+                    data[key] = data[key].Replace("fiber", "fibre");
+
+                    // Correct word replacement that shouldn't occur
+                    data[key] = data[key].Replace("autumnen", "fallen");
+                    data[key] = data[key].Replace("autumn out", "fall out");
+                    data[key] = data[key].Replace("autumning", "falling");
+                    data[key] = data[key].Replace("autumn on", "fall on");
+                    data[key] = data[key].Replace("autumns", "falls");
+                    data[key] = data[key].Replace("autumn prey", "fall prey");
+                    data[key] = data[key].Replace("mument", "moment");
+                    data[key] = data[key].Replace("Autumn Of Planet", "Fall Of Planet");
+                    data[key] = data[key].Replace("JoshMum", "JoshMom");
+                    data[key] = data[key].Replace("autumn_", "fall_");
+                    data[key] = data[key].Replace(" sise", " size");
+                    data[key] = data[key].Replace("citisen", "citizen");
+                    data[key] = data[key].Replace("cardamum", "cardamom");
+                    data[key] = data[key].Replace("bgColour", "bgColor");
+                    data[key] = data[key].Replace("Prise", "Prize");
+                    data[key] = data[key].Replace(" prise", " prize");
+                    data[key] = data[key].Replace("_apologise", "_apologize");
+                    data[key] = data[key].Replace("autumnFest", "fallFest");
+                    data[key] = data[key].Replace("WildColour", "WildColor");
                 }
             }
 
