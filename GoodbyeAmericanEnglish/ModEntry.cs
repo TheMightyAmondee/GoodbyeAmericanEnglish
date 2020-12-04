@@ -190,7 +190,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("Theater", "Theatre");
                     data[key] = data[key].Replace("counselor", "counsellor");
                     data[key] = data[key].Replace("onor", "onour");
-                    data[key] = data[key].Replace("humor", "humour");
+                    data[key] = data[key].Replace("umor", "umour");
                     data[key] = data[key].Replace("avor", "avour");
                     data[key] = data[key].Replace("eighbor", "eighbour");
                     data[key] = data[key].Replace("traveling", "travelling");
