@@ -197,6 +197,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("travele", "travelle");
                     data[key] = data[key].Replace("cozy", "cosy");
                     data[key] = data[key].Replace("fiber", "fibre");
+                    data[key] = data[key].Replace("efense", "efence");
 
                     // Correct word replacement that shouldn't occur
                     data[key] = data[key].Replace("autumnen", "fallen");
