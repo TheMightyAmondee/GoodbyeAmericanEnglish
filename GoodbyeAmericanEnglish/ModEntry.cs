@@ -312,6 +312,7 @@ namespace GoodbyeAmericanEnglish
                     // Replace specified string with new string
                     data[key] = data[key].Replace("favorite", "favourite");
                     data[key] = data[key].Replace("Mom", "Mum");
+                    data[key] = data[key].Replace("efense", "efence");
                 }
             }
 
