@@ -177,6 +177,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("fall", "autumn");
                     data[key] = data[key].Replace("Fall", "Autumn");
                     data[key] = data[key].Replace("ize", "ise");
+                    data[key] = data[key].Replace("izing", "ising");
                     data[key] = data[key].Replace("zation", "sation");
                     data[key] = data[key].Replace(" Center", " Centre");
                     data[key] = data[key].Replace("twenty miles", "thirty kilometres");
