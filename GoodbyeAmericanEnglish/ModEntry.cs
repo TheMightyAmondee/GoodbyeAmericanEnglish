@@ -371,29 +371,12 @@ namespace GoodbyeAmericanEnglish
             // Edit TV channel data
             else if (asset.AssetNameEquals("Data\\TV\\TipChannel"))
             {
-                var data = asset.AsDictionary<string, string>().Data;
-
-                // Replace specified key value with new value
-                data["53"] = data["53"].Replace("Fall", "Autumn");
-
-                foreach (string key in new List<string>(data.Keys) { "36", "67", "78", "116", "186", "102" })
-                {
-                    // Replace specified string with new string
-                    data[key] = data[key].Replace("fall", "autumn");
-                    data[key] = data[key].Replace("favorite", "favourite");
-                }
+                SpellingFixer();
             }
 
             else if (asset.AssetNameEquals("Data\\TV\\CookingChannel"))
             {
-                var data = asset.AsDictionary<string, string>().Data;
-
-                foreach (string key in new List<string>(data.Keys) { "18", "27", "31", "32" })
-                {
-                    // Replace specified string with new string
-                    data[key] = data[key].Replace("favorite", "favourite");
-                    data[key] = data[key].Replace("ize", "ise");
-                }
+                SpellingFixer();
             }
 
             // Edit mail data
