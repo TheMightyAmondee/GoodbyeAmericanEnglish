@@ -15,6 +15,7 @@ namespace GoodbyeAmericanEnglish
         : Mod, IAssetEditor
     {
         private ModConfig config;
+
         // Array to hold NPC names
         private static string[] NPCs = 
         {
@@ -96,7 +97,7 @@ namespace GoodbyeAmericanEnglish
 
         public override void Entry(IModHelper helper)
         {
-           this.config = this.Helper.ReadConfig<ModConfig>();
+            this.config = this.Helper.ReadConfig<ModConfig>();
         }
 
         // Return true if an asset name matches
@@ -194,6 +195,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("cozy", "cosy");
                     data[key] = data[key].Replace("fiber", "fibre");
                     data[key] = data[key].Replace("efense", "efence");
+                    
 
                     if(this.config.MetricSystem == true)
                     {
@@ -625,6 +627,7 @@ namespace GoodbyeAmericanEnglish
                 ConcessionsDescriptionEditor(23, "Flavored", "Flavoured");
             }
 
+            // Edit objectcontexttag data
             else if (asset.AssetNameEquals("Data\\ObjectContextTags"))
             {
                 var data = asset.AsDictionary<string, string>().Data;
