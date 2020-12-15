@@ -146,6 +146,7 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Data\\Bundles")
                     || asset.AssetNameEquals("Data\\weapons")
                     || asset.AssetNameEquals("Data\\hats")
+                    || asset.AssetNameEquals("Data\\ObjectContextTags")
                     || asset.AssetNameEquals("Data\\Concessions")
                     || asset.AssetNameEquals("Data\\Movies")
                     || asset.AssetNameEquals("Data\\MoviesReactions")
@@ -622,6 +623,17 @@ namespace GoodbyeAmericanEnglish
                 ConcessionsDescriptionEditor(16, "fiber", "fibre");
                 // Rock candy
                 ConcessionsDescriptionEditor(23, "Flavored", "Flavoured");
+            }
+
+            else if (asset.AssetNameEquals("Data\\ObjectContextTags"))
+            {
+                var data = asset.AsDictionary<string, string>().Data;
+
+                foreach (string key in new List<string>(data.Keys))
+                {
+                    // Replace specified string with new string
+                    data[key] = data[key].Replace("fertilizer", "fertiliser");
+                }
             }
         }
     }
