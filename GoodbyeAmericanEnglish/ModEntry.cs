@@ -233,6 +233,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace(" prise", " prize");
                     data[key] = data[key].Replace("_apologise", "_apologize");
                     data[key] = data[key].Replace("WildColour", "WildColor");
+                    data[key] = data[key].Replace("honourary", "honorary");
                 }
             }
 
