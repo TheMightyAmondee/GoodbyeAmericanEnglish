@@ -17,7 +17,7 @@ namespace GoodbyeAmericanEnglish
         private ModConfig config;
 
         // Array to hold NPC names
-        private static string[] NPCs = 
+        private static readonly string[] NPCs = 
         {
             "Abigail",
             "Alex",
@@ -55,7 +55,7 @@ namespace GoodbyeAmericanEnglish
         };
 
         // Array to hold location names
-        private static string[] locations =
+        private static readonly string[] locations =
         {
             "AbandonedJojaMart",
             "AnimalShop",
@@ -195,7 +195,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("cozy", "cosy");
                     data[key] = data[key].Replace("fiber", "fibre");
                     data[key] = data[key].Replace("efense", "efence");
-                    
+
 
                     if(this.config.MetricSystem == true)
                     {
