@@ -17,7 +17,7 @@ namespace GoodbyeAmericanEnglish
         private ModConfig config;
 
         // Array to hold NPC names
-        private static string[] NPCs = 
+        private static readonly string[] NPCs = 
         {
             "Abigail",
             "Alex",
@@ -36,6 +36,8 @@ namespace GoodbyeAmericanEnglish
             "Kent",
             "Krobus",
             "Leah",
+            "Leo",
+            "LeoMainland",
             "Lewis",
             "Linus",
             "Marnie",
@@ -55,7 +57,7 @@ namespace GoodbyeAmericanEnglish
         };
 
         // Array to hold location names
-        private static string[] locations =
+        private static readonly string[] locations =
         {
             "AbandonedJojaMart",
             "AnimalShop",
@@ -63,20 +65,28 @@ namespace GoodbyeAmericanEnglish
             "BackWoods",
             "BathHouse_Pool",
             "Beach",
+            "BoatTunnel",
             "BusStop",
             "CommunityCenter",
             "ElliottHouse",
             "Farm",
             "FarmHouse",
+            "FishShop",
             "Forest",
             "HaleyHouse",
             "HarveyRoom",
             "Hospital",
+            "IslandFarmHouse",
+            "IslandHut",
+            "IslandNorth",
+            "IslandSouth",
+            "IslandWest",
             "JoshHouse",
             "LeahHouse",
             "ManorHouse",
             "Mine",
             "Mountain",
+            "QiNutRoom",
             "Railroad",
             "Saloon",
             "SamHouse",
@@ -85,6 +95,7 @@ namespace GoodbyeAmericanEnglish
             "SebastianRoom",
             "SeedShop",
             "Sewer",
+            "Summit",
             "SunRoom",
             "Temp",
             "Tent",
@@ -195,7 +206,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("cozy", "cosy");
                     data[key] = data[key].Replace("fiber", "fibre");
                     data[key] = data[key].Replace("efense", "efence");
-                    
+
 
                     if(this.config.MetricSystem == true)
                     {
@@ -233,6 +244,7 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace(" prise", " prize");
                     data[key] = data[key].Replace("_apologise", "_apologize");
                     data[key] = data[key].Replace("WildColour", "WildColor");
+                    data[key] = data[key].Replace("honourary", "honorary");
                 }
             }
 
