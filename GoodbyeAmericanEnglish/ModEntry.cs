@@ -114,8 +114,7 @@ namespace GoodbyeAmericanEnglish
         // Return true if an asset name matches
         public bool CanEdit<T>(IAssetInfo asset)
         {
-            
-            foreach(var name in NPCs)
+            foreach (var name in NPCs)
             {
                 // If asset name contains any iteration in NPCs array, return true
                 if (false
@@ -158,6 +157,7 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Data\\Bundles")
                     || asset.AssetNameEquals("Data\\weapons")
                     || asset.AssetNameEquals("Data\\hats")
+                    || asset.AssetNameEquals("Data\\RandomBundles")
                     || asset.AssetNameEquals("Data\\ObjectContextTags")
                     || asset.AssetNameEquals("Data\\Concessions")
                     || asset.AssetNameEquals("Data\\Movies")
@@ -227,10 +227,14 @@ namespace GoodbyeAmericanEnglish
                         data[key] = data[key].Replace("autumning", "falling");
                         data[key] = data[key].Replace("autumn on", "fall on");
                         data[key] = data[key].Replace("autumns", "falls");
+                        data[key] = data[key].Replace("autumn asleep", "fall asleep");
                         data[key] = data[key].Replace("autumn prey", "fall prey");
                         data[key] = data[key].Replace("autumnFest", "fallFest");
                         data[key] = data[key].Replace("Autumn Of Planet", "Fall Of Planet");
                         data[key] = data[key].Replace("autumn_", "fall_");
+                        data[key] = data[key].Replace("autumn**", "fall**");
+                        data[key] = data[key].Replace("autumn for", "fall for");
+                        data[key] = data[key].Replace("LinusAutumn", "LinusFall");
                     }
 
                     // Correct word replacement that shouldn't occur
@@ -379,7 +383,7 @@ namespace GoodbyeAmericanEnglish
                         // Only replace string value for a specific key
                         if (key == 497)
                         {
-                            data[key] = data[key].Replace("Fall", "Autumn");
+                            data[key] = data[key].Replace("/Fall", "/Autumn");
                         }
 
                         else if (key == 487)
@@ -390,8 +394,15 @@ namespace GoodbyeAmericanEnglish
                     // Replace string with new word
                     
                     data[key] = data[key].Replace("color", "colour");
-                    data[key] = data[key].Replace("favorite", "favourite");
-                    data[key] = data[key].Replace("ize", "ise");
+                    data[key] = data[key].Replace("avor", "avour");
+                    data[key] = data[key].Replace("/Fossilized", "/Fossilised");
+                    data[key] = data[key].Replace("/Deluxe Fertilizer", "/Deluxe Fertiliser");
+                    data[key] = data[key].Replace("/Quality Fertilizer", "/Quality Feriliser");
+                    data[key] = data[key].Replace("/Basic Fertilizer","/Basic Fertiliser");
+                    data[key] = data[key].Replace("/Basic Fertilizer", "/Basic Fertiliser");
+                    data[key] = data[key].Replace("/Tree Fertilizer", "/Tree Fertiliser");
+                    data[key] = data[key].Replace("appetizer", "appetiser");
+                    data[key] = data[key].Replace("fertilize", "fertilise");
                     data[key] = data[key].Replace("theater", "theatre");
                     data[key] = data[key].Replace("zation", "sation");
 
@@ -512,6 +523,7 @@ namespace GoodbyeAmericanEnglish
 
                 // Replace specified key value with new value
                 data[209] = "Mini-Jukebox/1500/-300/Crafting -9/Allows you to play your favourite tunes./true/true/0/Mini-Jukebox";
+                data[90] = "Bone Mill/0/-300/Crafting -9/Turns bone items into fertilisers./true/true/0/Bone Mill";
             }
 
             // Patch Intro tilesheet with new sign image
@@ -649,6 +661,21 @@ namespace GoodbyeAmericanEnglish
                     // Replace specified string with new string
                     data[key] = data[key].Replace("fertilizer", "fertiliser");
                 }
+            }
+
+            //Edit random bundles
+            else if (asset.AssetNameEquals("Data\\RandomBundles") && this.config.FalltoAutumn == true)
+            {
+                var bundle = asset.Data as List<StardewValley.GameData.RandomBundleData>;
+
+                void NameReplacer(int roomindexindex, int bundlesetindex, int bundleindex, string newname)
+                {
+                    bundle[roomindexindex].BundleSets[bundlesetindex].Bundles[bundleindex].Name = newname;
+                }
+
+                NameReplacer(0, 0, 2, "Autumn Foraging");
+                NameReplacer(1, 0, 2, "Autumn Crops");
+
             }
         }
     }
