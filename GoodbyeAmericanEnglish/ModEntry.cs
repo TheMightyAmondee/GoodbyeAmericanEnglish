@@ -397,9 +397,8 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("avor", "avour");
                     data[key] = data[key].Replace("/Fossilized", "/Fossilised");
                     data[key] = data[key].Replace("/Deluxe Fertilizer", "/Deluxe Fertiliser");
-                    data[key] = data[key].Replace("/Quality Fertilizer", "/Quality Feriliser");
+                    data[key] = data[key].Replace("/Quality Fertilizer", "/Quality Fertiliser");
                     data[key] = data[key].Replace("/Basic Fertilizer","/Basic Fertiliser");
-                    data[key] = data[key].Replace("/Basic Fertilizer", "/Basic Fertiliser");
                     data[key] = data[key].Replace("/Tree Fertilizer", "/Tree Fertiliser");
                     data[key] = data[key].Replace("appetizer", "appetiser");
                     data[key] = data[key].Replace("fertilize", "fertilise");
