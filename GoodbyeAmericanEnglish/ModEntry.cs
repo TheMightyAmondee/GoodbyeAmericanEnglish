@@ -233,7 +233,7 @@ namespace GoodbyeAmericanEnglish
                         data[key] = data[key].Replace("autumnFest", "fallFest");
                         data[key] = data[key].Replace("Autumn Of Planet", "Fall Of Planet");
                         data[key] = data[key].Replace("autumn_", "fall_");
-                        data[key] = data[key].Replace("autumn**", "fall**");
+                        data[key] = data[key].Replace("curtains autumn", "curtains fall");
                         data[key] = data[key].Replace("autumn for", "fall for");
                         data[key] = data[key].Replace("LinusAutumn", "LinusFall");
                     }
