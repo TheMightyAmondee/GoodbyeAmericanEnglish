@@ -163,6 +163,7 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Data\\Movies")
                     || asset.AssetNameEquals("Data\\MoviesReactions")
                     || asset.AssetNameEquals("Data\\Festivals\\spring13")
+                    || asset.AssetNameEquals("Data\\Festivals\\spring24")
                     || asset.AssetNameEquals("Data\\Festivals\\summer11")
                     || asset.AssetNameEquals("Data\\Festivals\\summer28")
                     || asset.AssetNameEquals("Data\\Festivals\\fall27")
@@ -232,7 +233,7 @@ namespace GoodbyeAmericanEnglish
                         data[key] = data[key].Replace("autumnFest", "fallFest");
                         data[key] = data[key].Replace("Autumn Of Planet", "Fall Of Planet");
                         data[key] = data[key].Replace("autumn_", "fall_");
-                        data[key] = data[key].Replace("autumn**", "fall**");
+                        data[key] = data[key].Replace("curtains autumn", "curtains fall");
                         data[key] = data[key].Replace("autumn for", "fall for");
                         data[key] = data[key].Replace("LinusAutumn", "LinusFall");
                     }
@@ -428,6 +429,12 @@ namespace GoodbyeAmericanEnglish
 
             // Edit egg festival data
             else if (asset.AssetNameEquals("Data\\Festivals\\spring13"))
+            {
+                SpellingFixer();
+            }
+
+            // Edit flower dance data
+            else if (asset.AssetNameEquals("Data\\Festivals\\spring24"))
             {
                 SpellingFixer();
             }
