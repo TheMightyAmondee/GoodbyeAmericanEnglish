@@ -109,6 +109,7 @@ namespace GoodbyeAmericanEnglish
         public override void Entry(IModHelper helper)
         {
             this.config = this.Helper.ReadConfig<ModConfig>();
+
         }
 
         // Return true if an asset name matches
@@ -362,7 +363,10 @@ namespace GoodbyeAmericanEnglish
             // Edit Object information data
             else if (asset.AssetNameEquals("Data\\ObjectInformation"))
             {
+                Dictionary<int, string> namereplacer = this.Helper.Content.Load<Dictionary<int, string>>("NameReplacer.json", ContentSource.ModFolder);
+
                 IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
+
                 foreach (int key in new List<int>(data.Keys))
                 {
                     // Skip replacement if string is any of the following
@@ -406,6 +410,15 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("theater", "theatre");
                     data[key] = data[key].Replace("zation", "sation");
 
+                    if(namereplacer != null)
+                    {
+                        foreach(int itemid in new List<int>(namereplacer.Keys))
+                        {
+                            string[] fields = namereplacer[itemid].Split('/');
+
+                            data[itemid] = data[itemid].Replace($"/{fields[0]}", $"/{fields[1]}");
+                        }
+                    }
                     
                 }
             }
