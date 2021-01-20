@@ -177,7 +177,6 @@ namespace GoodbyeAmericanEnglish
         // Edit game assets
         public void Edit<T>(IAssetData asset)
         {
-           
             // Method to hold common word replacements and conditions
             void SpellingFixer()
             {
@@ -416,7 +415,10 @@ namespace GoodbyeAmericanEnglish
                         {
                             string[] fields = namereplacer[itemid].Split('/');
 
-                            data[itemid] = data[itemid].Replace($"/{fields[0]}", $"/{fields[1]}");
+                            if(fields[0] == "O")
+                            {
+                                data[itemid] = data[itemid].Replace($"/{fields[1]}", $"/{fields[2]}");
+                            }
                         }
                     }
                     
@@ -652,6 +654,8 @@ namespace GoodbyeAmericanEnglish
             // Edit concession data
             else if (asset.AssetNameEquals("Data\\Concessions"))
             {
+                Dictionary<int, string> namereplacer = this.Helper.Content.Load<Dictionary<int, string>>("NameReplacer.json", ContentSource.ModFolder);
+
                 var Snacks = asset.Data as List<StardewValley.GameData.Movies.ConcessionItemData>;
 
                 // Method to edit a concession item description
@@ -668,6 +672,19 @@ namespace GoodbyeAmericanEnglish
                 ConcessionsDescriptionEditor(16, "fiber", "fibre");
                 // Rock candy
                 ConcessionsDescriptionEditor(23, "Flavored", "Flavoured");
+
+                if (namereplacer != null)
+                {
+                    foreach (int itemid in new List<int>(namereplacer.Keys))
+                    {
+                        string[] fields = namereplacer[itemid].Split('/');
+
+                        if (fields[0] == "S")
+                        {
+                            Snacks[itemid].DisplayName = Snacks[itemid].DisplayName.Replace($"/{fields[1]}", $"/{fields[2]}");
+                        }
+                    }
+                }
             }
 
             // Edit objectcontexttag data
@@ -687,13 +704,13 @@ namespace GoodbyeAmericanEnglish
             {
                 var bundle = asset.Data as List<StardewValley.GameData.RandomBundleData>;
 
-                void NameReplacer(int roomindexindex, int bundlesetindex, int bundleindex, string newname)
+                void BundleNameReplacer(int roomindexindex, int bundlesetindex, int bundleindex, string newname)
                 {
                     bundle[roomindexindex].BundleSets[bundlesetindex].Bundles[bundleindex].Name = newname;
                 }
 
-                NameReplacer(0, 0, 2, "Autumn Foraging");
-                NameReplacer(1, 0, 2, "Autumn Crops");
+                BundleNameReplacer(0, 0, 2, "Autumn Foraging");
+                BundleNameReplacer(1, 0, 2, "Autumn Crops");
 
             }
         }
