@@ -362,8 +362,7 @@ namespace GoodbyeAmericanEnglish
             // Edit Object information data
             else if (asset.AssetNameEquals("Data\\ObjectInformation"))
             {
-                Dictionary<int, string> namereplacer = this.Helper.Content.Load<Dictionary<int, string>>("NameReplacer.json", ContentSource.ModFolder);
-
+               
                 IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
 
                 foreach (int key in new List<int>(data.Keys))
@@ -409,19 +408,28 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("theater", "theatre");
                     data[key] = data[key].Replace("zation", "sation");
 
-                    if(namereplacer != null)
+                    try
                     {
-                        foreach(int itemid in new List<int>(namereplacer.Keys))
-                        {
-                            string[] fields = namereplacer[itemid].Split('/');
+                        Dictionary<int, string> namereplacer = this.Helper.Content.Load<Dictionary<int, string>>("NameReplacer.json", ContentSource.ModFolder);
 
-                            if(fields[0] == "O")
+                        if (namereplacer != null)
+                        {
+                            foreach (int itemid in new List<int>(namereplacer.Keys))
                             {
-                                data[itemid] = data[itemid].Replace($"/{fields[1]}", $"/{fields[2]}");
+                                string[] fields = namereplacer[itemid].Split('/');
+
+                                if (fields[0] == "O")
+                                {
+                                    data[itemid] = data[itemid].Replace($"/{fields[1]}", $"/{fields[2]}");
+                                }
                             }
                         }
                     }
-                    
+                    catch
+                    {
+                        this.Monitor.LogOnce("NameReplacer.json not found");
+                    }
+                   
                 }
             }
 
@@ -654,8 +662,6 @@ namespace GoodbyeAmericanEnglish
             // Edit concession data
             else if (asset.AssetNameEquals("Data\\Concessions"))
             {
-                Dictionary<int, string> namereplacer = this.Helper.Content.Load<Dictionary<int, string>>("NameReplacer.json", ContentSource.ModFolder);
-
                 var Snacks = asset.Data as List<StardewValley.GameData.Movies.ConcessionItemData>;
 
                 // Method to edit a concession item description
@@ -673,17 +679,26 @@ namespace GoodbyeAmericanEnglish
                 // Rock candy
                 ConcessionsDescriptionEditor(23, "Flavored", "Flavoured");
 
-                if (namereplacer != null)
+                try
                 {
-                    foreach (int itemid in new List<int>(namereplacer.Keys))
-                    {
-                        string[] fields = namereplacer[itemid].Split('/');
+                    Dictionary<int, string> namereplacer = this.Helper.Content.Load<Dictionary<int, string>>("NameReplacer.json", ContentSource.ModFolder);
 
-                        if (fields[0] == "S")
+                    if (namereplacer != null)
+                    {
+                        foreach (int itemid in new List<int>(namereplacer.Keys))
                         {
-                            Snacks[itemid].DisplayName = Snacks[itemid].DisplayName.Replace($"/{fields[1]}", $"/{fields[2]}");
+                            string[] fields = namereplacer[itemid].Split('/');
+
+                            if (fields[0] == "O")
+                            {
+                                Snacks[itemid].DisplayName = Snacks[itemid].DisplayName.Replace($"/{fields[1]}", $"/{fields[2]}");
+                            }
                         }
                     }
+                }
+                catch
+                {
+                    this.Monitor.Log("NameReplacer.json not found");
                 }
             }
 
