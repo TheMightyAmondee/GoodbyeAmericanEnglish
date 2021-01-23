@@ -698,7 +698,7 @@ namespace GoodbyeAmericanEnglish
                 }
                 catch
                 {
-                    this.Monitor.Log("NameReplacer.json not found");
+                    this.Monitor.LogOnce("NameReplacer.json not found");
                 }
             }
 
