@@ -508,7 +508,7 @@ namespace GoodbyeAmericanEnglish
                 foreach (int key in new List<int>(data.Keys))
                 {
                     // Replace specified string with new string
-                    data[key] = data[key].Replace("favorite", "favourite");
+                    data[key] = data[key].Replace("avor", "avour");
                     data[key] = data[key].Replace("mom", "mum");
                 }
             }
@@ -721,9 +721,9 @@ namespace GoodbyeAmericanEnglish
             {
                 var bundle = asset.Data as List<StardewValley.GameData.RandomBundleData>;
 
-                void BundleNameReplacer(int roomindexindex, int bundlesetindex, int bundleindex, string newname)
+                void BundleNameReplacer(int roomindex, int bundlesetindex, int bundleindex, string newname)
                 {
-                    bundle[roomindexindex].BundleSets[bundlesetindex].Bundles[bundleindex].Name = newname;
+                    bundle[roomindex].BundleSets[bundlesetindex].Bundles[bundleindex].Name = newname;
                 }
 
                 BundleNameReplacer(0, 0, 2, "Autumn Foraging");
