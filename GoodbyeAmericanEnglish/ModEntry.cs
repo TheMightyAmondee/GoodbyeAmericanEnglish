@@ -145,6 +145,7 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Strings\\StringsFromMaps")
                     || asset.AssetNameEquals("Strings\\Notes")
                     || asset.AssetNameEquals("Strings\\Characters")
+                    || asset.AssetNameEquals("Strings\\SpecialOrderStrings")
                     || asset.AssetNameEquals("Data\\ObjectInformation")
                     || asset.AssetNameEquals("Data\\TV\\TipChannel")
                     || asset.AssetNameEquals("Data\\TV\\CookingChannel")
@@ -158,6 +159,7 @@ namespace GoodbyeAmericanEnglish
                     || asset.AssetNameEquals("Data\\Bundles")
                     || asset.AssetNameEquals("Data\\weapons")
                     || asset.AssetNameEquals("Data\\hats")
+                    || asset.AssetNameEquals("Data\\Fish")
                     || asset.AssetNameEquals("Data\\RandomBundles")
                     || asset.AssetNameEquals("Data\\ObjectContextTags")
                     || asset.AssetNameEquals("Data\\Concessions")
@@ -689,9 +691,9 @@ namespace GoodbyeAmericanEnglish
                         {
                             string[] fields = namereplacer[itemid].Split('/');
 
-                            if (fields[0] == "O")
+                            if (fields[0] == "C")
                             {
-                                Snacks[itemid].DisplayName = Snacks[itemid].DisplayName.Replace($"/{fields[1]}", $"/{fields[2]}");
+                                Snacks[itemid].DisplayName = Snacks[itemid].DisplayName.Replace(fields[1], fields[2]);
                             }
                         }
                     }
@@ -726,6 +728,52 @@ namespace GoodbyeAmericanEnglish
 
                 BundleNameReplacer(0, 0, 2, "Autumn Foraging");
                 BundleNameReplacer(1, 0, 2, "Autumn Crops");
+
+            }
+
+            // Edit fish data to convert inches to centimetres
+            else if (asset.AssetNameEquals("Data\\Fish") && this.config.MetricSystem == true)
+            {
+                IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
+
+                foreach (int key in new List<int>(data.Keys))
+                {
+                    // Skip replacement for trap fish, they don't have a size
+                    if(false 
+                        || key == 715 
+                        || key == 717 
+                        || key == 723 
+                        || key == 372 
+                        || key == 720 
+                        || key == 718 
+                        || key == 719 
+                        || key == 721 
+                        || key == 716 
+                        || key == 722)
+                    {
+                        continue;
+                    }
+
+                    string[] fields = data[key].Split('/');
+
+                    fields[3] = ((int)Math.Round((int.Parse(fields[3]) * 2.54))).ToString();
+                    fields[4] = ((int)Math.Round((int.Parse(fields[4]) * 2.54))).ToString();
+
+                    data[key] = string.Join("/", fields);
+                }
+            }
+
+            // Edit special order strings
+            else if (asset.AssetNameEquals("Strings\\SpecialOrderStrings"))
+            {
+
+                IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
+
+                // Replace specified string with new string
+                data["Gus_Name"] = data["Gus_Name"].Replace("Omelet", "Omelette");
+                data["Gus_RE_Greeting_0"] = data["Gus_RE_Greeting_0"].Replace("omelet", "omelette");
+                data["Gus_RE_Greeting_1"] = data["Gus_RE_Greeting_1"].Replace("omelet", "omelette");
+                data["Evelyn_Text"] = data["Evelyn_Text"].Replace("avor", "avour");
 
             }
         }
