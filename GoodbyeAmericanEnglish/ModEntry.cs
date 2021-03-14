@@ -209,9 +209,10 @@ namespace GoodbyeAmericanEnglish
                     data[key] = data[key].Replace("cozy", "cosy");
                     data[key] = data[key].Replace("fiber", "fibre");
                     data[key] = data[key].Replace("efense", "efence");
+                    data[key] = data[key].Replace("airplane", "aeroplane");
 
 
-                    if(this.config.MetricSystem == true)
+                    if (this.config.MetricSystem == true)
                     {
                         data[key] = data[key].Replace("twenty miles", "thirty kilometres");
                         data[key] = data[key].Replace("six inches", "fifteen centimetres");
