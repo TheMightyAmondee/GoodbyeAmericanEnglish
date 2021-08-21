@@ -110,6 +110,13 @@ namespace GoodbyeAmericanEnglish
         {
             this.config = this.Helper.ReadConfig<ModConfig>();
 
+            var replacer = this.Helper.Data.ReadJsonFile<NameReplacer>("NameReplacer.json");
+
+            if(replacer == null)
+            {
+                this.Helper.Data.WriteJsonFile("NameReplacer.json", replacer);
+            }
+            
         }
 
         // Return true if an asset name matches
