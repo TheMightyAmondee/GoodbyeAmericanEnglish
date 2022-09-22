@@ -303,11 +303,11 @@ namespace GoodbyeAmericanEnglish
                         SpellingFixer();
                         IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
 
-                        Dictionary<string, string> namereplacer = this.Helper.ModContent.Load<Dictionary<string, string>>("NameReplacer.json");
+                        Dictionary<int, string> namereplacer = this.Helper.ModContent.Load<Dictionary<int, string>>("NameReplacer.json");
 
                         if (namereplacer != null)
                         {
-                            foreach (string itemid in new List<string>(namereplacer.Keys))
+                            foreach (int itemid in new List<int>(namereplacer.Keys))
                             {
                                 string[] fields = namereplacer[itemid].Split('/');
                                 if (fields[1] != "prefix" && fields[1] != "suffix")
@@ -319,25 +319,25 @@ namespace GoodbyeAmericanEnglish
                                 {
                                     switch (itemid)
                                     {
-                                        case "12726":
+                                        case 12726:
                                             data["Object.cs.12726"] = data["Object.cs.12726"].Replace("Juice", $"{fields[2]}");
                                             break;
-                                        case "12730":
+                                        case 12730:
                                             data["Object.cs.12730"] = data["Object.cs.12730"].Replace("Wine", $"{fields[2]}");
                                             break;
-                                        case "12735":
+                                        case 12735:
                                             data["Object.cs.12735"] = "{0} " + $"{fields[2]}";
                                             break;
-                                        case "12739":
+                                        case 12739:
                                             data["Object.cs.12739"] = data["Object.cs.12739"].Replace("Jelly", $"{fields[2]}");
                                             break;
-                                        case "12750":
+                                        case 12750:
                                             data["Object.cs.12750"] = data["Object.cs.12750"].Replace("Wild Honey", $"{fields[2]}");
                                             break;
-                                        case "12760":
+                                        case 12760:
                                             data["Object.cs.12760"] = data["Object.cs.12760"].Replace("Honey", $"{fields[2]}");
                                             break;
-                                        case "12770":
+                                        case 12770:
                                             data["Roe_DisplayName"] = data["Roe_DisplayName"].Replace("Roe", $"{fields[2]}");
                                             data["AgedRoe_DisplayName"] = data["AgedRoe_DisplayName"].Replace("Roe", $"{fields[2]}");
                                             break;
@@ -348,25 +348,25 @@ namespace GoodbyeAmericanEnglish
                                 {
                                     switch (itemid)
                                     {
-                                        case "12726":
+                                        case 12726:
                                             data["Object.cs.12726"] = $"{fields[2]}" + "{0} " + data["Object.cs.12726"].Replace("Juice", "");
                                             break;
-                                        case "17230":
+                                        case 17230:
                                             data["Object.cs.12730"] = $"{fields[2]}" + "{0} " + data["Object.cs.12730"].Replace("Wine", "");
                                             break;
-                                        case "12735":
+                                        case 12735:
                                             data["Object.cs.12735"] = data["Object.cs.12730"].Replace("Pickled", $"{fields[2]}");
                                             break;
-                                        case "12739":
+                                        case 12739:
                                             data["Object.cs.12739"] = $"{fields[2]}" + "{0} " + data["Object.cs.12739"].Replace("Jelly", "");
                                             break;
-                                        case "12750":
+                                        case 12750:
                                             data["Object.cs.12750"] = $"{fields[2]}" + "{0} " + data["Object.cs.12750"].Replace("Wild Honey", "");
                                             break;
-                                        case "17260":
+                                        case 17260:
                                             data["Object.cs.12760"] = $"{fields[2]}" + "{0} " + data["Object.cs.12760"].Replace("Honey", "");
                                             break;
-                                        case "17270":
+                                        case 17270:
                                             data["Roe_DisplayName"] = $"{fields[2]}" + "{0} " + data["AgedRoe_DisplayName"].Replace("Roe", "");
                                             data["AgedRoe_DisplayName"] = $"Aged {fields[2]}" + "{0} " + data["AgedRoe_DisplayName"].Replace("Roe", "");
                                             break;
