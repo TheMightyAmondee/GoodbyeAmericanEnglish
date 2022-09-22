@@ -363,10 +363,10 @@ namespace GoodbyeAmericanEnglish
                                         case 12750:
                                             data["Object.cs.12750"] = $"{fields[2]}" + "{0} " + data["Object.cs.12750"].Replace("Wild Honey", "");
                                             break;
-                                        case 17260:
+                                        case 12760:
                                             data["Object.cs.12760"] = $"{fields[2]}" + "{0} " + data["Object.cs.12760"].Replace("Honey", "");
                                             break;
-                                        case 17270:
+                                        case 12770:
                                             data["Roe_DisplayName"] = $"{fields[2]}" + "{0} " + data["AgedRoe_DisplayName"].Replace("Roe", "");
                                             data["AgedRoe_DisplayName"] = $"Aged {fields[2]}" + "{0} " + data["AgedRoe_DisplayName"].Replace("Roe", "");
                                             break;
