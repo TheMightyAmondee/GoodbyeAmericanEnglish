@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI;
 using StardewValley;
+using HarmonyLib;
 using StardewModdingAPI.Events;
 using System.Linq;
 
@@ -15,6 +16,8 @@ namespace GoodbyeAmericanEnglish
         : Mod
     {
         private ModConfig config;
+        private static IModHelper helperstatic;
+        private static IMonitor monitorstatic;
 
         // Array to hold NPC names
         private static readonly string[] NPCs =
@@ -109,6 +112,8 @@ namespace GoodbyeAmericanEnglish
         public override void Entry(IModHelper helper)
         {
             this.config = this.Helper.ReadConfig<ModConfig>();
+            helperstatic = this.Helper;
+            monitorstatic = this.Monitor;
 
             var replacer = this.Helper.Data.ReadJsonFile<NameReplacer>("NameReplacer.json");
 
@@ -118,7 +123,80 @@ namespace GoodbyeAmericanEnglish
             }
 
             helper.Events.Content.AssetRequested += this.AssetRequested;
+            //helper.Events.Input.ButtonPressed += this.Debug;
 
+            var harmony = new Harmony(this.ModManifest.UniqueID);
+
+            harmony.Patch(
+                original: AccessTools.PropertyGetter(typeof(StardewValley.Object), nameof(StardewValley.Object.DisplayName)),
+                postfix: new HarmonyMethod(typeof(ModEntry), nameof(ModEntry.DisplayName_Postfix))
+                );
+
+        }
+
+        private static StardewValley.Object.PreserveType PreserveTypeFromString(string preservetype)
+        {
+            switch (preservetype)
+            {
+                case "0":
+                    return StardewValley.Object.PreserveType.Wine;
+                case "1":
+                    return StardewValley.Object.PreserveType.Jelly;
+                case "2":
+                    return StardewValley.Object.PreserveType.Pickle;
+                case "3":
+                    return StardewValley.Object.PreserveType.Juice;
+                case "4":
+                    return StardewValley.Object.PreserveType.Roe;
+                default:
+                    return StardewValley.Object.PreserveType.AgedRoe;
+            }
+        }
+
+        private static void DisplayName_Postfix(StardewValley.Object __instance, ref string __result)
+        {
+            try
+            {
+                Dictionary<int, string> namereplacer = helperstatic.ModContent.Load<Dictionary<int, string>>("NameReplacer.json") ?? null;                
+              
+                if (namereplacer != null && __instance.preserve.Value.HasValue == true)
+                {
+                    foreach (int itemid in new List<int>(namereplacer.Keys))
+                    {                       
+                        Game1.objectInformation.TryGetValue(__instance.preservedParentSheetIndex.Value, out var objectInformation4);
+                        string preservedName = "";
+                        if (!string.IsNullOrEmpty(objectInformation4))
+                        {
+                            preservedName = objectInformation4.Split('/')[4];
+                        }
+
+                        if (itemid == __instance.preservedParentSheetIndex.Value && namereplacer[itemid].StartsWith('P') == true)
+                        {
+                            string[] fields = namereplacer[itemid].Split('/');                           
+
+                            if (fields.Length > 3 && PreserveTypeFromString(fields[1]) != StardewValley.Object.PreserveType.AgedRoe)
+                            {
+                                if (fields[2] == "suffix" && __instance.preserve.Value == PreserveTypeFromString(fields[1]))
+                                {
+                                    var newname = preservedName + " " + fields[3];
+                                    __result = newname + (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
+                                }
+
+                                else if (fields[2] == "prefix" && __instance.preserve.Value == PreserveTypeFromString(fields[1]))
+                                {
+                                    var newname = fields[3] + " " + preservedName;
+                                    __result = newname + (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
+                                }
+                            }                          
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                monitorstatic.Log($"Failed to replace name. Details:\n{ex}", LogLevel.Error);
+            }
+           
         }
         private void AssetRequested(object sender, AssetRequestedEventArgs e)
         {
