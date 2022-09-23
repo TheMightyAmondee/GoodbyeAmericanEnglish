@@ -18,6 +18,7 @@ namespace GoodbyeAmericanEnglish
         private ModConfig config;
         private static IModHelper helperstatic;
         private static IMonitor monitorstatic;
+        private static Dictionary<int, string> namereplacer = new Dictionary<int, string>();
 
         // Array to hold NPC names
         private static readonly string[] NPCs =
@@ -114,6 +115,7 @@ namespace GoodbyeAmericanEnglish
             this.config = this.Helper.ReadConfig<ModConfig>();
             helperstatic = this.Helper;
             monitorstatic = this.Monitor;
+            namereplacer = this.Helper.ModContent.Load<Dictionary<int, string>>("NameReplacer.json") ?? null;
 
             var replacer = this.Helper.Data.ReadJsonFile<NameReplacer>("NameReplacer.json");
 
@@ -156,38 +158,36 @@ namespace GoodbyeAmericanEnglish
         private static void DisplayName_Postfix(StardewValley.Object __instance, ref string __result)
         {
             try
-            {
-                Dictionary<int, string> namereplacer = helperstatic.ModContent.Load<Dictionary<int, string>>("NameReplacer.json") ?? null;                
-              
-                if (namereplacer != null && __instance.preserve.Value.HasValue == true)
+            {                           
+                if (namereplacer != null && __instance.preserve.Value.HasValue == true && namereplacer.ContainsKey(__instance.preservedParentSheetIndex.Value) == true)
                 {
-                    foreach (int itemid in new List<int>(namereplacer.Keys))
-                    {                       
+                    var itemidvalue = namereplacer[__instance.preservedParentSheetIndex.Value];
+                   
+                    if (itemidvalue.StartsWith('P') == true)
+                    {
                         Game1.objectInformation.TryGetValue(__instance.preservedParentSheetIndex.Value, out var objectInformation4);
+
                         string preservedName = "";
-                        if (!string.IsNullOrEmpty(objectInformation4))
+                        if (string.IsNullOrEmpty(objectInformation4) == false)
                         {
                             preservedName = objectInformation4.Split('/')[4];
                         }
 
-                        if (itemid == __instance.preservedParentSheetIndex.Value && namereplacer[itemid].StartsWith('P') == true)
+                        string[] fields = itemidvalue.Split('/');
+
+                        if (fields.Length > 3 && PreserveTypeFromString(fields[1]) != StardewValley.Object.PreserveType.AgedRoe)
                         {
-                            string[] fields = namereplacer[itemid].Split('/');                           
-
-                            if (fields.Length > 3 && PreserveTypeFromString(fields[1]) != StardewValley.Object.PreserveType.AgedRoe)
+                            if (fields[2] == "suffix" && __instance.preserve.Value == PreserveTypeFromString(fields[1]))
                             {
-                                if (fields[2] == "suffix" && __instance.preserve.Value == PreserveTypeFromString(fields[1]))
-                                {
-                                    var newname = preservedName + " " + fields[3];
-                                    __result = newname + (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
-                                }
+                                var newname = preservedName + " " + fields[3];
+                                __result = newname + (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
+                            }
 
-                                else if (fields[2] == "prefix" && __instance.preserve.Value == PreserveTypeFromString(fields[1]))
-                                {
-                                    var newname = fields[3] + " " + preservedName;
-                                    __result = newname + (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
-                                }
-                            }                          
+                            else if (fields[2] == "prefix" && __instance.preserve.Value == PreserveTypeFromString(fields[1]))
+                            {
+                                var newname = fields[3] + " " + preservedName;
+                                __result = newname + (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
+                            }
                         }
                     }
                 }
@@ -574,8 +574,6 @@ namespace GoodbyeAmericanEnglish
 
                             try
                             {
-                                Dictionary<int, string> namereplacer = this.Helper.ModContent.Load<Dictionary<int, string>>("NameReplacer.json");
-
                                 if (namereplacer != null)
                                 {
                                     foreach (int itemid in new List<int>(namereplacer.Keys))
@@ -845,8 +843,6 @@ namespace GoodbyeAmericanEnglish
 
                         try
                         {
-                            Dictionary<int, string> namereplacer = this.Helper.ModContent.Load<Dictionary<int, string>>("NameReplacer.json");
-
                             if (namereplacer != null)
                             {
                                 foreach (int itemid in new List<int>(namereplacer.Keys))
