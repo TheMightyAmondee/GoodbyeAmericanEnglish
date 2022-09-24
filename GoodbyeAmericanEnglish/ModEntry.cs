@@ -125,7 +125,7 @@ namespace GoodbyeAmericanEnglish
             }
 
             helper.Events.Content.AssetRequested += this.AssetRequested;
-            //helper.Events.Input.ButtonPressed += this.Debug;
+            helper.Events.Input.ButtonPressed += this.Debug;
 
             var harmony = new Harmony(this.ModManifest.UniqueID);
 
@@ -136,6 +136,14 @@ namespace GoodbyeAmericanEnglish
 
         }
 
+        private void Debug(object sender, ButtonPressedEventArgs e)
+        {
+            if (e.Button == SButton.M)
+            {
+                System.Diagnostics.Debugger.Launch();
+                var inventory = Game1.player.Items;
+            }
+        }
         private static StardewValley.Object.PreserveType PreserveTypeFromString(string preservetype)
         {
             switch (preservetype)
@@ -155,15 +163,36 @@ namespace GoodbyeAmericanEnglish
             }
         }
 
+        //private static StardewValley.Object.HoneyType HoneyTypeFromID(int id)
+        //{
+        //    switch (id)
+        //    {
+        //        case 376:
+        //            return StardewValley.Object.HoneyType.Poppy;
+        //        case 591:
+        //            return StardewValley.Object.HoneyType.Tulip;
+        //        case 597:
+        //            return StardewValley.Object.HoneyType.BlueJazz;
+        //        case 593:
+        //            return StardewValley.Object.HoneyType.SummerSpangle;
+        //        case 595:
+        //            return StardewValley.Object.HoneyType.FairyRose;
+        //        default:
+        //            return StardewValley.Object.HoneyType.Wild;
+        //    }
+        //}
+
         private static void DisplayName_Postfix(StardewValley.Object __instance, ref string __result)
         {
             try
             {                           
-                if (namereplacer != null && __instance.preserve.Value.HasValue == true && namereplacer.ContainsKey(__instance.preservedParentSheetIndex.Value) == true)
+                if (namereplacer != null && namereplacer.ContainsKey(__instance.preservedParentSheetIndex.Value) == true)
                 {
                     var itemidvalue = namereplacer[__instance.preservedParentSheetIndex.Value];
-                   
-                    if (itemidvalue.StartsWith('P') == true)
+                    var newname = __instance.displayName;
+                    string nameextension = (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
+
+                    if (itemidvalue.StartsWith('P') == true && __instance.preserve.Value.HasValue == true)
                     {
                         Game1.objectInformation.TryGetValue(__instance.preservedParentSheetIndex.Value, out var objectInformation4);
 
@@ -175,18 +204,56 @@ namespace GoodbyeAmericanEnglish
 
                         string[] fields = itemidvalue.Split('/');
 
-                        if (fields.Length > 3 && PreserveTypeFromString(fields[1]) != StardewValley.Object.PreserveType.AgedRoe)
+                        if (fields.Length > 3 && PreserveTypeFromString(fields[1]) != StardewValley.Object.PreserveType.AgedRoe && __instance.preserve.Value == PreserveTypeFromString(fields[1]))
                         {
-                            if (fields[2] == "suffix" && __instance.preserve.Value == PreserveTypeFromString(fields[1]))
+                            switch (fields[2])
                             {
-                                var newname = preservedName + " " + fields[3];
-                                __result = newname + (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
+                                case "suffix":
+                                    newname = preservedName + " " + fields[3];
+                                    break;
+                                case "prefix":
+                                    newname = fields[3] + " " + preservedName;
+                                    break;
+                                case "replace":
+                                default:
+                                    newname = fields[3];                                   
+                                    break;
+                            }
+                            __result = newname + nameextension;
+                        }
+                    }
+
+                    else if (itemidvalue.StartsWith('P') == true && __instance.preserve.Value.HasValue == false && __instance.name != null && __instance.name.Contains("Honey") == true)
+                    {                        
+                        if (__instance.preservedParentSheetIndex.Value > 0)
+                        {
+                            Game1.objectInformation.TryGetValue(__instance.preservedParentSheetIndex.Value, out var objectInformation4);
+
+                            string honeyName = "";
+                            if (string.IsNullOrEmpty(objectInformation4) == false)
+                            {
+                                honeyName = objectInformation4.Split('/')[4];
                             }
 
-                            else if (fields[2] == "prefix" && __instance.preserve.Value == PreserveTypeFromString(fields[1]))
+                            string[] fields = itemidvalue.Split('/');
+
+                            if (fields.Length > 3 //&& HoneyTypeFromID(__instance.preservedParentSheetIndex.Value) != StardewValley.Object.HoneyType.Wild && __instance.honeyType.Value == HoneyTypeFromID(__instance.preservedParentSheetIndex.Value)
+                                )
                             {
-                                var newname = fields[3] + " " + preservedName;
-                                __result = newname + (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
+                                switch (fields[2])
+                                {
+                                    case "suffix":
+                                        newname = honeyName + " " + fields[3];
+                                        break;
+                                    case "prefix":
+                                        newname = fields[3] + " " + honeyName;
+                                       break;
+                                    case "replace":
+                                    default:
+                                        newname = fields[3];
+                                        break;
+                                }
+                                __result = newname + nameextension;
                             }
                         }
                     }
