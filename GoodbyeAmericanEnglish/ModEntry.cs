@@ -126,13 +126,15 @@ namespace GoodbyeAmericanEnglish
 
             helper.Events.Content.AssetRequested += this.AssetRequested;
 
-            var harmony = new Harmony(this.ModManifest.UniqueID);
+            if (this.config.AllowAdvancedNameReplacer == true)
+            {
+                var harmony = new Harmony(this.ModManifest.UniqueID);
 
-            harmony.Patch(
-                original: AccessTools.PropertyGetter(typeof(StardewValley.Object), nameof(StardewValley.Object.DisplayName)),
-                postfix: new HarmonyMethod(typeof(ModEntry), nameof(ModEntry.DisplayName_Postfix))
-                );
-
+                harmony.Patch(
+                    original: AccessTools.PropertyGetter(typeof(StardewValley.Object), nameof(StardewValley.Object.DisplayName)),
+                    postfix: new HarmonyMethod(typeof(ModEntry), nameof(ModEntry.DisplayName_Postfix))
+                    );
+            }
         }
 
         private static StardewValley.Object.PreserveType PreserveTypeFromString(string preservetype)
@@ -176,7 +178,7 @@ namespace GoodbyeAmericanEnglish
 
                         string[] fields = itemidvalue.Split('/');
 
-                        if (fields.Length > 3 && PreserveTypeFromString(fields[1]) != StardewValley.Object.PreserveType.AgedRoe && __instance.preserve.Value == PreserveTypeFromString(fields[1]))
+                        if (fields.Length > 3 && __instance.preserve.Value == PreserveTypeFromString(fields[1]))
                         {
                             switch (fields[2])
                             {
