@@ -477,7 +477,7 @@ namespace GoodbyeAmericanEnglish
                                             data["Object.cs.12739"] = $"{fields[2]}" + "{0} " + data["Object.cs.12739"].Replace("Jelly", "");
                                             break;
                                         case "Wild Honey":
-                                            data["Object.cs.12750"] = $"{fields[2]}" + "{0} " + data["Object.cs.12750"].Replace("Wild Honey", "");
+                                            data["Object.cs.12750"] = data["Object.cs.12750"].Replace("Wild Honey", $"{fields[2]}");
                                             break;
                                         case "Honey":
                                             data["Object.cs.12760"] = $"{fields[2]}" + "{0} " + data["Object.cs.12760"].Replace("Honey", "");
