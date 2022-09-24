@@ -18,7 +18,7 @@ namespace GoodbyeAmericanEnglish
         private ModConfig config;
         private static IModHelper helperstatic;
         private static IMonitor monitorstatic;
-        private static Dictionary<int, string> namereplacer = new Dictionary<int, string>();
+        private static Dictionary<string, string> namereplacer = new Dictionary<string, string>();
 
         // Array to hold NPC names
         private static readonly string[] NPCs =
@@ -115,7 +115,7 @@ namespace GoodbyeAmericanEnglish
             this.config = this.Helper.ReadConfig<ModConfig>();
             helperstatic = this.Helper;
             monitorstatic = this.Monitor;
-            namereplacer = this.Helper.ModContent.Load<Dictionary<int, string>>("NameReplacer.json") ?? null;
+            namereplacer = this.Helper.ModContent.Load<Dictionary<string, string>>("NameReplacer.json") ?? null;
 
             var replacer = this.Helper.Data.ReadJsonFile<NameReplacer>("NameReplacer.json");
 
@@ -160,9 +160,9 @@ namespace GoodbyeAmericanEnglish
         {
             try
             {                           
-                if (namereplacer != null && namereplacer.ContainsKey(__instance.preservedParentSheetIndex.Value) == true)
+                if (namereplacer != null && namereplacer.ContainsKey(__instance.preservedParentSheetIndex.Value.ToString()) == true)
                 {
-                    var itemidvalue = namereplacer[__instance.preservedParentSheetIndex.Value];
+                    var itemidvalue = namereplacer[__instance.preservedParentSheetIndex.Value.ToString()];
                     var newname = __instance.displayName;
                     string nameextension = (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
 
@@ -421,11 +421,9 @@ namespace GoodbyeAmericanEnglish
                         SpellingFixer();
                         IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
 
-                        Dictionary<int, string> namereplacer = this.Helper.ModContent.Load<Dictionary<int, string>>("NameReplacer.json");
-
                         if (namereplacer != null)
                         {
-                            foreach (int itemid in new List<int>(namereplacer.Keys))
+                            foreach (string itemid in new List<string>(namereplacer.Keys))
                             {
                                 string[] fields = namereplacer[itemid].Split('/');
                                 if (fields[1] != "prefix" && fields[1] != "suffix")
@@ -437,25 +435,25 @@ namespace GoodbyeAmericanEnglish
                                 {
                                     switch (itemid)
                                     {
-                                        case 12726:
+                                        case "Juice":
                                             data["Object.cs.12726"] = data["Object.cs.12726"].Replace("Juice", $"{fields[2]}");
                                             break;
-                                        case 12730:
+                                        case "Wine":
                                             data["Object.cs.12730"] = data["Object.cs.12730"].Replace("Wine", $"{fields[2]}");
                                             break;
-                                        case 12735:
+                                        case "Pickles":
                                             data["Object.cs.12735"] = "{0} " + $"{fields[2]}";
                                             break;
-                                        case 12739:
+                                        case "Jelly":
                                             data["Object.cs.12739"] = data["Object.cs.12739"].Replace("Jelly", $"{fields[2]}");
                                             break;
-                                        case 12750:
+                                        case "Wild Honey":
                                             data["Object.cs.12750"] = data["Object.cs.12750"].Replace("Wild Honey", $"{fields[2]}");
                                             break;
-                                        case 12760:
+                                        case "Honey":
                                             data["Object.cs.12760"] = data["Object.cs.12760"].Replace("Honey", $"{fields[2]}");
                                             break;
-                                        case 12770:
+                                        case "Roe":
                                             data["Roe_DisplayName"] = data["Roe_DisplayName"].Replace("Roe", $"{fields[2]}");
                                             data["AgedRoe_DisplayName"] = data["AgedRoe_DisplayName"].Replace("Roe", $"{fields[2]}");
                                             break;
@@ -466,25 +464,25 @@ namespace GoodbyeAmericanEnglish
                                 {
                                     switch (itemid)
                                     {
-                                        case 12726:
+                                        case "Juice":
                                             data["Object.cs.12726"] = $"{fields[2]}" + "{0} " + data["Object.cs.12726"].Replace("Juice", "");
                                             break;
-                                        case 17230:
+                                        case "Wine":
                                             data["Object.cs.12730"] = $"{fields[2]}" + "{0} " + data["Object.cs.12730"].Replace("Wine", "");
                                             break;
-                                        case 12735:
+                                        case "Pickles":
                                             data["Object.cs.12735"] = data["Object.cs.12730"].Replace("Pickled", $"{fields[2]}");
                                             break;
-                                        case 12739:
+                                        case "Jelly":
                                             data["Object.cs.12739"] = $"{fields[2]}" + "{0} " + data["Object.cs.12739"].Replace("Jelly", "");
                                             break;
-                                        case 12750:
+                                        case "Wild Honey":
                                             data["Object.cs.12750"] = $"{fields[2]}" + "{0} " + data["Object.cs.12750"].Replace("Wild Honey", "");
                                             break;
-                                        case 12760:
+                                        case "Honey":
                                             data["Object.cs.12760"] = $"{fields[2]}" + "{0} " + data["Object.cs.12760"].Replace("Honey", "");
                                             break;
-                                        case 12770:
+                                        case "Roe":
                                             data["Roe_DisplayName"] = $"{fields[2]}" + "{0} " + data["AgedRoe_DisplayName"].Replace("Roe", "");
                                             data["AgedRoe_DisplayName"] = $"Aged {fields[2]}" + "{0} " + data["AgedRoe_DisplayName"].Replace("Roe", "");
                                             break;
@@ -616,13 +614,13 @@ namespace GoodbyeAmericanEnglish
                             {
                                 if (namereplacer != null)
                                 {
-                                    foreach (int itemid in new List<int>(namereplacer.Keys))
+                                    foreach (string itemid in new List<string>(namereplacer.Keys))
                                     {
                                         string[] fields = namereplacer[itemid].Split('/');
 
                                         if (fields[0] == "O")
                                         {
-                                            data[itemid] = data[itemid].Replace($"/{fields[1]}", $"/{fields[2]}");
+                                            data[Convert.ToInt32(itemid)] = data[Convert.ToInt32(itemid)].Replace($"/{fields[1]}", $"/{fields[2]}");
                                         }
                                     }
                                 }
@@ -885,13 +883,13 @@ namespace GoodbyeAmericanEnglish
                         {
                             if (namereplacer != null)
                             {
-                                foreach (int itemid in new List<int>(namereplacer.Keys))
+                                foreach (string itemid in new List<string>(namereplacer.Keys))
                                 {
-                                    string[] fields = namereplacer[itemid].Split('/');
+                                    string[] fields = namereplacer[itemid.ToString()].Split('/');
 
                                     if (fields[0] == "C")
                                     {
-                                        Snacks[itemid].DisplayName = Snacks[itemid].DisplayName.Replace(fields[1], fields[2]);
+                                        Snacks[Convert.ToInt32(itemid)].DisplayName = Snacks[Convert.ToInt32(itemid)].DisplayName.Replace(fields[1], fields[2]);
                                     }
                                 }
                             }
