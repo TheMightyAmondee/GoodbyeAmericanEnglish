@@ -125,7 +125,6 @@ namespace GoodbyeAmericanEnglish
             }
 
             helper.Events.Content.AssetRequested += this.AssetRequested;
-            helper.Events.Input.ButtonPressed += this.Debug;
 
             var harmony = new Harmony(this.ModManifest.UniqueID);
 
@@ -136,14 +135,6 @@ namespace GoodbyeAmericanEnglish
 
         }
 
-        private void Debug(object sender, ButtonPressedEventArgs e)
-        {
-            if (e.Button == SButton.M)
-            {
-                System.Diagnostics.Debugger.Launch();
-                var inventory = Game1.player.Items;
-            }
-        }
         private static StardewValley.Object.PreserveType PreserveTypeFromString(string preservetype)
         {
             switch (preservetype)
@@ -162,25 +153,6 @@ namespace GoodbyeAmericanEnglish
                     return StardewValley.Object.PreserveType.AgedRoe;
             }
         }
-
-        //private static StardewValley.Object.HoneyType HoneyTypeFromID(int id)
-        //{
-        //    switch (id)
-        //    {
-        //        case 376:
-        //            return StardewValley.Object.HoneyType.Poppy;
-        //        case 591:
-        //            return StardewValley.Object.HoneyType.Tulip;
-        //        case 597:
-        //            return StardewValley.Object.HoneyType.BlueJazz;
-        //        case 593:
-        //            return StardewValley.Object.HoneyType.SummerSpangle;
-        //        case 595:
-        //            return StardewValley.Object.HoneyType.FairyRose;
-        //        default:
-        //            return StardewValley.Object.HoneyType.Wild;
-        //    }
-        //}
 
         private static void DisplayName_Postfix(StardewValley.Object __instance, ref string __result)
         {
@@ -216,7 +188,7 @@ namespace GoodbyeAmericanEnglish
                                     break;
                                 case "replace":
                                 default:
-                                    newname = fields[3];                                   
+                                    newname = string.Format(fields[3],preservedName);                                   
                                     break;
                             }
                             __result = newname + nameextension;
@@ -237,8 +209,7 @@ namespace GoodbyeAmericanEnglish
 
                             string[] fields = itemidvalue.Split('/');
 
-                            if (fields.Length > 3 //&& HoneyTypeFromID(__instance.preservedParentSheetIndex.Value) != StardewValley.Object.HoneyType.Wild && __instance.honeyType.Value == HoneyTypeFromID(__instance.preservedParentSheetIndex.Value)
-                                )
+                            if (fields.Length > 3)
                             {
                                 switch (fields[2])
                                 {
@@ -250,7 +221,7 @@ namespace GoodbyeAmericanEnglish
                                        break;
                                     case "replace":
                                     default:
-                                        newname = fields[3];
+                                        newname = string.Format(fields[3], honeyName);
                                         break;
                                 }
                                 __result = newname + nameextension;
