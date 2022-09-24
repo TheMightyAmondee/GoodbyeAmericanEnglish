@@ -54,23 +54,14 @@ Rock Candy | 23
 
 Editing preserve names works a little differently.
 
-Generic edits to preserve names i.e all Jelly becomes Jam are in the form "StringReferenceNumber":"PP/EditType/NameToReplaceWith".
+Generic edits to preserve names i.e all Jelly becomes Jam are in the form "PreserveType":"PP/EditType/NameToReplaceWith".
 
 To break it down:
-The StringReferenceNumber is the number identifying the preserve type in the game content files (or just a random number for Roe). These are listed below
-Preserve Type | StringReferenceNumber
---------------|----------------------
-Juice | 12726
-Wine | 12730
-Pickles | 12735
-Jelly | 12739
-Honey | 12760
-Roe (replaces roe in both 'Roe' and 'Aged Roe') | 12770
-Wild Honey (this replaces the entire name) | 12750
 
-The EditType can be one of "prefix" or "suffix". Basically, put the preserve word before "prefix" or after "suffix" the object name.
+The PreserveType is the preserve to change. Either: "Juice", "Wine", "Pickles", "Jelly", "Wild Honey" or "Honey". Edits for "Wild Honey" replaces the entire object name.
+The EditType can be one of "prefix" or "suffix". Basically, put the preserve word before "prefix" or after "suffix" the object name. Either will replace the entire name for "Wild Honey".
 
-E.g "12739": "PP/suffix/Jam"
+E.g "Jelly": "PP/suffix/Jam"
 
 Unique preserve edits can be done when AllowAdvancedNameReplacer is true (which is the default) in the config. 
 
@@ -83,7 +74,7 @@ The PreserveType refers to the preserve to change.
 
 The EditType can be one of "prefix", "suffix" or "replace". Basically, put the preserve word before "prefix" or after "suffix" the object name. "replace" will replace the entire name with something else. For "replace" using {0} will insert the object name in it's place.
 
-E.g "192": "P/3/replace/Vodka" or "376": "P/Honey/replace/Wild {0} Nectar" or "266": "P/Pickles/suffix/Sauerkraut"
+E.g "192": "P/Juice/replace/Vodka" or "376": "P/Honey/replace/Wild {0} Nectar" or "266": "P/Pickles/suffix/Sauerkraut"
 
 Generic  edits are mutually exclusive (can only prefix or suffix, not both). Unique edits will override generic edits.
 
