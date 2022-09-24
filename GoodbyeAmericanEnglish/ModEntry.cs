@@ -141,15 +141,15 @@ namespace GoodbyeAmericanEnglish
         {
             switch (preservetype)
             {
-                case "0":
+                case "Wine":
                     return StardewValley.Object.PreserveType.Wine;
-                case "1":
+                case "Jelly":
                     return StardewValley.Object.PreserveType.Jelly;
-                case "2":
+                case "Pickles":
                     return StardewValley.Object.PreserveType.Pickle;
-                case "3":
+                case "Juice":
                     return StardewValley.Object.PreserveType.Juice;
-                case "4":
+                case "Roe":
                     return StardewValley.Object.PreserveType.Roe;
                 default:
                     return StardewValley.Object.PreserveType.AgedRoe;
