@@ -115,13 +115,19 @@ namespace GoodbyeAmericanEnglish
             this.config = this.Helper.ReadConfig<ModConfig>();
             helperstatic = this.Helper;
             monitorstatic = this.Monitor;
-            namereplacer = this.Helper.ModContent.Load<Dictionary<string, string>>("NameReplacer.json") ?? null;
+            
 
             var replacer = this.Helper.Data.ReadJsonFile<NameReplacer>("NameReplacer.json");
 
             if (replacer == null)
             {
                 this.Helper.Data.WriteJsonFile("NameReplacer.json", replacer);
+                
+            }
+
+            if (replacer != null)
+            {
+                namereplacer = this.Helper.ModContent.Load<Dictionary<string, string>>("NameReplacer.json") ?? null;
             }
 
             helper.Events.Content.AssetRequested += this.AssetRequested;
