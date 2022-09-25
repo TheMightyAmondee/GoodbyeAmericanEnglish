@@ -16,7 +16,8 @@ Version 1.4.0 introduced the ability to change the display names of any concessi
 You can safely delete this file if you don't want to change any names. If you want to replace names but have deleted the file, simply create a new JSON file with the name "NameReplacer"
 
 In Version 1.4.1, the NameReplacer.json will generate once the mod is run. Just ignore the file if you don't want to use it.
-In Version 1.5.0, the NameReplacer has become more advanced, thanks to Harmony! Now preserve and honey names can be independently or generically edited. These edits are discussed in the Advanced NameReplacer section.
+
+In Version 1.5.0, the NameReplacer has become more advanced, thanks to Harmony! Now preserve and honey names can be independently or generically edited. These edits are discussed in the Advanced NameReplacer section. To turn Harmony patching off, set AllowAdvancedNameReplacer to false in the config. This stops some replacements from occurring but can prevent issues if the game is experiencing problems.
 
 Input name replacements for objects are in the form "ObjectID":"O/Name/NameToReplaceWith" (first field is a capital O) e.g "272":"O/Eggplant/Aubergine". See https://stardewcommunitywiki.com/Modding:Object_data for object IDs
 
@@ -59,6 +60,7 @@ Generic edits to preserve names i.e all Jelly becomes Jam are in the form "Prese
 To break it down:
 
 The PreserveType is the preserve to change. Either: "Juice", "Wine", "Pickles", "Jelly", "Wild Honey" or "Honey". Edits for "Wild Honey" replaces the entire object name.
+
 The EditType can be one of "prefix" or "suffix". Basically, put the preserve word before "prefix" or after "suffix" the object name. Either will replace the entire name for "Wild Honey".
 
 E.g "Jelly": "PP/suffix/Jam"
