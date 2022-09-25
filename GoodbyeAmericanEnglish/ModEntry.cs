@@ -624,7 +624,7 @@ namespace GoodbyeAmericanEnglish
 
                                         if (fields[0] == "O")
                                         {
-                                            data[Convert.ToInt32(itemid)] = data[Convert.ToInt32(itemid)].Replace($"/{fields[1]}", $"/{fields[2]}");
+                                            data[Convert.ToInt32(itemid)] = data[Convert.ToInt32(itemid)].Replace($"/{fields[1]}/", $"/{fields[2]}/");
                                         }
                                     }
                                 }
