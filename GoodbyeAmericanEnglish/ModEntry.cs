@@ -137,22 +137,22 @@ namespace GoodbyeAmericanEnglish
             }
         }
 
-        private static StardewValley.Object.PreserveType PreserveTypeFromString(string preservetype)
+        private static string PreservestringFromEnum(StardewValley.Object.PreserveType preservetype)
         {
             switch (preservetype)
             {
-                case "Wine":
-                    return StardewValley.Object.PreserveType.Wine;
-                case "Jelly":
-                    return StardewValley.Object.PreserveType.Jelly;
-                case "Pickles":
-                    return StardewValley.Object.PreserveType.Pickle;
-                case "Juice":
-                    return StardewValley.Object.PreserveType.Juice;
-                case "Roe":
-                    return StardewValley.Object.PreserveType.Roe;
+                case StardewValley.Object.PreserveType.Wine:
+                    return "Wine";
+                case StardewValley.Object.PreserveType.Jelly:
+                    return "Jelly";
+                case StardewValley.Object.PreserveType.Pickle:
+                    return "Pickles";
+                case StardewValley.Object.PreserveType.Juice:
+                    return "Juice";
+                case StardewValley.Object.PreserveType.Roe:
+                    return "Roe";
                 default:
-                    return StardewValley.Object.PreserveType.AgedRoe;
+                    return "AgedRoe";
             }
         }
 
@@ -160,9 +160,13 @@ namespace GoodbyeAmericanEnglish
         {
             try
             {                           
-                if (namereplacer != null && namereplacer.ContainsKey(__instance.preservedParentSheetIndex.Value.ToString()) == true)
+                if (namereplacer != null 
+                    && (namereplacer.ContainsKey($"{__instance.preservedParentSheetIndex.Value}_{PreservestringFromEnum(__instance.preserve.Value.GetValueOrDefault())}") == true 
+                    || namereplacer.ContainsKey($"{__instance.preservedParentSheetIndex.Value}_Honey") == true))
                 {
-                    var itemidvalue = namereplacer[__instance.preservedParentSheetIndex.Value.ToString()];
+                    var itemidvalue = __instance.preserve.Value.HasValue 
+                        ? namereplacer[$"{__instance.preservedParentSheetIndex.Value}_{PreservestringFromEnum(__instance.preserve.Value.GetValueOrDefault())}"] 
+                        : namereplacer[$"{__instance.preservedParentSheetIndex.Value}_Honey"];
                     var newname = __instance.displayName;
                     string nameextension = (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
 
@@ -178,19 +182,19 @@ namespace GoodbyeAmericanEnglish
 
                         string[] fields = itemidvalue.Split('/');
 
-                        if (fields.Length > 3 && __instance.preserve.Value == PreserveTypeFromString(fields[1]))
+                        if (fields.Length > 2)
                         {
-                            switch (fields[2])
+                            switch (fields[1])
                             {
                                 case "suffix":
-                                    newname = $"{preservedName} {fields[3]}";
+                                    newname = $"{preservedName} {fields[2]}";
                                     break;
                                 case "prefix":
-                                    newname = $"{fields[3]} {preservedName}";
+                                    newname = $"{fields[2]} {preservedName}";
                                     break;
                                 case "replace":
                                 default:
-                                    newname = string.Format(fields[3],preservedName);                                   
+                                    newname = string.Format(fields[2],preservedName);                                   
                                     break;
                             }
                             __result = newname + nameextension;
@@ -211,19 +215,19 @@ namespace GoodbyeAmericanEnglish
 
                             string[] fields = itemidvalue.Split('/');
 
-                            if (fields.Length > 3)
+                            if (fields.Length > 2)
                             {
-                                switch (fields[2])
+                                switch (fields[1])
                                 {
                                     case "suffix":
-                                        newname = $"{honeyName} {fields[3]}";
+                                        newname = $"{honeyName} {fields[2]}";
                                         break;
                                     case "prefix":
-                                        newname = $"{fields[3]} {honeyName}";
+                                        newname = $"{fields[2]} {honeyName}";
                                         break;
                                     case "replace":
                                     default:
-                                        newname = string.Format(fields[3], honeyName);
+                                        newname = string.Format(fields[2], honeyName);
                                         break;
                                 }
                                 __result = newname + nameextension;
