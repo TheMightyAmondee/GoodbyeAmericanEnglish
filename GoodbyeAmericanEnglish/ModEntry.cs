@@ -888,12 +888,13 @@ namespace GoodbyeAmericanEnglish
                             if (namereplacer != null)
                             {
                                 foreach (string itemid in new List<string>(namereplacer.Keys))
-                                {
-                                    string[] fields = namereplacer[itemid.ToString()].Split('/');
+                                {                                    
 
-                                    if (fields[0] == "C")
+                                    if (itemid.EndsWith("_C"))
                                     {
-                                        Snacks[Convert.ToInt32(itemid)].DisplayName = Snacks[Convert.ToInt32(itemid)].DisplayName.Replace(fields[1], fields[2]);
+                                        string[] fields = namereplacer[itemid.ToString()].Split('/');
+                                        string[] id = itemid.Split('_');
+                                        Snacks[Convert.ToInt32(id[0])].DisplayName = Snacks[Convert.ToInt32(id[0])].DisplayName.Replace(fields[0], fields[1]);
                                     }
                                 }
                             }
