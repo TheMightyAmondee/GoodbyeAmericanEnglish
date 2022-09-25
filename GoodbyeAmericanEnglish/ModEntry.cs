@@ -121,7 +121,8 @@ namespace GoodbyeAmericanEnglish
 
             if (replacer == null)
             {
-                this.Helper.Data.WriteJsonFile("NameReplacer.json", replacer);              
+                replacer = new NameReplacer();
+                this.Helper.Data.WriteJsonFile("NameReplacer.json", replacer);
             }
             else
             {
