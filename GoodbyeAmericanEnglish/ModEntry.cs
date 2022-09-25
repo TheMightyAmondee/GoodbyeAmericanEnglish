@@ -471,7 +471,7 @@ namespace GoodbyeAmericanEnglish
                                             data["Object.cs.12730"] = $"{fields[2]}" + " {0}";
                                             break;
                                         case "Pickles":
-                                            data["Object.cs.12735"] = data["Object.cs.12730"].Replace("Pickled", $"{fields[2]}");
+                                            data["Object.cs.12735"] = data["Object.cs.12735"].Replace("Pickled", $"{fields[2]}");
                                             break;
                                         case "Jelly":
                                             data["Object.cs.12739"] = $"{fields[2]}" + " {0}";
