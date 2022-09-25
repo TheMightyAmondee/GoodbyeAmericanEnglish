@@ -59,7 +59,7 @@ Generic edits to preserve names i.e all Jelly becomes Jam are in the form "Prese
 
 To break it down:
 
-The PreserveType is the preserve to change. Either: "Juice", "Wine", "Pickles", "Jelly", "Wild Honey" or "Honey". Edits for "Wild Honey" replaces the entire object name.
+The PreserveType is the preserve to change. Either: "Juice", "Wine", "Pickles", "Jelly", "Roe", "Wild Honey" or "Honey". Edits for "Wild Honey" replaces the entire object name.
 
 The EditType can be one of "prefix" or "suffix". Basically, put the preserve word before "prefix" or after "suffix" the object name. Either will replace the entire name for "Wild Honey".
 
@@ -67,16 +67,16 @@ E.g "Jelly": "PP/suffix/Jam"
 
 Unique preserve edits can be done when AllowAdvancedNameReplacer is true (which is the default) in the config. 
 
-Unique edits are in the form "ObjectID":"P/PreserveType/EditType/NameToReplaceWith".
+Unique edits are in the form "ObjectID_PreserveType":"P/EditType/NameToReplaceWith".
 
 To break it down:
 The ObjectID refers to the object ID of the item to replace the preserve name for. i.e Potato's ID to change Potato Juice to something else.
 
-The PreserveType refers to the preserve to change.
+The PreserveType refers to the preserve to change. Either: "Juice", "Wine", "Pickles", "Jelly", "Roe" or "Honey".
 
 The EditType can be one of "prefix", "suffix" or "replace". Basically, put the preserve word before "prefix" or after "suffix" the object name. "replace" will replace the entire name with something else. For "replace" using {0} will insert the object name in it's place.
 
-E.g "192": "P/Juice/replace/Vodka" or "376": "P/Honey/replace/Wild {0} Nectar" or "266": "P/Pickles/suffix/Sauerkraut"
+E.g "192_Juice": "P/replace/Vodka" or "376_Honey": "P/replace/Wild {0} Nectar" or "266_Pickles": "P/suffix/Sauerkraut"
 
 Generic  edits are mutually exclusive (can only prefix or suffix, not both). Unique edits will override generic edits.
 
