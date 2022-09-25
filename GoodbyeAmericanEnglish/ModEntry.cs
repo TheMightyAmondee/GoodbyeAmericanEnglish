@@ -121,15 +121,13 @@ namespace GoodbyeAmericanEnglish
 
             if (replacer == null)
             {
-                this.Helper.Data.WriteJsonFile("NameReplacer.json", replacer);
-                
+                this.Helper.Data.WriteJsonFile("NameReplacer.json", replacer);              
             }
-
-            if (replacer != null)
+            else
             {
                 namereplacer = this.Helper.ModContent.Load<Dictionary<string, string>>("NameReplacer.json") ?? null;
             }
-
+            
             helper.Events.Content.AssetRequested += this.AssetRequested;
 
             if (this.config.AllowAdvancedNameReplacer == true)
