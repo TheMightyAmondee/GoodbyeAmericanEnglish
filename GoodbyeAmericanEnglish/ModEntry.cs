@@ -183,10 +183,10 @@ namespace GoodbyeAmericanEnglish
                             switch (fields[2])
                             {
                                 case "suffix":
-                                    newname = preservedName + " " + fields[3];
+                                    newname = $"{preservedName} {fields[3]}";
                                     break;
                                 case "prefix":
-                                    newname = fields[3] + " " + preservedName;
+                                    newname = $"{fields[3]} {preservedName}";
                                     break;
                                 case "replace":
                                 default:
@@ -216,11 +216,11 @@ namespace GoodbyeAmericanEnglish
                                 switch (fields[2])
                                 {
                                     case "suffix":
-                                        newname = honeyName + " " + fields[3];
+                                        newname = $"{honeyName} {fields[3]}";
                                         break;
                                     case "prefix":
-                                        newname = fields[3] + " " + honeyName;
-                                       break;
+                                        newname = $"{fields[3]} {honeyName}";
+                                        break;
                                     case "replace":
                                     default:
                                         newname = string.Format(fields[3], honeyName);
@@ -465,26 +465,26 @@ namespace GoodbyeAmericanEnglish
                                     switch (itemid)
                                     {
                                         case "Juice":
-                                            data["Object.cs.12726"] = $"{fields[2]}" + "{0} " + data["Object.cs.12726"].Replace("Juice", "");
+                                            data["Object.cs.12726"] = $"{fields[2]}" + " {0}";
                                             break;
                                         case "Wine":
-                                            data["Object.cs.12730"] = $"{fields[2]}" + "{0} " + data["Object.cs.12730"].Replace("Wine", "");
+                                            data["Object.cs.12730"] = $"{fields[2]}" + " {0}";
                                             break;
                                         case "Pickles":
                                             data["Object.cs.12735"] = data["Object.cs.12730"].Replace("Pickled", $"{fields[2]}");
                                             break;
                                         case "Jelly":
-                                            data["Object.cs.12739"] = $"{fields[2]}" + "{0} " + data["Object.cs.12739"].Replace("Jelly", "");
+                                            data["Object.cs.12739"] = $"{fields[2]}" + " {0}";
                                             break;
                                         case "Wild Honey":
                                             data["Object.cs.12750"] = data["Object.cs.12750"].Replace("Wild Honey", $"{fields[2]}");
                                             break;
                                         case "Honey":
-                                            data["Object.cs.12760"] = $"{fields[2]}" + "{0} " + data["Object.cs.12760"].Replace("Honey", "");
+                                            data["Object.cs.12760"] = $"{fields[2]}" + " {0}";
                                             break;
                                         case "Roe":
-                                            data["Roe_DisplayName"] = $"{fields[2]}" + "{0} " + data["AgedRoe_DisplayName"].Replace("Roe", "");
-                                            data["AgedRoe_DisplayName"] = $"Aged {fields[2]}" + "{0} " + data["AgedRoe_DisplayName"].Replace("Roe", "");
+                                            data["Roe_DisplayName"] = $"{fields[2]}" + " {0}";
+                                            data["AgedRoe_DisplayName"] = $"Aged {fields[2]}" + " {0}";
                                             break;
                                     }
                                 }
