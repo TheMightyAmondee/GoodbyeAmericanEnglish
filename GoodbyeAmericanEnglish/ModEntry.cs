@@ -9,6 +9,7 @@ using StardewValley;
 using HarmonyLib;
 using StardewModdingAPI.Events;
 using System.Linq;
+using Netcode;
 
 namespace GoodbyeAmericanEnglish
 {
@@ -156,6 +157,16 @@ namespace GoodbyeAmericanEnglish
                     return "Juice";
                 case StardewValley.Object.PreserveType.Roe:
                     return "Roe";
+                case StardewValley.Object.PreserveType.DriedFruit:
+                    return "DriedFruit";
+                case StardewValley.Object.PreserveType.DriedMushroom:
+                    return "DriedMushroom";
+                case StardewValley.Object.PreserveType.SmokedFish:
+                    return "SmokedFish";
+                case StardewValley.Object.PreserveType.Bait:
+                    return "Bait";
+                case StardewValley.Object.PreserveType.Honey:
+                    return "Honey";
                 default:
                     return "AgedRoe";
             }
@@ -164,81 +175,38 @@ namespace GoodbyeAmericanEnglish
         private static void DisplayName_Postfix(StardewValley.Object __instance, ref string __result)
         {
             try
-            {                           
-                if (namereplacer != null 
-                    && (namereplacer.ContainsKey($"{__instance.preservedParentSheetIndex.Value}_{PreservestringFromEnum(__instance.preserve.Value.GetValueOrDefault())}") == true 
-                    || namereplacer.ContainsKey($"{__instance.preservedParentSheetIndex.Value}_Honey") == true))
+            {
+                if (namereplacer != null && __instance.preserve.Value.HasValue == true)
                 {
-                    var itemidvalue = __instance.preserve.Value.HasValue 
-                        ? namereplacer[$"{__instance.preservedParentSheetIndex.Value}_{PreservestringFromEnum(__instance.preserve.Value.GetValueOrDefault())}"] 
-                        : namereplacer[$"{__instance.preservedParentSheetIndex.Value}_Honey"];
-                    var newname = __instance.displayName;
-                    string nameextension = (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
-
-                    if (itemidvalue.StartsWith('P') == true && __instance.preserve.Value.HasValue == true)
+                    string preservedName = (__instance.preservedParentSheetIndex.Value != null) ? ItemRegistry.GetDataOrErrorItem("(O)" + __instance.preservedParentSheetIndex.Value).DisplayName : null;
+                    if (preservedName != null && namereplacer.ContainsKey($"P_{"(O)" + __instance.preservedParentSheetIndex.Value}_{PreservestringFromEnum(__instance.preserve.Value.GetValueOrDefault())}") == true)
                     {
-                        Game1.objectInformation.TryGetValue(__instance.preservedParentSheetIndex.Value, out var objectInformation4);
-
-                        string preservedName = "";
-                        if (string.IsNullOrEmpty(objectInformation4) == false)
-                        {
-                            preservedName = objectInformation4.Split('/')[4];
-                        }
+                        var itemidvalue = namereplacer[$"P_{"(O)" + __instance.preservedParentSheetIndex.Value}_{PreservestringFromEnum(__instance.preserve.Value.GetValueOrDefault())}"];
+                        var newname = __instance.displayName;
+                       
+                        string nameextension = (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
+                        string nameprefix = __instance.orderData.Value == "QI_COOKING" ? Game1.content.LoadString("Strings\\StringsFromCSFiles:Fresh_Prefix", __instance.displayName) : "";
 
                         string[] fields = itemidvalue.Split('/');
 
-                        if (fields.Length > 2)
+                        if (fields.Length == 2)
                         {
-                            switch (fields[1])
+                            switch (fields[0])
                             {
                                 case "suffix":
-                                    newname = $"{preservedName} {fields[2]}";
+                                    newname = $"{preservedName} {fields[1]}";
                                     break;
                                 case "prefix":
-                                    newname = $"{fields[2]} {preservedName}";
+                                    newname = $"{fields[1]} {preservedName}";
                                     break;
                                 case "replace":
                                 default:
-                                    newname = string.Format(fields[2],preservedName);                                   
+                                    newname = fields[1];
                                     break;
                             }
-                            __result = newname + nameextension;
+                            __result = nameprefix + newname + nameextension;
                         }
-                    }
-
-                    else if (itemidvalue.StartsWith('P') == true && __instance.preserve.Value.HasValue == false && __instance.name != null && __instance.name.Contains("Honey") == true)
-                    {                        
-                        if (__instance.preservedParentSheetIndex.Value > 0)
-                        {
-                            Game1.objectInformation.TryGetValue(__instance.preservedParentSheetIndex.Value, out var objectInformation4);
-
-                            string honeyName = "";
-                            if (string.IsNullOrEmpty(objectInformation4) == false)
-                            {
-                                honeyName = objectInformation4.Split('/')[4];
-                            }
-
-                            string[] fields = itemidvalue.Split('/');
-
-                            if (fields.Length > 2)
-                            {
-                                switch (fields[1])
-                                {
-                                    case "suffix":
-                                        newname = $"{honeyName} {fields[2]}";
-                                        break;
-                                    case "prefix":
-                                        newname = $"{fields[2]} {honeyName}";
-                                        break;
-                                    case "replace":
-                                    default:
-                                        newname = string.Format(fields[2], honeyName);
-                                        break;
-                                }
-                                __result = newname + nameextension;
-                            }
-                        }
-                    }
+                    }                  
                 }
             }
             catch (Exception ex)
@@ -283,7 +251,7 @@ namespace GoodbyeAmericanEnglish
                         || e.NameWithoutLocale.IsEquivalentTo("Strings\\Notes")
                         || e.NameWithoutLocale.IsEquivalentTo("Strings\\Characters")
                         || e.NameWithoutLocale.IsEquivalentTo("Strings\\SpecialOrderStrings")
-                        || e.NameWithoutLocale.IsEquivalentTo("Data\\ObjectInformation")
+                        || e.NameWithoutLocale.IsEquivalentTo("Strings\\Objects")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\TV\\TipChannel")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\TV\\CookingChannel")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\mail")
@@ -294,8 +262,8 @@ namespace GoodbyeAmericanEnglish
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\Quests")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\Blueprints")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\Bundles")
-                        || e.NameWithoutLocale.IsEquivalentTo("Data\\weapons")
-                        || e.NameWithoutLocale.IsEquivalentTo("Data\\hats")
+                        || e.NameWithoutLocale.IsEquivalentTo("Strings\\Weapons")
+                        || e.NameWithoutLocale.IsEquivalentTo("Data\\hats")//
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\Fish")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\RandomBundles")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\ObjectContextTags")
@@ -309,8 +277,9 @@ namespace GoodbyeAmericanEnglish
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\Festivals\\fall27")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\Festivals\\winter25")
                         || e.NameWithoutLocale.IsEquivalentTo("Minigames\\Intro")
-                        || e.NameWithoutLocale.IsEquivalentTo("Data\\BigCraftablesInformation")
-                        || e.NameWithoutLocale.IsEquivalentTo("Characters\\Dialogue\\MarriageDialogue"));
+                        || e.NameWithoutLocale.IsEquivalentTo("Strings\\BigCraftables")
+                        || e.NameWithoutLocale.IsEquivalentTo("Characters\\Dialogue\\MarriageDialogue")
+                        );
             }
 
             if (IsEditableAsset() == true)
@@ -434,66 +403,72 @@ namespace GoodbyeAmericanEnglish
                         {
                             foreach (string itemid in new List<string>(namereplacer.Keys))
                             {
+                                string[] keyfields = itemid.Split('_');
                                 string[] fields = namereplacer[itemid].Split('/');
-                                if (fields[1] != "prefix" && fields[1] != "suffix")
+                                if (fields.Length != 2)
                                 {
                                     continue;
                                 }
 
-                                if (fields[0] == "PP" && fields[1] == "suffix")
+                                if (fields[0] != "prefix" && fields[0] != "suffix")
                                 {
-                                    switch (itemid)
+                                    continue;
+                                }
+
+                                if (keyfields[0] == "PP" && fields[0] == "suffix")
+                                {
+                                    switch (keyfields[1])
                                     {
                                         case "Juice":
-                                            data["Object.cs.12726"] = data["Object.cs.12726"].Replace("Juice", $"{fields[2]}");
+                                            data["Object.cs.12726"] = data["Object.cs.12726"].Replace("Juice", $"{fields[1]}");
                                             break;
                                         case "Wine":
-                                            data["Object.cs.12730"] = data["Object.cs.12730"].Replace("Wine", $"{fields[2]}");
+                                            data["Object.cs.12730"] = data["Object.cs.12730"].Replace("Wine", $"{fields[1]}");
                                             break;
                                         case "Pickles":
                                             data["Object.cs.12735"] = "{0} " + $"{fields[2]}";
                                             break;
                                         case "Jelly":
-                                            data["Object.cs.12739"] = data["Object.cs.12739"].Replace("Jelly", $"{fields[2]}");
+                                            data["Object.cs.12739"] = data["Object.cs.12739"].Replace("Jelly", $"{fields[1]}");
                                             break;
                                         case "Wild Honey":
-                                            data["Object.cs.12750"] = data["Object.cs.12750"].Replace("Wild Honey", $"{fields[2]}");
+                                            data["Object.cs.12750"] = data["Object.cs.12750"].Replace("Wild Honey", $"{fields[1]}");
                                             break;
                                         case "Honey":
-                                            data["Object.cs.12760"] = data["Object.cs.12760"].Replace("Honey", $"{fields[2]}");
+                                            data["Object.cs.12760"] = data["Object.cs.12760"].Replace("Honey", $"{fields[1]}");
                                             break;
                                         case "Roe":
-                                            data["Roe_DisplayName"] = data["Roe_DisplayName"].Replace("Roe", $"{fields[2]}");
-                                            data["AgedRoe_DisplayName"] = data["AgedRoe_DisplayName"].Replace("Roe", $"{fields[2]}");
+                                            data["Roe_DisplayName"] = data["Roe_DisplayName"].Replace("Roe", $"{fields[1]}");
+                                            data["AgedRoe_DisplayName"] = data["AgedRoe_DisplayName"].Replace("Roe", $"{fields[1]}");
                                             break;
                                     }
                                 }
 
-                                else if (fields[0] == "PP" && fields[1] == "prefix")
+                                else if (keyfields[0] == "PP" && fields[0] == "prefix")
                                 {
-                                    switch (itemid)
+                                    switch (keyfields[1])
                                     {
                                         case "Juice":
-                                            data["Object.cs.12726"] = $"{fields[2]}" + " {0}";
+                                            data["Object.cs.12726"] = $"{fields[1]}" + " {0}";
                                             break;
                                         case "Wine":
-                                            data["Object.cs.12730"] = $"{fields[2]}" + " {0}";
+                                            data["Object.cs.12730"] = $"{fields[1]}" + " {0}";
                                             break;
                                         case "Pickles":
-                                            data["Object.cs.12735"] = data["Object.cs.12735"].Replace("Pickled", $"{fields[2]}");
+                                            data["Object.cs.12735"] = data["Object.cs.12735"].Replace("Pickled", $"{fields[1]}");
                                             break;
                                         case "Jelly":
-                                            data["Object.cs.12739"] = $"{fields[2]}" + " {0}";
+                                            data["Object.cs.12739"] = $"{fields[1]}" + " {0}";
                                             break;
                                         case "Wild Honey":
-                                            data["Object.cs.12750"] = data["Object.cs.12750"].Replace("Wild Honey", $"{fields[2]}");
+                                            data["Object.cs.12750"] = data["Object.cs.12750"].Replace("Wild Honey", $"{fields[1]}");
                                             break;
                                         case "Honey":
-                                            data["Object.cs.12760"] = $"{fields[2]}" + " {0}";
+                                            data["Object.cs.12760"] = $"{fields[1]}" + " {0}";
                                             break;
                                         case "Roe":
-                                            data["Roe_DisplayName"] = $"{fields[2]}" + " {0}";
-                                            data["AgedRoe_DisplayName"] = $"Aged {fields[2]}" + " {0}";
+                                            data["Roe_DisplayName"] = $"{fields[1]}" + " {0}";
+                                            data["AgedRoe_DisplayName"] = $"Aged {fields[1]}" + " {0}";
                                             break;
                                     }
                                 }
@@ -571,12 +546,12 @@ namespace GoodbyeAmericanEnglish
                     }
 
                     // Edit Object information data
-                    else if (e.NameWithoutLocale.IsEquivalentTo("Data\\ObjectInformation"))
+                    else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\Objects"))
                     {
 
-                        IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
+                        IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
 
-                        foreach (int key in new List<int>(data.Keys))
+                        foreach (string key in new List<string>(data.Keys))
                         {
                             // Skip replacement if string is any of the following
                             if (false
@@ -595,25 +570,25 @@ namespace GoodbyeAmericanEnglish
                                 data[key] = data[key].Replace("fall", "autumn");
 
                                 // Only replace string value for a specific key
-                                if (key == 497)
+                                if (key == "FallSeeds_Name")
                                 {
-                                    data[key] = data[key].Replace("/Fall", "/Autumn");
+                                    data[key] = data[key].Replace("Fall", "Autumn");
                                 }
 
-                                else if (key == 487)
+                                else if (key == "CornSeeds_Description")
                                 {
-                                    data[key] = "Corn Seeds/75/-300/Seeds -74/Corn Seeds/Plant these in the summer or in autumn. Takes 14 days to mature, and continues to produce after first harvest.";
+                                    data[key] = "Plant these in the summer or in autumn. Takes 14 days to mature, and continues to produce after first harvest.";
                                 }
                             }
                             // Replace string with new word
 
                             data[key] = data[key].Replace("color", "colour");
                             data[key] = data[key].Replace("avor", "avour");
-                            data[key] = data[key].Replace("/Fossilized", "/Fossilised");
-                            data[key] = data[key].Replace("/Deluxe Fertilizer", "/Deluxe Fertiliser");
-                            data[key] = data[key].Replace("/Quality Fertilizer", "/Quality Fertiliser");
-                            data[key] = data[key].Replace("/Basic Fertilizer", "/Basic Fertiliser");
-                            data[key] = data[key].Replace("/Tree Fertilizer", "/Tree Fertiliser");
+                            data[key] = data[key].Replace("Fossilized", "Fossilised");
+                            data[key] = data[key].Replace("Deluxe Fertilizer", "Deluxe Fertiliser");
+                            data[key] = data[key].Replace("Quality Fertilizer", "Quality Fertiliser");
+                            data[key] = data[key].Replace("Basic Fertilizer", "Basic Fertiliser");
+                            data[key] = data[key].Replace("Tree Fertilizer", "Tree Fertiliser");
                             data[key] = data[key].Replace("appetizer", "appetiser");
                             data[key] = data[key].Replace("fertilize", "fertilise");
                             data[key] = data[key].Replace("theater", "theatre");
@@ -627,9 +602,9 @@ namespace GoodbyeAmericanEnglish
                                     {
                                         string[] fields = namereplacer[itemid].Split('/');
 
-                                        if (fields[0] == "O")
+                                        if (fields.Count() == 1)
                                         {
-                                            data[Convert.ToInt32(itemid)] = data[Convert.ToInt32(itemid)].Replace($"/{fields[1]}/", $"/{fields[2]}/");
+                                            data[$"{itemid}_Name"] = fields[0];
                                         }
                                     }
                                 }
@@ -710,9 +685,9 @@ namespace GoodbyeAmericanEnglish
                     // Edit quest data
                     else if (e.NameWithoutLocale.IsEquivalentTo("Data\\Quests"))
                     {
-                        IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
+                        IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
 
-                        foreach (int key in new List<int>(data.Keys))
+                        foreach (string key in new List<string>(data.Keys))
                         {
                             // Replace specified string with new string
                             data[key] = data[key].Replace("avor", "avour");
@@ -721,11 +696,11 @@ namespace GoodbyeAmericanEnglish
                     }
 
                     // Edit weapons data
-                    else if (e.NameWithoutLocale.IsEquivalentTo("Data\\weapons"))
+                    else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\Weapons"))
                     {
-                        IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
+                        IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
 
-                        foreach (int key in new List<int>(data.Keys))
+                        foreach (string key in new List<string>(data.Keys))
                         {
                             // Replace specified string with new string
                             data[key] = data[key].Replace("favorite", "favourite");
@@ -736,10 +711,10 @@ namespace GoodbyeAmericanEnglish
                     // Edit a single entry in hats
                     else if (e.NameWithoutLocale.IsEquivalentTo("Data\\hats"))
                     {
-                        IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
+                        IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
 
                         // Replace specified key value with new value
-                        data[30] = "Watermelon Band/The colour scheme was inspired by the beloved summer melon./true/false";
+                        data["30"] = "Watermelon Band/The colour scheme was inspired by the beloved summer melon./true/false//Watermelon Band";
                     }
 
                     // Edit a single entry in hats
@@ -755,13 +730,13 @@ namespace GoodbyeAmericanEnglish
                     }
 
                     // Edit a single entry in BigCraftables
-                    else if (e.NameWithoutLocale.IsEquivalentTo("Data\\BigCraftablesInformation"))
+                    else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\BigCraftables"))
                     {
-                        IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
+                        IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
 
                         // Replace specified key value with new value
-                        data[209] = "Mini-Jukebox/1500/-300/Crafting -9/Allows you to play your favourite tunes./true/true/0/Mini-Jukebox";
-                        data[90] = "Bone Mill/0/-300/Crafting -9/Turns bone items into fertilisers./true/true/0/Bone Mill";
+                        data["MiniJukebox_Description"] = "Allows you to play your favourite tunes.";
+                        data["BoneMill_Description"] = "Turns bone items into fertilisers.";
                     }
 
                     // Patch Intro tilesheet with new sign image
@@ -779,50 +754,48 @@ namespace GoodbyeAmericanEnglish
                     // Edit movie data
                     else if (e.NameWithoutLocale.IsEquivalentTo("Data\\Movies"))
                     {
-                        var movieDatas = asset.Data as Dictionary<string, StardewValley.GameData.Movies.MovieData>;
+                        var movieDatas = asset.Data as List<StardewValley.GameData.Movies.MovieData>;
 
-                        // Method to edit movie description and a movie scene
-                        void MovieEditor(string name, string descoriginal, string descreplace, int scenenumber, string scenename, string original, string replace)
+                        foreach (var movie in movieDatas)
                         {
-                            var movieData = movieDatas[name];
+                            switch (movie.Title)
+                            {
+                                case "The Brave Little Sapling":
+                                    MovieEditor(movie, " ", " ", 4, "spring0_4", "demoralized", "demoralised");
+                                    break;
+                                case "Wumbus":
+                                    MovieEditor(movie, "centered", "centred", 6, "summer1_6", "humor", "humour");
+                                    break;
+                                case "The Zuzu City Express":
+                                    MovieEditor(movie, "theater", "theatre", 0, " ", " ", " ");
+                                    break;
 
+                            }
+
+                            if (this.config.MetricSystem == true)
+                            {
+                                switch (movie.Title)
+                                {
+                                    case "Natural Wonders: Exploring Our Vibrant World":
+                                        MovieEditor(movie, " ", " ", 1, "spring1_1", "80 miles", "128 kilometres");
+                                        break;
+                                    case "It Howls In The Rain":
+                                        MovieEditor(movie, " ", " ", 1, "fall1_1", "30 miles", "48 kilometres");
+                                        break;
+                                }
+                            }
+                        }
+                        // Method to edit movie description and a movie scene
+                        void MovieEditor(StardewValley.GameData.Movies.MovieData movieData, string descoriginal, string descreplace, int scenenumber, string scenename, string original, string replace)
+                        {
                             movieData.Description = movieData.Description.Replace(descoriginal, descreplace);
-
-                            var sceneID = movieData.Scenes[scenenumber].ID;
-                            var scene = movieData.Scenes.FirstOrDefault(s => s.ID == sceneID);
+                            var sceneID = movieData.Scenes[scenenumber].Id;
+                            var scene = movieData.Scenes.FirstOrDefault(s => s.Id == sceneID);
 
                             if (scene != null && sceneID == scenename)
                             {
                                 scene.Text = scene.Text.Replace(original, replace);
                             }
-                        }
-
-                        if (movieDatas.ContainsKey("spring_movie_0"))
-                        {
-                            MovieEditor("spring_movie_0", " ", " ", 4, "spring0_4", "demoralized", "demoralised");
-                        }
-
-                        if (this.config.MetricSystem == true)
-                        {
-                            if (movieDatas.ContainsKey("spring_movie_1"))
-                            {
-                                MovieEditor("spring_movie_1", " ", " ", 1, "spring1_1", "80 miles", "128 kilometres");
-                            }
-
-                            if (movieDatas.ContainsKey("fall_movie_1"))
-                            {
-                                MovieEditor("fall_movie_1", " ", " ", 1, "fall1_1", "30 miles", "48 kilometres");
-                            }
-                        }
-
-                        if (movieDatas.ContainsKey("summer_movie_1"))
-                        {
-                            MovieEditor("summer_movie_1", "centered", "centred", 6, "summer1_6", "humor", "humour");
-                        }
-
-                        if (movieDatas.ContainsKey("winter_movie_1"))
-                        {
-                            MovieEditor("winter_movie_1", "theater", "theatre", 0, " ", " ", " ");
                         }
                     }
 
@@ -893,13 +866,11 @@ namespace GoodbyeAmericanEnglish
                             if (namereplacer != null)
                             {
                                 foreach (string itemid in new List<string>(namereplacer.Keys))
-                                {                                    
-
-                                    if (itemid.EndsWith("_C"))
+                                {
+                                    string[] keyfields = itemid.Split('_');
+                                    if (keyfields[0] == "C")
                                     {
-                                        string[] fields = namereplacer[itemid.ToString()].Split('/');
-                                        string[] id = itemid.Split('_');
-                                        Snacks[Convert.ToInt32(id[0])].DisplayName = Snacks[Convert.ToInt32(id[0])].DisplayName.Replace(fields[0], fields[1]);
+                                        Snacks[Convert.ToInt32(keyfields[1])].DisplayName = namereplacer[itemid];
                                     }
                                 }
                             }
@@ -910,22 +881,10 @@ namespace GoodbyeAmericanEnglish
                         }
                     }
 
-                    // Edit objectcontexttag data
-                    else if (e.NameWithoutLocale.IsEquivalentTo("Data\\ObjectContextTags"))
-                    {
-                        var data = asset.AsDictionary<string, string>().Data;
-
-                        foreach (string key in new List<string>(data.Keys))
-                        {
-                            // Replace specified string with new string
-                            data[key] = data[key].Replace("fertilizer", "fertiliser");
-                        }
-                    }
-
                     //Edit random bundles
                     else if (e.NameWithoutLocale.IsEquivalentTo("Data\\RandomBundles") && this.config.FalltoAutumn == true)
                     {
-                        var bundle = asset.Data as List<StardewValley.GameData.RandomBundleData>;
+                        var bundle = asset.Data as List<StardewValley.GameData.Bundles.RandomBundleData>;
 
                         void BundleNameReplacer(int roomindex, int bundlesetindex, int bundleindex, string newname)
                         {
@@ -940,22 +899,22 @@ namespace GoodbyeAmericanEnglish
                     // Edit fish data to convert inches to centimetres
                     else if (e.NameWithoutLocale.IsEquivalentTo("Data\\Fish") && this.config.MetricSystem == true)
                     {
-                        IDictionary<int, string> data = asset.AsDictionary<int, string>().Data;
+                        IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
 
-                        foreach (int key in new List<int>(data.Keys))
+                        foreach (string key in new List<string>(data.Keys))
                         {
                             // Skip replacement for trap fish, they don't have a size
                             if (false
-                                || key == 715
-                                || key == 717
-                                || key == 723
-                                || key == 372
-                                || key == 720
-                                || key == 718
-                                || key == 719
-                                || key == 721
-                                || key == 716
-                                || key == 722)
+                                || key == "715"
+                                || key == "717"
+                                || key == "723"
+                                || key == "372"
+                                || key == "720"
+                                || key == "718"
+                                || key == "719"
+                                || key == "721"
+                                || key == "716"
+                                || key == "722")
                             {
                                 continue;
                             }
