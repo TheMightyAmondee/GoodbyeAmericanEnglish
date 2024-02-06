@@ -10,6 +10,7 @@ using HarmonyLib;
 using StardewModdingAPI.Events;
 using System.Linq;
 using Netcode;
+using Microsoft.Xna.Framework.Input;
 
 namespace GoodbyeAmericanEnglish
 {
@@ -752,51 +753,26 @@ namespace GoodbyeAmericanEnglish
                     }
 
                     // Edit movie data
-                    else if (e.NameWithoutLocale.IsEquivalentTo("Data\\Movies"))
+                    else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\Movies"))
                     {
-                        var movieDatas = asset.Data as List<StardewValley.GameData.Movies.MovieData>;
-
-                        foreach (var movie in movieDatas)
+                        if (!System.Diagnostics.Debugger.IsAttached)
                         {
-                            switch (movie.Title)
-                            {
-                                case "The Brave Little Sapling":
-                                    MovieEditor(movie, " ", " ", 4, "spring0_4", "demoralized", "demoralised");
-                                    break;
-                                case "Wumbus":
-                                    MovieEditor(movie, "centered", "centred", 6, "summer1_6", "humor", "humour");
-                                    break;
-                                case "The Zuzu City Express":
-                                    MovieEditor(movie, "theater", "theatre", 0, " ", " ", " ");
-                                    break;
-
-                            }
-
-                            if (this.config.MetricSystem == true)
-                            {
-                                switch (movie.Title)
-                                {
-                                    case "Natural Wonders: Exploring Our Vibrant World":
-                                        MovieEditor(movie, " ", " ", 1, "spring1_1", "80 miles", "128 kilometres");
-                                        break;
-                                    case "It Howls In The Rain":
-                                        MovieEditor(movie, " ", " ", 1, "fall1_1", "30 miles", "48 kilometres");
-                                        break;
-                                }
-                            }
+                            System.Diagnostics.Debugger.Launch();
                         }
-                        // Method to edit movie description and a movie scene
-                        void MovieEditor(StardewValley.GameData.Movies.MovieData movieData, string descoriginal, string descreplace, int scenenumber, string scenename, string original, string replace)
+                        var moviestrings = asset.AsDictionary<string, string>().Data;
+
+                        moviestrings["BraveLittleSapling_Scene5"] = moviestrings["BraveLittleSapling_Scene5"].Replace("demoralized", "demoralised");
+                        moviestrings["Wumbus_Scene7"] = moviestrings["Wumbus_Scene7"].Replace("humor", "humour");
+                        moviestrings["Wumbus_Description"] = moviestrings["Wumbus_Description"].Replace("centered", "centred");
+                        moviestrings["ZuzuCityExpress_Description"] = moviestrings["ZuzuCityExpress_Description"].Replace("theaters", "theatres");
+
+                        if (this.config.MetricSystem == true)
                         {
-                            movieData.Description = movieData.Description.Replace(descoriginal, descreplace);
-                            var sceneID = movieData.Scenes[scenenumber].Id;
-                            var scene = movieData.Scenes.FirstOrDefault(s => s.Id == sceneID);
+                            moviestrings["NaturalWonders_Scene2"] = moviestrings["NaturalWonders_Scene2"].Replace("80 miles", "128 kilometres");
+                            moviestrings["ItHowlsInTheRain_Scene2"] = moviestrings["ItHowlsInTheRain_Scene2"].Replace("30 miles", "48 kilometres");
 
-                            if (scene != null && sceneID == scenename)
-                            {
-                                scene.Text = scene.Text.Replace(original, replace);
-                            }
-                        }
+                        }                      
+
                     }
 
                     // Edit movie reaction data
