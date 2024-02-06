@@ -269,8 +269,8 @@ namespace GoodbyeAmericanEnglish
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\RandomBundles")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\ObjectContextTags")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\Concessions")
-                        || e.NameWithoutLocale.IsEquivalentTo("Data\\Movies")
-                        || e.NameWithoutLocale.IsEquivalentTo("Data\\MoviesReactions")
+                        || e.NameWithoutLocale.IsEquivalentTo("Strings\\Movies")
+                        || e.NameWithoutLocale.IsEquivalentTo("Strings\\MoviesReactions")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\Festivals\\spring13")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\Festivals\\spring24")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\Festivals\\summer11")
@@ -755,10 +755,6 @@ namespace GoodbyeAmericanEnglish
                     // Edit movie data
                     else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\Movies"))
                     {
-                        if (!System.Diagnostics.Debugger.IsAttached)
-                        {
-                            System.Diagnostics.Debugger.Launch();
-                        }
                         var moviestrings = asset.AsDictionary<string, string>().Data;
 
                         moviestrings["BraveLittleSapling_Scene5"] = moviestrings["BraveLittleSapling_Scene5"].Replace("demoralized", "demoralised");
@@ -776,45 +772,23 @@ namespace GoodbyeAmericanEnglish
                     }
 
                     // Edit movie reaction data
-                    else if (e.NameWithoutLocale.IsEquivalentTo("Data\\MoviesReactions"))
+                    else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\MoviesReactions"))
                     {
-                        var Reactions = asset.Data as List<StardewValley.GameData.Movies.MovieCharacterReaction>;
+                        var Reactions = asset.AsDictionary<string, string>().Data;
 
-                        // Method to edit before movie reactions
-                        void ReactionsEditorBefore(int NPCindex, int reactionindex, string original, string replacement)
-                        {
-                            Reactions[NPCindex].Reactions[reactionindex].SpecialResponses.BeforeMovie.Text = Reactions[NPCindex].Reactions[reactionindex].SpecialResponses.BeforeMovie.Text.Replace(original, replacement);
-                        }
-
-                        // Method to edit after movie reactions
-                        void ReactionsEditorAfter(int NPCindex, int reactionindex, string original, string replacement)
-                        {
-                            Reactions[NPCindex].Reactions[reactionindex].SpecialResponses.AfterMovie.Text = Reactions[NPCindex].Reactions[reactionindex].SpecialResponses.AfterMovie.Text.Replace(original, replacement);
-                        }
-
-                        // Penny
-                        ReactionsEditorBefore(0, 0, "mom", "mum");
-                        ReactionsEditorAfter(0, 8, "favorite", "favourite");
-                        // Krobus
-                        ReactionsEditorBefore(2, 0, "recognize", "recognise");
-                        ReactionsEditorBefore(2, 1, "center", "centre");
-                        // Haley
-                        ReactionsEditorBefore(19, 0, "favorite", "favourite");
-                        ReactionsEditorBefore(19, 1, "favorite", "favourite");
-                        // George
-                        ReactionsEditorBefore(4, 4, "Theaters", "Theatres");
-                        // Evelyn
-                        ReactionsEditorBefore(6, 2, "theater", "theatre");
-                        // Sam
-                        ReactionsEditorBefore(14, 3, "theater", "theatre");
-                        // Maru
-                        ReactionsEditorBefore(20, 2, "theater", "theatre");
-                        // Vincent
-                        ReactionsEditorBefore(15, 4, "mom", "mum");
-                        // Demetrius
-                        ReactionsEditorBefore(23, 4, "analyze", "analyse");
-                        // Dwarf
-                        ReactionsEditorAfter(25, 1, "mesmerizing", "mesmerising");
+                        Reactions["Penny_*_BeforeMovie"] = Reactions["Penny_*_BeforeMovie"].Replace("mom", "mum");
+                        Reactions["Penny_dislike_AfterMovie"] = Reactions["Penny_*_BeforeMovie"].Replace("favorite", "favourite");
+                        Reactions["Krobus_fall_movie_0_BeforeMovie"] = Reactions["Krobus_fall_movie_0_BeforeMovie"].Replace("recognize", "recognise");
+                        Reactions["Krobus_*_BeforeMovie"] = Reactions["Krobus_*_BeforeMovie"].Replace("center", "centre");
+                        Reactions["Haley_winter_movie_1_BeforeMovie"] = Reactions["Haley_winter_movie_1_BeforeMovie"].Replace("favorite", "favourite");
+                        Reactions["Haley_winter_movie_0_BeforeMovie"] = Reactions["Haley_winter_movie_0_BeforeMovie"].Replace("favorite", "favourite");
+                        Reactions["George_like_BeforeMovie"] = Reactions["George_like_BeforeMovie"].Replace("Theaters", "Theatres");
+                        Reactions["Evelyn_love_BeforeMovie"] = Reactions["Evelyn_love_BeforeMovie"].Replace("theater", "theatre");
+                        Reactions["Sam_like_BeforeMovie"] = Reactions["Sam_like_BeforeMovie"].Replace("theater", "theatre");
+                        Reactions["Maru_like_BeforeMovie"] = Reactions["Maru_like_BeforeMovie"].Replace("theater", "theatre");
+                        Reactions["Vincent_love_BeforeMovie"] = Reactions["Vincent_love_BeforeMovie"].Replace("mom", "mum");
+                        Reactions["Demetrius_like_BeforeMovie"] = Reactions["Demetrius_like_BeforeMovie"].Replace("analyze", "analyse");
+                        Reactions["Dwarf_love_AfterMovie"] = Reactions["Dwarf_love_AfterMovie"].Replace("mesmerizing", "mesmerising");
                     }
 
                     // Edit concession data
