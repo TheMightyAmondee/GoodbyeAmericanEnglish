@@ -924,19 +924,21 @@ namespace GoodbyeAmericanEnglish
                                 {
                                     string[] keyfields = itemid.Split('_');
                                     string[] valuefields = namereplacer[itemid].Split("/");
-                                    if (keyfields[1] == "C")
+                                    if (keyfields.Length == 2 && keyfields[1] == "C")
                                     {
                                         if (valuefields.Length == 1)
                                         {
-                                            Snacks[$"{keyfields[1].Replace(" ", "")}_Name"] = valuefields[0];
+                                            var name = keyfields[0].Replace(" ", "");
+                                            Snacks[$"{name}_Name"] = valuefields[0];
                                         }
                                         // Legacy NameReplacer
                                         else
                                         {
-                                            Snacks[$"{valuefields[0].Replace(" ", "")}_Name"] = valuefields[1];
+                                            var name = valuefields[0].Replace(" ", "");
+                                            Snacks[$"{name}_Name"] = valuefields[1];
                                             this.Monitor.LogOnce($"Legacy format in namereplacer used for concession, this won't be supported in the future", LogLevel.Warn);
                                         }
-                                        
+
                                     }
                                 }
                             }

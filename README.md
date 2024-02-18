@@ -27,7 +27,7 @@ In version 1.6.0 the format of the NameReplacer has changed to better support th
 
 For Objects: Name replacement entries are in the format: "ItemName": "NewItemName", e.g to turn Hot Pepper into Chilli, the entry would be "Hot Pepper": "Chilli".
 
-For Concession snacks: Name replacement entries are in the format: "C_ConcessionName":"NameToReplaceWith", e.g to turn Cotton Candy into Fairy Floss, the entry would be "C_Cotton Candy":"Fairy Floss"
+For Concession snacks: Name replacement entries are in the format: "ConcessionName_C":"NameToReplaceWith", e.g to turn Cotton Candy into Fairy Floss, the entry would be "Cotton Candy_C":"Fairy Floss"
 
 #### 1.5.0 ####
 
