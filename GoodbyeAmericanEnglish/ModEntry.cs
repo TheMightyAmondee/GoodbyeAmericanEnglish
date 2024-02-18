@@ -11,6 +11,7 @@ using StardewModdingAPI.Events;
 using System.Linq;
 using Netcode;
 using Microsoft.Xna.Framework.Input;
+using System.Xml.Linq;
 
 namespace GoodbyeAmericanEnglish
 {
@@ -303,7 +304,7 @@ namespace GoodbyeAmericanEnglish
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\Fish")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\RandomBundles")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\ObjectContextTags")
-                        || e.NameWithoutLocale.IsEquivalentTo("Data\\Concessions")
+                        || e.NameWithoutLocale.IsEquivalentTo("Strings\\MovieConcessions")
                         || e.NameWithoutLocale.IsEquivalentTo("Strings\\Movies")
                         || e.NameWithoutLocale.IsEquivalentTo("Strings\\MoviesReactions")
                         || e.NameWithoutLocale.IsEquivalentTo("Data\\Festivals\\spring13")
@@ -701,7 +702,7 @@ namespace GoodbyeAmericanEnglish
 
                                         if (fields.Count() == 1)
                                         {
-                                            data[$"{itemid}_Name"] = fields[0];
+                                            data[$"{itemid.Replace(" ", "")}_Name"] = fields[0];
                                         }
 
                                         // Legacy NameReplacer
@@ -902,24 +903,18 @@ namespace GoodbyeAmericanEnglish
                     }
 
                     // Edit concession data
-                    else if (e.NameWithoutLocale.IsEquivalentTo("Data\\Concessions"))
+                    else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\MovieConcessions"))
                     {
-                        var Snacks = asset.Data as List<StardewValley.GameData.Movies.ConcessionItemData>;
-
-                        // Method to edit a concession item description
-                        void ConcessionsDescriptionEditor(int index, string original, string replacement)
-                        {
-                            Snacks[index].Description = Snacks[index].Description.Replace(original, replacement);
-                        }
+                        var Snacks = asset.AsDictionary<string, string>().Data; 
 
                         // Jasmine tea
-                        ConcessionsDescriptionEditor(1, "flavored", "flavoured");
+                        Snacks["JasmineTea_Description"] = Snacks["JasmineTea_Description"].Replace("flavored", "flavoured");
                         // Black liquorice
-                        Snacks[11].DisplayName = "Black Liquorice";
+                        Snacks["BlackLicorice_Name"] = Snacks["BlackLicorice_Name"].Replace("Licorice", "Liquorice");
                         // Kale smoothie
-                        ConcessionsDescriptionEditor(16, "fiber", "fibre");
+                        Snacks["KaleSmoothie_Description"] = Snacks["KaleSmoothie_Description"].Replace("fiber", "fibre");
                         // Rock candy
-                        ConcessionsDescriptionEditor(23, "Flavored", "Flavoured");
+                        Snacks["RockCandy_Description"] = Snacks["RockCandy_Description"].Replace("Flavored", "Flavoured");
 
                         try
                         {
@@ -933,12 +928,12 @@ namespace GoodbyeAmericanEnglish
                                     {
                                         if (valuefields.Length == 1)
                                         {
-                                            Snacks[Convert.ToInt32(keyfields[0])].DisplayName = namereplacer[itemid];
+                                            Snacks[$"{keyfields[1].Replace(" ", "")}_Name"] = valuefields[0];
                                         }
                                         // Legacy NameReplacer
                                         else
                                         {
-                                            Snacks[Convert.ToInt32(keyfields[0])].DisplayName = valuefields[1];
+                                            Snacks[$"{valuefields[0].Replace(" ", "")}_Name"] = valuefields[1];
                                             this.Monitor.LogOnce($"Legacy format in namereplacer used for concession, this won't be supported in the future", LogLevel.Warn);
                                         }
                                         
