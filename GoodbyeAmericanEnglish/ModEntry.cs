@@ -915,6 +915,8 @@ namespace GoodbyeAmericanEnglish
                         Snacks["KaleSmoothie_Description"] = Snacks["KaleSmoothie_Description"].Replace("fiber", "fibre");
                         // Rock candy
                         Snacks["RockCandy_Description"] = Snacks["RockCandy_Description"].Replace("Flavored", "Flavoured");
+                        // Sour slimes
+                        Snacks["SourSlimes_Description"] = Snacks["SourSlimes_Description"].Replace("colors", "colours");
 
                         try
                         {
