@@ -317,6 +317,10 @@ namespace GoodbyeAmericanEnglish
                         || e.NameWithoutLocale.IsEquivalentTo("Strings\\BigCraftables")
                         || e.NameWithoutLocale.IsEquivalentTo("Characters\\Dialogue\\MarriageDialogue")
                         || e.NameWithoutLocale.IsEquivalentTo("Strings\\1_6_Strings")
+                        || e.NameWithoutLocale.IsEquivalentTo("Strings\\Shirts")
+                        || e.NameWithoutLocale.IsEquivalentTo("Strings\\Furniture")
+                        || e.NameWithoutLocale.IsEquivalentTo("Strings\\Buildings")
+                        || e.NameWithoutLocale.IsEquivalentTo("Strings\\animationDescriptions")
                         );
             }
 
@@ -351,10 +355,25 @@ namespace GoodbyeAmericanEnglish
                             data[key] = data[key].Replace("eighbor", "eighbour");
                             data[key] = data[key].Replace("traveling", "travelling");
                             data[key] = data[key].Replace("travele", "travelle");
+                            data[key] = data[key].Replace("Traveli", "Travelli");
                             data[key] = data[key].Replace("cozy", "cosy");
                             data[key] = data[key].Replace("fiber", "fibre");
                             data[key] = data[key].Replace("efense", "efence");
                             data[key] = data[key].Replace("airplane", "aeroplane");
+                            data[key] = data[key].Replace("rtifact", "rtefact");
+                            data[key] = data[key].Replace("ancel", "ancell");
+                            data[key] = data[key].Replace(" tons ", " tonnes ");
+                            data[key] = data[key].Replace("controlable", "controllable");
+                            data[key] = data[key].Replace("Math:", "Maths:");
+                            data[key] = data[key].Replace(" odor", " odour");
+                            data[key] = data[key].Replace("scepter", "sceptre");
+                            data[key] = data[key].Replace("Scepter", "Sceptre");
+                            data[key] = data[key].Replace("Fiber", "Fibre");
+                            data[key] = data[key].Replace("jewelry", "jewellry");
+                            data[key] = data[key].Replace("Paper Mache", "Papier Mâché");
+                            data[key] = data[key].Replace("marvelous", "marvellous");
+                            data[key] = data[key].Replace("Gray ", "Grey ");
+                            data[key] = data[key].Replace(" gray", " grey");
 
 
                             if (this.config.MetricSystem == true)
@@ -384,6 +403,8 @@ namespace GoodbyeAmericanEnglish
                                 data[key] = data[key].Replace("curtains autumn", "curtains fall");
                                 data[key] = data[key].Replace("autumn for", "fall for");
                                 data[key] = data[key].Replace("LinusAutumn", "LinusFall");
+                                data[key] = data[key].Replace("Autumnen", "Fallen");
+                                data[key] = data[key].Replace("Autumns", "Falls");
                             }
 
                             // Correct word replacement that shouldn't occur
@@ -398,6 +419,7 @@ namespace GoodbyeAmericanEnglish
                             data[key] = data[key].Replace("_apologise", "_apologize");
                             data[key] = data[key].Replace("WildColour", "WildColor");
                             data[key] = data[key].Replace("honourary", "honorary");
+                            data[key] = data[key].Replace("ancell ", "ancel ");
                         }
                     }
 
@@ -616,6 +638,34 @@ namespace GoodbyeAmericanEnglish
                         SpellingFixer();
                     }
 
+                    // Edit Shirt strings
+                    else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\Shirts"))
+                    {
+                        SpellingFixer();
+                    }
+
+                    // Edit furniture
+                    else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\Furniture"))
+                    {
+                        SpellingFixer();
+                    }
+
+                    // Edit animationDescriptions
+                    else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\animationDescriptions"))
+                    {
+                        IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
+
+                        data["sam_guitar"] = "%Sam is busy practising the guitar.";
+                    }
+
+                    // Edit buildings
+                    else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\Buildings"))
+                    {
+                        IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
+
+                        data["Cabin_Description"] = "A home for a friend! Subsidised by the town agricultural fund.";
+                    }
+
                     // Edit secret notes
                     else if (e.NameWithoutLocale.IsEquivalentTo("Data\\SecretNotes"))
                     {
@@ -666,6 +716,7 @@ namespace GoodbyeAmericanEnglish
                                 data[key] = data[key].Replace("the fall", "autumn");
                                 data[key] = data[key].Replace("A fall", "An autumn");
                                 data[key] = data[key].Replace("fall", "autumn");
+                                data[key] = data[key].Replace("(Fa)", "(Au)");
 
                                 // Only replace string value for a specific key
                                 if (key == "FallSeeds_Name")
@@ -691,6 +742,13 @@ namespace GoodbyeAmericanEnglish
                             data[key] = data[key].Replace("fertilize", "fertilise");
                             data[key] = data[key].Replace("theater", "theatre");
                             data[key] = data[key].Replace("zation", "sation");
+                            data[key] = data[key].Replace("Artifact", "Artefact");
+                            data[key] = data[key].Replace("iber", "ibre");
+                            data[key] = data[key].Replace("izing", "ising");
+                            data[key] = data[key].Replace(" luster", " lustre");
+                            data[key] = data[key].Replace("honor", "honour");
+                            data[key] = data[key].Replace("Omelet", "Omelette");
+                            data[key] = data[key].Replace("savory", "savoury");
 
                             try
                             {
@@ -817,6 +875,7 @@ namespace GoodbyeAmericanEnglish
                             // Replace specified string with new string
                             data[key] = data[key].Replace("favorite", "favourite");
                             data[key] = data[key].Replace("honor", "honour");
+                            data[key] = data[key].Replace("chiseled", "chiselled");
                         }
                     }
 
@@ -826,10 +885,13 @@ namespace GoodbyeAmericanEnglish
                         IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
 
                         // Replace specified key value with new value
+                        data["9"] = "Goblin Mask/Freak out the neighbourhood with this creepy mask. Rubber ear joints for effect./true/true//Goblin Mask";
                         data["30"] = "Watermelon Band/The colour scheme was inspired by the beloved summer melon./true/false//Watermelon Band";
+                        data["31"] = "Mouse Ears/Made from synthetic fibres./true/true//Mouse Ears";
+                        data["80"] = "Bluebird Mask/Wear this to look just like your favourite island trader./hide/true//Bluebird Mask";
                     }
 
-                    // Edit a single entry in hats
+                    // Edit a single entry in bundles
                     else if (e.NameWithoutLocale.IsEquivalentTo("Data\\Bundles") && this.config.FalltoAutumn == true)
                     {
                         var data = asset.AsDictionary<string, string>().Data;
@@ -841,7 +903,7 @@ namespace GoodbyeAmericanEnglish
                         }
                     }
 
-                    // Edit a single entry in BigCraftables
+                    // Edit BigCraftables
                     else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\BigCraftables"))
                     {
                         IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
@@ -849,6 +911,8 @@ namespace GoodbyeAmericanEnglish
                         // Replace specified key value with new value
                         data["MiniJukebox_Description"] = "Allows you to play your favourite tunes.";
                         data["BoneMill_Description"] = "Turns bone items into fertilisers.";
+                        data["SlothSkeletonL_Description"] = "This extinct sloth roamed the lush, prehistoric forests of Stardew Valley. Its powerful jaw tore through the toughest plant fibres.";
+                        data["SuitOfArmor_Name"] = "Suit of Armour";
                     }
 
                     // Patch Intro tilesheet with new sign image
@@ -1009,6 +1073,8 @@ namespace GoodbyeAmericanEnglish
                         data["Gus_RE_Greeting_0"] = data["Gus_RE_Greeting_0"].Replace("omelet", "omelette");
                         data["Gus_RE_Greeting_1"] = data["Gus_RE_Greeting_1"].Replace("omelet", "omelette");
                         data["Evelyn_Text"] = data["Evelyn_Text"].Replace("avor", "avour");
+                        data["Gunther_Text"] = data["Gunther_Text"].Replace("paleontologists", "palaeontologists");
+                        data["Pam_Text"] = data["Pam_Text"].Replace("whallop", "wallop");
 
                     }
                 });
