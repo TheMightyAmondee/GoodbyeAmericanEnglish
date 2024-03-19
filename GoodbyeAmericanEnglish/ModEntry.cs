@@ -361,7 +361,8 @@ namespace GoodbyeAmericanEnglish
                             data[key] = data[key].Replace("efense", "efence");
                             data[key] = data[key].Replace("airplane", "aeroplane");
                             data[key] = data[key].Replace("rtifact", "rtefact");
-                            data[key] = data[key].Replace("ancel", "ancell");
+                            data[key] = data[key].Replace("anceled", "ancelled");
+                            data[key] = data[key].Replace("anceling", "ancelling");
                             data[key] = data[key].Replace(" tons ", " tonnes ");
                             data[key] = data[key].Replace("controlable", "controllable");
                             data[key] = data[key].Replace("Math:", "Maths:");
