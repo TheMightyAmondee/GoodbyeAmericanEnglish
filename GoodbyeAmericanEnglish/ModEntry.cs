@@ -215,32 +215,7 @@ namespace GoodbyeAmericanEnglish
                         // Legacy NameReplacement
                         else if (namereplacer.ContainsKey($"{ __instance.preservedParentSheetIndex.Value}_{PreservestringFromEnum(__instance.preserve.Value.GetValueOrDefault())}") == true)
                         {
-                            var itemidvalue = namereplacer[$"{ __instance.preservedParentSheetIndex.Value}_{PreservestringFromEnum(__instance.preserve.Value.GetValueOrDefault())}"];
-                            var newname = __instance.displayName;
-
-                            string nameextension = (__instance.IsRecipe ? (((CraftingRecipe.craftingRecipes.ContainsKey(__instance.displayName) && CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ').Count() > 1) ? (" x" + CraftingRecipe.craftingRecipes[__instance.displayName].Split('/')[2].Split(' ')[1]) : "") + Game1.content.LoadString("Strings\\StringsFromCSFiles:Object.cs.12657")) : "");
-                            string nameprefix = __instance.orderData.Value == "QI_COOKING" ? Game1.content.LoadString("Strings\\StringsFromCSFiles:Fresh_Prefix", __instance.displayName) : "";
-
-                            string[] fields = itemidvalue.Split('/');
-
-                            if (fields.Length == 3 && fields[0] == "P")
-                            {
-                                switch (fields[1])
-                                {
-                                    case "suffix":
-                                        newname = $"{preservedName} {fields[2]}";
-                                        break;
-                                    case "prefix":
-                                        newname = $"{fields[2]} {preservedName}";
-                                        break;
-                                    case "replace":
-                                    default:
-                                        newname = string.Format(fields[2], preservedName);
-                                        break;
-                                }
-                                monitorstatic.LogOnce($"Legacy format in namereplacer used for independent preserve edit, this won't be supported in the future", LogLevel.Warn);
-                                __result = nameprefix + newname + nameextension;
-                            }
+                            monitorstatic.LogOnce($"Legacy format for independent preserves edit found, this is no longer supported. Please update to the new format.", LogLevel.Warn);
                         }
                        
                     }                  
@@ -456,7 +431,7 @@ namespace GoodbyeAmericanEnglish
                     }
 
                     // Edit strings
-                    if (e.NameWithoutLocale.IsEquivalentTo("Strings\\StringsFromCSFiles"))
+                    if (e.NameWithoutLocale.IsEquivalentTo("Strings\\Objects"))
                     {
                         SpellingFixer();
                         IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
@@ -467,6 +442,13 @@ namespace GoodbyeAmericanEnglish
                             {
                                 string[] keyfields = itemid.Split('_');
                                 string[] fields = namereplacer[itemid].Split('/');
+                                string newcranberryword = "Cranberry";
+
+                                if (keyfields.Contains("Cranberries") == true)
+                                {
+                                    newcranberryword = namereplacer["Cranberries"];
+                                }
+                                
 
                                 if (fields.Length == 2 && keyfields[0] == "PP" && (fields[0] == "prefix" || fields[0] == "suffix"))
                                 {                          
@@ -475,26 +457,26 @@ namespace GoodbyeAmericanEnglish
                                         switch (keyfields[1])
                                         {
                                             case "Juice":
-                                                data["Object.cs.12726"] = data["Object.cs.12726"].Replace("Juice", $"{fields[1]}");
+                                                data["Juice_Flavored_Name"] = data["Juice_Flavored_Name"].Replace("Juice", $"{fields[1]}");
+                                                data["Juice_Flavored_(O)282_Name"] = $"{newcranberryword} {fields[1]}";
                                                 break;
                                             case "Wine":
-                                                data["Object.cs.12730"] = data["Object.cs.12730"].Replace("Wine", $"{fields[1]}");
+                                                data["Wine_Flavored_Name"] = data["Wine_Flavored_Name"].Replace("Wine", $"{fields[1]}");
+                                                data["Wine_Flavored_(O)282_Name"] = $"{newcranberryword} {fields[1]}";
                                                 break;
                                             case "Pickles":
-                                                data["Object.cs.12735"] = "{0} " + $"{fields[1]}";
+                                                data["Pickles_Flavored_Name"] = "{0} " + $"{fields[1]}";
                                                 break;
                                             case "Jelly":
-                                                data["Object.cs.12739"] = data["Object.cs.12739"].Replace("Jelly", $"{fields[1]}");
-                                                break;
-                                            case "Wild Honey":
-                                                data["Object.cs.12750"] = data["Object.cs.12750"].Replace("Wild Honey", $"{fields[1]}");
+                                                data["Jelly_Flavored_Name"] = data["Jelly_Flavored_Name"].Replace("Jelly", $"{fields[1]}");
+                                                data["Jelly_Flavored_(O)282_Name"] = $"{newcranberryword} {fields[1]}";
                                                 break;
                                             case "Honey":
-                                                data["Object.cs.12760"] = data["Object.cs.12760"].Replace("Honey", $"{fields[1]}");
+                                                data["Honey_Flavored_Name"] = data["Honey_Flavored_Name"].Replace("Honey", $"{fields[1]}");
                                                 break;
                                             case "Roe":
-                                                data["Roe_DisplayName"] = data["Roe_DisplayName"].Replace("Roe", $"{fields[1]}");
-                                                data["AgedRoe_DisplayName"] = data["AgedRoe_DisplayName"].Replace("Roe", $"{fields[1]}");
+                                                data["Roe_Flavored_Name"] = data["Roe_Flavored_Name"].Replace("Roe", $"{fields[1]}");
+                                                data["AgedRoe_Flavored_Name"] = data["AgedRoe_Flavored_Name"].Replace("Roe", $"{fields[1]}");
                                                 break;
                                         }
                                     }
@@ -505,26 +487,26 @@ namespace GoodbyeAmericanEnglish
                                         switch (keyfields[1])
                                         {
                                             case "Juice":
-                                                data["Object.cs.12726"] = $"{fields[1]}" + " {0}";
+                                                data["Juice_Flavored_Name"] = $"{fields[1]}" + " {0}";
+                                                data["Juice_Flavored_(O)282_Name"] = $"{fields[1]}" + $" {newcranberryword}";
                                                 break;
                                             case "Wine":
-                                                data["Object.cs.12730"] = $"{fields[1]}" + " {0}";
+                                                data["Wine_Flavored_Name"] = $"{fields[1]}" + " {0}";
+                                                data["Wine_Flavored_(O)282_Name"] = $"{fields[1]}" + $" {newcranberryword}";
                                                 break;
                                             case "Pickles":
-                                                data["Object.cs.12735"] = data["Object.cs.12735"].Replace("Pickled", $"{fields[1]}");
+                                                data["Pickles_Flavored_Name"] = data["Pickles_Flavored_Name"].Replace("Pickled", $"{fields[1]}");
                                                 break;
                                             case "Jelly":
-                                                data["Object.cs.12739"] = $"{fields[1]}" + " {0}";
-                                                break;
-                                            case "Wild Honey":
-                                                data["Object.cs.12750"] = data["Object.cs.12750"].Replace("Wild Honey", $"{fields[1]}");
+                                                data["Jelly_Flavored_Name"] = $"{fields[1]}" + " {0}";
+                                                data["Jelly_Flavored_(O)282_Name"] = $"{fields[1]}" + $" {newcranberryword}";
                                                 break;
                                             case "Honey":
-                                                data["Object.cs.12760"] = $"{fields[1]}" + " {0}";
+                                                data["Honey_Flavored_Name"] = $"{fields[1]}" + " {0}";
                                                 break;
                                             case "Roe":
-                                                data["Roe_DisplayName"] = $"{fields[1]}" + " {0}";
-                                                data["AgedRoe_DisplayName"] = $"Aged {fields[1]}" + " {0}";
+                                                data["Roe_Flavored_Name"] = $"{fields[1]}" + " {0}";
+                                                data["AgedRoe_Flavored_Name"] = $"Aged {fields[1]}" + " {0}";
                                                 break;
                                         }
                                     }
@@ -533,65 +515,7 @@ namespace GoodbyeAmericanEnglish
                                 // Legacy NameReplacer
                                 else if (fields.Length == 3 && fields[0] == "PP" && (fields[1] == "prefix" || fields[1] == "suffix"))
                                 {
-                                    this.Monitor.LogOnce($"Legacy format in namereplacer used for generic preserve edit, this won't be supported in the future", LogLevel.Warn);
-                                    if (fields[1] == "suffix")
-                                    {
-                                        switch (keyfields[0])
-                                        {
-                                            case "Juice":
-                                                data["Object.cs.12726"] = data["Object.cs.12726"].Replace("Juice", $"{fields[2]}");
-                                                break;
-                                            case "Wine":
-                                                data["Object.cs.12730"] = data["Object.cs.12730"].Replace("Wine", $"{fields[2]}");
-                                                break;
-                                            case "Pickles":
-                                                data["Object.cs.12735"] = "{0} " + $"{fields[2]}";
-                                                break;
-                                            case "Jelly":
-                                                data["Object.cs.12739"] = data["Object.cs.12739"].Replace("Jelly", $"{fields[2]}");
-                                                break;
-                                            case "Wild Honey":
-                                                data["Object.cs.12750"] = data["Object.cs.12750"].Replace("Wild Honey", $"{fields[2]}");
-                                                break;
-                                            case "Honey":
-                                                data["Object.cs.12760"] = data["Object.cs.12760"].Replace("Honey", $"{fields[2]}");
-                                                break;
-                                            case "Roe":
-                                                data["Roe_DisplayName"] = data["Roe_DisplayName"].Replace("Roe", $"{fields[2]}");
-                                                data["AgedRoe_DisplayName"] = data["AgedRoe_DisplayName"].Replace("Roe", $"{fields[2]}");
-                                                break;
-                                        }
-                                    }
-
-                                    // Not suffix, must be prefix
-                                    else
-                                    {
-                                        switch (keyfields[0])
-                                        {
-                                            case "Juice":
-                                                data["Object.cs.12726"] = data["Object.cs.12726"].Replace("Juice", $"{fields[2]}");
-                                                break;
-                                            case "Wine":
-                                                data["Object.cs.12730"] = data["Object.cs.12730"].Replace("Wine", $"{fields[2]}");
-                                                break;
-                                            case "Pickles":
-                                                data["Object.cs.12735"] = "{0} " + $"{fields[2]}";
-                                                break;
-                                            case "Jelly":
-                                                data["Object.cs.12739"] = data["Object.cs.12739"].Replace("Jelly", $"{fields[2]}");
-                                                break;
-                                            case "Wild Honey":
-                                                data["Object.cs.12750"] = data["Object.cs.12750"].Replace("Wild Honey", $"{fields[2]}");
-                                                break;
-                                            case "Honey":
-                                                data["Object.cs.12760"] = data["Object.cs.12760"].Replace("Honey", $"{fields[2]}");
-                                                break;
-                                            case "Roe":
-                                                data["Roe_DisplayName"] = data["Roe_DisplayName"].Replace("Roe", $"{fields[2]}");
-                                                data["AgedRoe_DisplayName"] = data["AgedRoe_DisplayName"].Replace("Roe", $"{fields[2]}");
-                                                break;
-                                        }
-                                    }
+                                    this.Monitor.LogOnce($"Legacy format for generic preserve edit found, this is no longer supported. Please update to the new format.", LogLevel.Warn);                                   
                                 }
                                                                                               
                             }
@@ -768,9 +692,7 @@ namespace GoodbyeAmericanEnglish
                                         // Legacy NameReplacer
                                         else if (fields.Count() == 3 && fields[0] == "O")
                                         {
-                                            var itemname = fields[1].Replace(" ","");
-                                            data[$"{itemname}_Name"] = fields[2];
-                                            this.Monitor.LogOnce($"Legacy format in namereplacer used for {fields[1]}, this won't be supported in the future", LogLevel.Warn);
+                                            this.Monitor.LogOnce($"Legacy format for object name edit found, this is no longer supported. Please update to the new format.", LogLevel.Warn);
                                         }
                                     }
                                 }
@@ -1002,9 +924,8 @@ namespace GoodbyeAmericanEnglish
                                         // Legacy NameReplacer
                                         else
                                         {
-                                            var name = valuefields[0].Replace(" ", "");
-                                            Snacks[$"{name}_Name"] = valuefields[1];
-                                            this.Monitor.LogOnce($"Legacy format in namereplacer used for concession, this won't be supported in the future", LogLevel.Warn);
+                                            this.Monitor.LogOnce($"Legacy format for concession edit found, this is no longer supported. Please update to the new format.", LogLevel.Warn);
+
                                         }
 
                                     }
