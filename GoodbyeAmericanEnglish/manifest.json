@@ -5,6 +5,6 @@
 	"Description": "Replaces american spelling with british spelling",
 	"UniqueID": "TheMightyAmondee.GoodbyeAmericanEnglish",
 	"EntryDll": "GoodbyeAmericanEnglish.dll",
-	"MinimumApiVersion": "4.0.0",
+	"MinimumApiVersion": "4.1.0",
 	"UpdateKeys": [ "Nexus:7183", "ModDrop:854437" ]
 }

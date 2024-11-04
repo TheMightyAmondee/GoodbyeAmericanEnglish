@@ -381,6 +381,7 @@ namespace GoodbyeAmericanEnglish
                                 data[key] = data[key].Replace("LinusAutumn", "LinusFall");
                                 data[key] = data[key].Replace("Autumnen", "Fallen");
                                 data[key] = data[key].Replace("Autumns", "Falls");
+                                data[key] = data[key].Replace("Autumn (", "Fall (");
                             }
 
                             // Correct word replacement that shouldn't occur
@@ -524,6 +525,12 @@ namespace GoodbyeAmericanEnglish
 
                     // Edit general marriage dialogue
                     else if (e.NameWithoutLocale.IsEquivalentTo($"Characters\\Dialogue\\MarriageDialogue"))
+                    {
+                        SpellingFixer();
+                    }
+
+                    // Edit general strings
+                    else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\StringsFromCSFiles"))
                     {
                         SpellingFixer();
                     }
