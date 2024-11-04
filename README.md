@@ -23,7 +23,7 @@ To turn Harmony patching off, set AllowAdvancedNameReplacer to false in the conf
 
 In 1.6.0 the format of the NameReplacer has been updated for readability and to be better compatible with Stardew Valley 1.6. The old format is no longer supported and will show a warning.
 #### 1.6.0 ####
-In version 1.6.0 the format of the NameReplacer has changed to better support the new object data format. The old format is still currently accepted, but this will likely change in the future.
+In version 1.6.0 the format of the NameReplacer has changed to better support the new object data format.
 
 For Objects: Name replacement entries are in the format: "ItemName": "NewItemName", e.g to turn Hot Pepper into Chilli, the entry would be "Hot Pepper": "Chilli".
 
