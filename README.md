@@ -21,51 +21,13 @@ In Version 1.5.0, the NameReplacer has become more advanced, thanks to Harmony! 
 
 To turn Harmony patching off, set AllowAdvancedNameReplacer to false in the config. This stops some replacements from occurring but can prevent issues if the game is experiencing problems.
 
-In 1.6.0 the format of the NameReplacer has been updated for readability and to be better compatible with Stardew Valley 1.6. The old format is still currently supported but this will likely break in the future so updating the NameReplacer is highly recommended.
+In 1.6.0 the format of the NameReplacer has been updated for readability and to be better compatible with Stardew Valley 1.6. The old format is no longer supported and will show a warning.
 #### 1.6.0 ####
 In version 1.6.0 the format of the NameReplacer has changed to better support the new object data format. The old format is still currently accepted, but this will likely change in the future.
 
 For Objects: Name replacement entries are in the format: "ItemName": "NewItemName", e.g to turn Hot Pepper into Chilli, the entry would be "Hot Pepper": "Chilli".
 
 For Concession snacks: Name replacement entries are in the format: "ConcessionName_C":"NameToReplaceWith", e.g to turn Cotton Candy into Fairy Floss, the entry would be "Cotton Candy_C":"Fairy Floss"
-
-#### 1.5.0 ####
-
-The format has also been updated for concessions to fix some recognition issues. For concessions the form is now "SnackID_C":"Name/NameToReplaceWith"
-
-Input name replacements for objects are in the form "ObjectID":"O/Name/NameToReplaceWith" (first field is a capital O) e.g "272":"O/Eggplant/Aubergine". See https://stardewcommunitywiki.com/Modding:Object_data for object IDs
-
-In 1.4.0 and 1.4.1 name replacements for concession snacks are in the form "SnackID":"C/Name/NameToReplaceWith" (first field is a capital C) e.g "0":"C/Cotton Candy/Fairy Floss"
-
-In 1.5.0 name replacements for concession snacks are in the form "SnackID_C":"Name/NameToReplaceWith" e.g "0_C":"Cotton Candy/Fairy Floss"
-
-The table below shows the SnackID for each concession:
-Concession | SnackID
------------|--------
-Cotton Candy | 0
-Jasmine Tea | 1
-Joja Cola | 2
-Sour Slimes | 3
-Personal Pizza | 4
-Nachos | 5
-Salmon Burger | 6
-Ice Cream Sandwich | 7
-Popcorn | 8
-Fries | 9
-Chocolate Popcorn | 10
-Black Licorice | 11
-Star Cookie | 12
-Jawbreaker | 13
-Salted Peanuts | 14
-Hummus Snack Pack | 15
-Kale Smoothie | 16
-Apple Slices | 17
-Panzanella Salad | 18
-Truffle Popcorn | 19
-Cappuccino Mousse Cake | 20
-Joja Corn | 21
-Stardrop Sorbet | 22
-Rock Candy | 23
 
 ## Advanced NameReplacer ##
 
@@ -84,18 +46,6 @@ The EditType can be one of "prefix" or "suffix". Basically, put the preserve wor
 
 E.g "PP_Jelly": "suffix/Jam"
 
-##### 1.5.0 #####
-
-Universal edits to all preserve names i.e all Jelly becomes Jam are in the form "PreserveType":"PP/EditType/NameToReplaceWith".
-
-To break it down:
-
-The PreserveType is the preserve to change. Either: "Juice", "Wine", "Pickles", "Jelly", "Roe", "Wild Honey" or "Honey". Edits for "Wild Honey" replaces the entire object name.
-
-The EditType can be one of "prefix" or "suffix". Basically, put the preserve word before "prefix" or after "suffix" the object name. Either will replace the entire name for "Wild Honey".
-
-E.g "Jelly": "PP/suffix/Jam"
-
 #### Independent edits ####
 
 Unique preserve edits can be done when AllowAdvancedNameReplacer is true (which is the default) in the config. 
@@ -113,20 +63,6 @@ The PreserveType refers to the preserve to change. Either: "Juice", "Wine", "Pic
 The EditType can be one of "prefix", "suffix" or "replace". Basically, put the preserve word before "prefix" or after "suffix" the object name. "replace" will replace the entire name with something else. For "replace" using {0} will insert the object name in it's place.
 
 E.g "P_(O)613_Jelly": "suffix/Sauce", (this changes Apple Jelly to Apple Sauce)
-
-##### 1.5.0 #####
-
-Unique edits are in the form "ObjectID_PreserveType":"P/EditType/NameToReplaceWith".
-
-To break it down:
-
-The ObjectID refers to the object ID of the item to replace the preserve name for. i.e Potato's ID to change Potato Juice to something else.
-
-The PreserveType refers to the preserve to change. Either: "Juice", "Wine", "Pickles", "Jelly", "Roe" or "Honey".
-
-The EditType can be one of "prefix", "suffix" or "replace". Basically, put the preserve word before "prefix" or after "suffix" the object name. "replace" will replace the entire name with something else. For "replace" using {0} will insert the object name in it's place.
-
-E.g "192_Juice": "P/replace/Vodka" or "376_Honey": "P/replace/Wild {0} Nectar" or "266_Pickles": "P/suffix/Sauerkraut"
 
 
 
