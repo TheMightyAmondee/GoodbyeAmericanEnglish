@@ -434,8 +434,86 @@ namespace GoodbyeAmericanEnglish
                     // Edit strings
                     if (e.NameWithoutLocale.IsEquivalentTo("Strings\\Objects"))
                     {
-                        SpellingFixer();
                         IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
+
+                        foreach (string key in new List<string>(data.Keys))
+                        {
+                            // Skip replacement if string is any of the following
+                            if (false
+                                || data[key].Contains("falling")
+                                || data[key].Contains("size")
+                                || data[key].Contains("rized")
+                                || data[key].Contains("denizen"))
+                            {
+                                continue;
+                            }
+
+                            if (this.config.FalltoAutumn == true)
+                            {
+                                data[key] = data[key].Replace("the fall", "autumn");
+                                data[key] = data[key].Replace("A fall", "An autumn");
+                                data[key] = data[key].Replace("fall", "autumn");
+                                data[key] = data[key].Replace("(Fa)", "(Au)");
+
+                                // Only replace string value for a specific key
+                                if (key == "FallSeeds_Name")
+                                {
+                                    data[key] = data[key].Replace("Fall", "Autumn");
+                                }
+
+                                else if (key == "CornSeeds_Description")
+                                {
+                                    data[key] = "Plant these in the summer or in autumn. Takes 14 days to mature, and continues to produce after first harvest.";
+                                }
+                            }
+                            // Replace string with new word
+
+                            data[key] = data[key].Replace("color", "colour");
+                            data[key] = data[key].Replace("avor", "avour");
+                            data[key] = data[key].Replace("Fossilized", "Fossilised");
+                            data[key] = data[key].Replace("Deluxe Fertilizer", "Deluxe Fertiliser");
+                            data[key] = data[key].Replace("Quality Fertilizer", "Quality Fertiliser");
+                            data[key] = data[key].Replace("Basic Fertilizer", "Basic Fertiliser");
+                            data[key] = data[key].Replace("Tree Fertilizer", "Tree Fertiliser");
+                            data[key] = data[key].Replace("appetizer", "appetiser");
+                            data[key] = data[key].Replace("fertilize", "fertilise");
+                            data[key] = data[key].Replace("theater", "theatre");
+                            data[key] = data[key].Replace("zation", "sation");
+                            data[key] = data[key].Replace("Artifact", "Artefact");
+                            data[key] = data[key].Replace("iber", "ibre");
+                            data[key] = data[key].Replace("izing", "ising");
+                            data[key] = data[key].Replace(" luster", " lustre");
+                            data[key] = data[key].Replace("honor", "honour");
+                            data[key] = data[key].Replace("Omelet", "Omelette");
+                            data[key] = data[key].Replace("savory", "savoury");
+
+                            try
+                            {
+                                if (namereplacer != null)
+                                {
+                                    foreach (string itemid in new List<string>(namereplacer.Keys))
+                                    {
+                                        string[] fields = namereplacer[itemid].Split('/');
+
+                                        if (fields.Count() == 1)
+                                        {
+                                            data[$"{itemid.Replace(" ", "")}_Name"] = fields[0];
+                                        }
+
+                                        // Legacy NameReplacer
+                                        else if (fields.Count() == 3 && fields[0] == "O")
+                                        {
+                                            this.Monitor.LogOnce($"Legacy format for object name edit found, this is no longer supported. Please update to the new format.", LogLevel.Warn);
+                                        }
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                                this.Monitor.LogOnce("NameReplacer.json not found");
+                            }
+
+                        }
 
                         if (namereplacer != null)
                         {
@@ -443,13 +521,7 @@ namespace GoodbyeAmericanEnglish
                             {
                                 string[] keyfields = itemid.Split('_');
                                 string[] fields = namereplacer[itemid].Split('/');
-                                string newcranberryword = "Cranberry";
-
-                                if (keyfields.Contains("Cranberries") == true)
-                                {
-                                    newcranberryword = namereplacer["Cranberries"];
-                                }
-                                
+                                string newcranberryword = "Cranberry";                          
 
                                 if (fields.Length == 2 && keyfields[0] == "PP" && (fields[0] == "prefix" || fields[0] == "suffix"))
                                 {                          
@@ -623,92 +695,6 @@ namespace GoodbyeAmericanEnglish
                         {
                             // Replace specified string with new string
                             data[key] = data[key].Replace("olor", "olour");
-                        }
-                    }
-
-                    // Edit Object information data
-                    else if (e.NameWithoutLocale.IsEquivalentTo("Strings\\Objects"))
-                    {
-
-                        IDictionary<string, string> data = asset.AsDictionary<string, string>().Data;
-
-                        foreach (string key in new List<string>(data.Keys))
-                        {
-                            // Skip replacement if string is any of the following
-                            if (false
-                                || data[key].Contains("falling")
-                                || data[key].Contains("size")
-                                || data[key].Contains("rized")
-                                || data[key].Contains("denizen"))
-                            {
-                                continue;
-                            }
-
-                            if (this.config.FalltoAutumn == true)
-                            {
-                                data[key] = data[key].Replace("the fall", "autumn");
-                                data[key] = data[key].Replace("A fall", "An autumn");
-                                data[key] = data[key].Replace("fall", "autumn");
-                                data[key] = data[key].Replace("(Fa)", "(Au)");
-
-                                // Only replace string value for a specific key
-                                if (key == "FallSeeds_Name")
-                                {
-                                    data[key] = data[key].Replace("Fall", "Autumn");
-                                }
-
-                                else if (key == "CornSeeds_Description")
-                                {
-                                    data[key] = "Plant these in the summer or in autumn. Takes 14 days to mature, and continues to produce after first harvest.";
-                                }
-                            }
-                            // Replace string with new word
-
-                            data[key] = data[key].Replace("color", "colour");
-                            data[key] = data[key].Replace("avor", "avour");
-                            data[key] = data[key].Replace("Fossilized", "Fossilised");
-                            data[key] = data[key].Replace("Deluxe Fertilizer", "Deluxe Fertiliser");
-                            data[key] = data[key].Replace("Quality Fertilizer", "Quality Fertiliser");
-                            data[key] = data[key].Replace("Basic Fertilizer", "Basic Fertiliser");
-                            data[key] = data[key].Replace("Tree Fertilizer", "Tree Fertiliser");
-                            data[key] = data[key].Replace("appetizer", "appetiser");
-                            data[key] = data[key].Replace("fertilize", "fertilise");
-                            data[key] = data[key].Replace("theater", "theatre");
-                            data[key] = data[key].Replace("zation", "sation");
-                            data[key] = data[key].Replace("Artifact", "Artefact");
-                            data[key] = data[key].Replace("iber", "ibre");
-                            data[key] = data[key].Replace("izing", "ising");
-                            data[key] = data[key].Replace(" luster", " lustre");
-                            data[key] = data[key].Replace("honor", "honour");
-                            data[key] = data[key].Replace("Omelet", "Omelette");
-                            data[key] = data[key].Replace("savory", "savoury");
-
-                            try
-                            {
-                                if (namereplacer != null)
-                                {
-                                    foreach (string itemid in new List<string>(namereplacer.Keys))
-                                    {
-                                        string[] fields = namereplacer[itemid].Split('/');
-
-                                        if (fields.Count() == 1)
-                                        {
-                                            data[$"{itemid.Replace(" ", "")}_Name"] = fields[0];
-                                        }
-
-                                        // Legacy NameReplacer
-                                        else if (fields.Count() == 3 && fields[0] == "O")
-                                        {
-                                            this.Monitor.LogOnce($"Legacy format for object name edit found, this is no longer supported. Please update to the new format.", LogLevel.Warn);
-                                        }
-                                    }
-                                }
-                            }
-                            catch
-                            {
-                                this.Monitor.LogOnce("NameReplacer.json not found");
-                            }
-
                         }
                     }
 

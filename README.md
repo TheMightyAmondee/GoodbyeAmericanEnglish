@@ -40,9 +40,9 @@ Universal edits to all preserve names i.e all Jelly becomes Jam are in the form 
 
 To break it down:
 
-The PreserveType is the preserve to change. Either: "Juice", "Wine", "Pickles", "Jelly", "Roe", "Wild Honey" or "Honey". Edits for "Wild Honey" replaces the entire object name.
+The PreserveType is the preserve to change. Either: "Juice", "Wine", "Pickles", "Jelly", "Roe" or "Honey".
 
-The EditType can be one of "prefix" or "suffix". Basically, put the preserve word before "prefix" or after "suffix" the object name. Either will replace the entire name for "Wild Honey".
+The EditType can be one of "prefix" or "suffix". Basically, put the preserve word before "prefix" or after "suffix" the object name.
 
 E.g "PP_Jelly": "suffix/Jam"
 
