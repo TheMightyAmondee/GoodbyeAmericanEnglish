@@ -454,6 +454,7 @@ namespace GoodbyeAmericanEnglish
                                 data[key] = data[key].Replace("A fall", "An autumn");
                                 data[key] = data[key].Replace("fall", "autumn");
                                 data[key] = data[key].Replace("(Fa)", "(Au)");
+                                data[key] = data[key].Replace("waterautumns", "waterfalls");
 
                                 // Only replace string value for a specific key
                                 if (key == "FallSeeds_Name")
